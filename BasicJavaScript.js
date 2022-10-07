@@ -1,3 +1,4 @@
+//You will need BasicJavaScript.html for this to work.
 // let person= {
 //     name:"Sasuke",
 //     age: 32
