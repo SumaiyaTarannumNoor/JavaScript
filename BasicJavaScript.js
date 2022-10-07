@@ -41,7 +41,7 @@
 // }
 // greet('Sasuke', 'Itachi')
 
-//===Types of Function
+//===Types of Function===
 
 //Calculates a value
 // function square(number){
