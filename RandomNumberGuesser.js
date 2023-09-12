@@ -1,4 +1,4 @@
-const prompt = require("prompt-sync")()
+const prompt = require("prompt-sync")() //comment out this line while using chrome dev-tools.
 
 const target = (Math.round(Math.random()*20))
 
