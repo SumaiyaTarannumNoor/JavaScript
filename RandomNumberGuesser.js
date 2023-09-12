@@ -1,6 +1,6 @@
 const prompt = require("prompt-sync")()
 
-const target = (Math.round(Math.random())*20)
+const target = (Math.round(Math.random()*20))
 
 
 let guesses = 0;
