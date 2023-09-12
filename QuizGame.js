@@ -32,7 +32,7 @@ else{
     console.log(correctAnswer2)
 }
 
-const answer3 = prompt("Who are the people who does cliffhangers? : ");
+const answer3 = prompt("Who are the people who do cliffhangers? : ");
 const correctAnswer3 = "ACTORS";
 
 if (answer3.toUpperCase() == correctAnswer3){
