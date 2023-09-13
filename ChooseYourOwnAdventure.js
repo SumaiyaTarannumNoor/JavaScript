@@ -29,7 +29,7 @@ if(answer.toLowerCase()=='y'){
             }
         }
         else{
-            console.log("Wait for the but till 2:30 am. :)")
+            console.log("Wait for the bus till 2:30 am. :)")
         }
     }
     else{
@@ -53,7 +53,7 @@ if(answer.toLowerCase()=='y'){
                 }
             }
             else{
-                console.log("You run ouside to go home at 10:15 pm. :)")
+                console.log("You run outside to go home at 10:15 pm. :)")
             }
         }
         else{
