@@ -15,7 +15,7 @@ if(answer.toLowerCase()=='y'){
                 const answer9 = prompt("Wolud like to find that something behind the house?(yes/no)")
                 if(answer9.toLowerCase()=='yes'){
                     console.log("You find a grave.")
-                    const answer10 = prompt("You realised someone was murdered. Do wanna find?(of course/hell no)")
+                    const answer10 = prompt("You realised someone was murdered. Do you wanna find?(of course/hell no)")
                     if(answer10.toLowerCase()=='of course'){
                         console.log("You get out of the jungle in the direction you came in.")
                     }
