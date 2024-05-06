@@ -11,8 +11,21 @@ var coinsData = [];
 let pageSize = 10;  //skip/offset
 let currentPage = 1;
 
-async function renderTable(){
+async function renderTable(page = 1){
     await getData();
+
+    if(page == 1){
+        prevButton.style.visibility = "hidden"
+    }else{
+        prevButton.style.visibility = "visible"
+    }
+
+    if(page == numberOfPages()){
+        nextButton.style.visibility = "hidden"
+    }else{
+        nextButton.style.visibility = "visible"
+    }
+
 
     //create HTML table data
     var cryptoCoin = "";
@@ -37,6 +50,26 @@ async function renderTable(){
 }
 
 renderTable()
+
+function previousPage(){
+    if(currentPage > 1)
+        currentPage-- ;
+        renderTable(currentPage)
+}
+
+function nextPage(){
+    if((currentPage * pageSize ) < coinsData.length)
+        currentPage++ ;
+        renderTable(currentPage)
+}
+
+function numberOfPages(){
+    return Math.ceil(coinsData.length / pageSize)
+}
+
+document.querySelector('#prevButton').addEventListener('click', previousPage, false)
+
+document.querySelector('#nextButton').addEventListener('click', nextPage, false)
 
 //Fetch DATA from REST API
 async function getData(){
