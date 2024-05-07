@@ -6,7 +6,7 @@
 
 ### I have no involvement with the code. <br>
 
-### A small snippet is fixed that is probably due to an async-await issue.
+### A small snippet is added that is probably due to an async-await issue.
 
 #### To run the code - open command prompt / editor terminal
 #### To Scrape, type - node Sabic-HackerRankLeaderBorad-Scrapper-snippetAdded.js
