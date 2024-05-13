@@ -1,0 +1,77 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Courier New', Courier, monospace;
+}
+
+body{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    text-align: center;
+    background: url(images/bg1.jpg) no-repeat center center/ cover;
+}
+
+.container{
+    width: 660px;
+    height: 460px'
+}
+
+.header{
+    font-size: 1.2rem;
+    border: solid 2px #ffffff;
+    color:#ffffff;
+    background-color: rgba(44, 34, 34, 0.6);
+    padding: 4px;
+    width: 80%;
+    margin: 20px auto;
+    border-radius: 6px;
+}
+
+.main-content{
+    width: 100%;
+    height: 360px;
+    background-color: rgba(250, 250, 250, 0.7);
+    border-radius: 18px;
+    padding: 60px 40px;
+    box-shadow: 0 0 20px rgba(222, 222, 241, 0.5);
+    margin-top: 20px;
+}
+
+.main-content .text-area{
+    font-size: 1.6rem;
+    line-height: 1.6;
+}
+
+.main-content .person{
+    font-size: 1.8rem;
+    color: blue;
+    text-transform: uppercase;
+    transition: transform 0.3s ease;
+    margin-top: 20px;
+}
+
+.main-content .person:hover{
+    transform: scale(1.2);
+}
+
+.button-area button{
+    background-color:rgb(15, 15, 61);
+    color: lightblue;
+    font-size: 1.4rem;
+    padding: 10px 14px;
+    margin-top: 20px;
+    border-radius: 4px;
+}
+
+.button-area button:hover{
+    color:rgb(15, 15, 61);
+    background-color: lightblue;
+    font-size: 1.8rem;
+}
+
+.button-area button:active{
+    background-color: lightblue;
+}
