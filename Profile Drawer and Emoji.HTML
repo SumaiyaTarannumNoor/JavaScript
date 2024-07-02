@@ -1,0 +1,719 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SocialApp</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+</head>
+<style>
+    .truncate-text {
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        /* max-height: 3.6em; */
+        -webkit-line-clamp: 2;
+        /* Show only 2 lines */
+        max-height: 3.0em;
+        /* adjust based on the number of lines and line height */
+        /* adjust based on the number of lines and line height */
+    }
+
+    .sticky-navbar {
+        position: sticky;
+        top: 0;
+        background-color: #ffffff;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        z-index: 1000;
+        /* Ensure it stays above other content */
+        transition: background-color 0.3s ease, color 0.3s ease;
+    }
+
+    /* When scrolled, change background color and text color */
+    .sticky-navbar.scrolled {
+        background-color: #8a3ef5 !important;
+        color: #FFFFFF !important;
+    }
+
+    .scroll-slow {
+        display: flex;
+        animation: scroll 20s linear infinite;
+    }
+
+    @keyframes scroll {
+        0% {
+            transform: translateX(0);
+        }
+
+        100% {
+            transform: translateX(-50%);
+        }
+    }
+
+    .scroll-container {
+        overflow-x: hidden;
+        position: relative;
+        z-index: 10;
+        /* Lower z-index than the drawer */
+    }
+
+    #drawer {
+        z-index: 20;
+        /* Higher z-index than the carousel */
+    }
+</style>
+
+<body style="background: linear-gradient(#ffffff, #daeefb);" class="min-h-screen">
+    <nav class="sticky top-0 bg-[#832aff] shadow-md z-50">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="flex justify-between items-center h-20">
+                <div class="flex items-center">
+                    <a href="#" class="flex-shrink-0">
+                        <img src="{{ url_for('static', filename='assets/logo/logo.png') }}"
+                            class="h-16 filter invert brightness-0">
+                    </a>
+                    <div class="ml-6 hidden md:block">
+                        <div class="relative">
+                            <input type="text" placeholder="Search"
+                                class="w-full bg-white rounded-full py-2 px-4 pl-10 focus:outline-none focus:ring-2 focus:ring-white">
+                            <i class="fas fa-search absolute left-3 top-3 text-[#832aff]"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="md:flex items-center space-x-6">
+                    <div class="hidden md:flex items-center space-x-6">
+                        <a href="#" class="text-white hover:text-[#5a1baf]" title="Home">
+                            <i class="fas fa-home text-xl"></i>
+                        </a>
+                        <a href="#" class="text-white hover:text-[#5a1baf]" title="Notifications">
+                            <i class="fas fa-bell text-xl"></i>
+                        </a>
+                        <a href="#" class="text-white hover:text-[#5a1baf]" title="Settings">
+                            <i class="fas fa-cog text-xl"></i>
+                        </a>
+                        <a href="#" class="text-white hover:text-[#5a1baf]" title="Language">
+                            <span class="mr-1">EN</span>
+                            <i class="fas fa-chevron-down"></i>
+                        </a>
+
+                    </div>
+                    <a href="#" id="profileIcon" class="flex items-center">
+                        <img src="{{ url_for('static', filename='assets/profile_avatar/avatar.jpg') }}" alt="Profile"
+                            class="w-8 h-8 rounded-full">
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+
+    <div id="drawer"
+        class="fixed top-20 right-0 w-64 h-[calc(100vh-5rem)] bg-white shadow-lg transform translate-x-full transition-transform duration-300 ease-in-out flex flex-col">
+        <div class="flex-grow overflow-y-auto">
+            <div class="bg-[#8a3ef5] h-16 flex md:hidden items-center justify-around px-4">
+                <input type="text" placeholder="Search"
+                    class="w-full bg-white rounded-full py-2 px-4 pl-10 focus:outline-[#5a1baf] focus:ring-2 focus:ring-[#5a1baf]">
+                <i class="fas fa-search absolute left-6 top-6 text-[#832aff]"></i>
+            </div>
+            <div class="bg-white h-16 flex md:hidden items-center justify-around px-4">
+                <!-- Icons inside the drawer for smaller devices -->
+                <a href="#" class="text-[#5a1baf] hover:text-[#8a3ef5]" title="Home">
+                    <i class="fas fa-home text-xl"></i>
+                </a>
+                <a href="#" class="text-[#5a1baf] hover:text-[#8a3ef5]" title="Notifications">
+                    <i class="fas fa-bell text-xl"></i>
+                </a>
+                <a href="#" class="text-[#5a1baf] hover:text-[#8a3ef5]" title="Settings">
+                    <i class="fas fa-cog text-xl"></i>
+                </a>
+                <a href="#" class="text-[#5a1baf] hover:text-[#8a3ef5]" title="Language">
+                    <span class="mr-1">EN</span>
+                    <i class="fas fa-chevron-down"></i>
+                </a>
+            </div>
+            <div class="bg-gradient-to-r from-purple-600 to-blue-400 h-16 flex items-center justify-around px-4 top-20">
+            </div>
+            <!-- Profile drawer content -->
+            <div class="px-3 py-2 flex flex-col justify-between">
+                <div>
+                    <div class="flex justify-center -mt-10">
+                        <img src="{{ url_for('static', filename='assets/profile_avatar/avatar.jpg') }}" alt="Profile"
+                            class="w-16 h-16 rounded-full border-2 border-white shadow-lg">
+                    </div>
+                    <div class="text-center mt-4">
+                        <h2 class="text-base font-semibold text-gray-800 mt-4">Sumaiya Tarannum Noor</h2>
+                        <p class="text-xxs text-gray-600 mt-3">Software Engineer from Bangladesh</p>
+                        <p class="text-xxs text-gray-600 flex items-center justify-center mt-2">
+                            <i class="fas fa-map-marker-alt mr-1 text-gray-500"></i> Dhaka,Bangladesh
+                        </p>
+                    </div>
+                    <div class="flex justify-between mt-6 text-center">
+                        <div>
+                            <p class="font-bold text-gray-700 text-xxs">1M</p>
+                            <p class="text-xxs text-gray-500">Followers</p>
+                        </div>
+                        <div>
+                            <p class="font-bold text-gray-700 text-xxs">0</p>
+                            <p class="text-xxs text-gray-500">Following</p>
+                        </div>
+                        <div>
+                            <p class="font-bold text-gray-700 text-xxs">123</p>
+                            <p class="text-xxs text-gray-500">Blogs</p>
+                        </div>
+                    </div>
+                    <div class="flex justify-center space-x-1 mt-8">
+                        <div class="w-5 h-5 lg:w-6 lg:h-6 rounded-full bg-blue-100 flex items-center justify-center">
+                            <i class="fab fa-facebook-f text-blue-600 text-xxs lg:text-xs"></i>
+                        </div>
+                        <div class="w-5 h-5 lg:w-6 lg:h-6 rounded-full bg-blue-100 flex items-center justify-center">
+                            <i class="fab fa-twitter text-blue-400 text-xxs lg:text-xs"></i>
+                        </div>
+                        <div class="w-5 h-5 lg:w-6 lg:h-6 rounded-full bg-pink-100 flex items-center justify-center">
+                            <i class="fab fa-instagram text-pink-600 text-xxs lg:text-xs"></i>
+                        </div>
+                        <div class="w-5 h-5 lg:w-6 lg:h-6 rounded-full bg-blue-100 flex items-center justify-center">
+                            <i class="fab fa-linkedin-in text-blue-800 text-xxs lg:text-xs"></i>
+                        </div>
+                        <div class="w-5 h-5 lg:w-6 lg:h-6 rounded-full bg-gray-100 flex items-center justify-center">
+                            <i class="fab fa-github text-gray-800 text-xxs lg:text-xs"></i>
+                        </div>
+                        <div class="w-5 h-5 lg:w-6 lg:h-6 rounded-full bg-green-100 flex items-center justify-center">
+                            <i class="fas fa-globe text-green-600 text-xxs lg:text-xs"></i>
+                        </div>
+                        <div class="w-5 h-5 lg:w-6 lg:h-6 rounded-full bg-red-100 flex items-center justify-center">
+                            <i class="fab fa-pinterest-p text-red-600 text-xxs lg:text-xs"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="mt-6 flex space-x-1 px-3">
+                <button
+                    class="flex-1 bg-[#5a1baf] hover:bg-blue-400 text-white py-1 rounded-full transition duration-300 text-xxs font-semibold">Message</button>
+                <button
+                    class="flex-1 bg-[#8a3ef5] hover:bg-blue-400 text-white py-1 rounded-full transition duration-300 text-xxs font-semibold">Follow</button>
+            </div>
+            <div class="mt-6 flex space-x-1 px-3">
+                <button
+                    class="flex-1 bg-[#5a1baf] hover:bg-blue-400 text-white py-1 rounded-full transition duration-300 text-xxs font-semibold">Message</button>
+                <button
+                    class="flex-1 bg-[#8a3ef5] hover:bg-blue-400 text-white py-1 rounded-full transition duration-300 text-xxs font-semibold">Follow</button>
+            </div>
+            <div class="mt-6 flex space-x-1 px-3">
+                <button
+                    class="flex-1 bg-[#5a1baf] hover:bg-blue-400 text-white py-1 rounded-full transition duration-300 text-xxs font-semibold">Message</button>
+                <button
+                    class="flex-1 bg-[#8a3ef5] hover:bg-blue-400 text-white py-1 rounded-full transition duration-300 text-xxs font-semibold">Follow</button>
+            </div>
+            <div class="mt-6 flex space-x-1 px-3">
+                <button
+                    class="flex-1 bg-[#5a1baf] hover:bg-blue-400 text-white py-1 rounded-full transition duration-300 text-xxs font-semibold">Message</button>
+                <button
+                    class="flex-1 bg-[#8a3ef5] hover:bg-blue-400 text-white py-1 rounded-full transition duration-300 text-xxs font-semibold">Follow</button>
+            </div>
+            <div class="mt-6 flex space-x-1 px-3">
+                <button
+                    class="flex-1 bg-[#5a1baf] hover:bg-blue-400 text-white py-1 rounded-full transition duration-300 text-xxs font-semibold">Message</button>
+                <button
+                    class="flex-1 bg-[#8a3ef5] hover:bg-blue-400 text-white py-1 rounded-full transition duration-300 text-xxs font-semibold">Follow</button>
+            </div>
+            <div class="mt-6 flex space-x-1 px-3">
+                <button
+                    class="flex-1 bg-[#5a1baf] hover:bg-blue-400 text-white py-1 rounded-full transition duration-300 text-xxs font-semibold">Message</button>
+                <button
+                    class="flex-1 bg-[#8a3ef5] hover:bg-blue-400 text-white py-1 rounded-full transition duration-300 text-xxs font-semibold">Follow</button>
+            </div>
+            <div class="mt-6 flex space-x-1 px-3">
+                <button
+                    class="flex-1 bg-[#5a1baf] hover:bg-blue-400 text-white py-1 rounded-full transition duration-300 text-xxs font-semibold">Message</button>
+                <button
+                    class="flex-1 bg-[#8a3ef5] hover:bg-blue-400 text-white py-1 rounded-full transition duration-300 text-xxs font-semibold">Follow</button>
+            </div>
+        </div>
+
+        <!-- Sticky logout button -->
+        <div class="p-4 mt-auto">
+            <form action="{{ url_for('S_logout') }}" method="post">
+                <button type="submit"
+                    class="w-full bg-white text-[#8a3ef5] hover:bg-blue-400 hover:text-white font-bold py-2 px-4 rounded-full shadow-lg transition-all duration-300 transform hover:scale-105 border-2 border-[#8a3ef5]">
+                    Logout
+                </button>
+            </form>
+        </div>
+    </div>
+
+
+
+    <!-- <div class="lg:flex lg:flex-row lg:justify-end fixed top-24 right-4 z-40 mt-2">
+        <!-- Toggle button for the drawer -->
+
+
+
+    <!-- Drawer content -->
+    <!-- <div id="profileDrawer"
+            class="hidden lg:flex flex-col bg-white rounded-xl shadow-lg overflow-hidden lg:w-56 xl:w-80 max-w-full md:max-w-sm lg:max-w-md">
+            <div class="bg-gradient-to-r from-purple-600 to-blue-400 h-16 lg:h-20"></div>
+            <div class="px-3 py-2 lg:px-4 lg:py-3 flex flex-col justify-between">
+                <div>
+                    <div class="flex justify-center -mt-10 lg:-mt-12">
+                        <img src="{{ url_for('static', filename='assets/life_stories/maxresdefault.jpg') }}"
+                            alt="Profile"
+                            class="w-16 h-16 lg:w-20 lg:h-20 rounded-full border-2 border-white shadow-lg">
+                    </div>
+                    <div class="text-center mt-4 lg:mt-6">
+                        <h2 class="text-base lg:text-lg font-semibold text-gray-800 mt-4 lg:mt-6">Muhammed Erdem</h2>
+                        <p class="text-xxs lg:text-xs text-gray-600 mt-3 lg:mt-4">Front-end Developer from Managenrena
+                        </p>
+                        <p class="text-xxs lg:text-xs text-gray-600 flex items-center justify-center mt-2 lg:mt-4">
+                            <i class="fas fa-map-marker-alt mr-1 text-gray-500 mt-0 lg:mt-1"></i> Istanbul, Turkey
+                        </p>
+                    </div>
+                    <div class="flex justify-between mt-6 lg:mt-8 text-center">
+                        <div>
+                            <p class="font-bold text-gray-700 text-xxs lg:text-xs">1998</p>
+                            <p class="text-xxs lg:text-xs text-gray-500">Followers</p>
+                        </div>
+                        <div>
+                            <p class="font-bold text-gray-700 text-xxs lg:text-xs">65</p>
+                            <p class="text-xxs lg:text-xs text-gray-500">Following</p>
+                        </div>
+                        <div>
+                            <p class="font-bold text-gray-700 text-xxs lg:text-xs">123</p>
+                            <p class="text-xxs lg:text-xs text-gray-500">Articles</p>
+                        </div>
+                    </div>
+                    <div class="flex justify-center space-x-1 lg:space-x-2 mt-8 lg:mt-12">
+                        <div class="w-5 h-5 lg:w-6 lg:h-6 rounded-full bg-blue-100 flex items-center justify-center">
+                            <i class="fab fa-facebook-f text-blue-600 text-xxs lg:text-xs"></i>
+                        </div>
+                        <div class="w-5 h-5 lg:w-6 lg:h-6 rounded-full bg-blue-100 flex items-center justify-center">
+                            <i class="fab fa-twitter text-blue-400 text-xxs lg:text-xs"></i>
+                        </div>
+                        <div class="w-5 h-5 lg:w-6 lg:h-6 rounded-full bg-pink-100 flex items-center justify-center">
+                            <i class="fab fa-instagram text-pink-600 text-xxs lg:text-xs"></i>
+                        </div>
+                        <div class="w-5 h-5 lg:w-6 lg:h-6 rounded-full bg-blue-100 flex items-center justify-center">
+                            <i class="fab fa-linkedin-in text-blue-800 text-xxs lg:text-xs"></i>
+                        </div>
+                        <div class="w-5 h-5 lg:w-6 lg:h-6 rounded-full bg-gray-100 flex items-center justify-center">
+                            <i class="fab fa-github text-gray-800 text-xxs lg:text-xs"></i>
+                        </div>
+                        <div class="w-5 h-5 lg:w-6 lg:h-6 rounded-full bg-green-100 flex items-center justify-center">
+                            <i class="fas fa-globe text-green-600 text-xxs lg:text-xs"></i>
+                        </div>
+                        <div class="w-5 h-5 lg:w-6 lg:h-6 rounded-full bg-red-100 flex items-center justify-center">
+                            <i class="fab fa-pinterest-p text-red-600 text-xxs lg:text-xs"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="mt-6 lg:mt-12 flex space-x-1 lg:space-x-2">
+                    <button
+                        class="flex-1 bg-[#5a1baf] hover:bg-blue-400 text-white py-1 lg:py-2 rounded-full transition duration-300 text-xxs lg:text-xs font-semibold">Message</button>
+                    <button
+                        class="flex-1 bg-[#8a3ef5] hover:bg-blue-400 text-white py-1 lg:py-2 rounded-full transition duration-300 text-xxs lg:text-xs font-semibold">Follow</button>
+                </div>
+            </div>
+        </div>
+    </div> -->
+
+    <div class="max-w-2xl mx-auto mt-2 p-4 bg-gray-100 rounded-lg shadow-md">
+        <div class="bg-white rounded-lg shadow-lg p-4">
+            <!-- Navbar -->
+            <div class="flex justify-center border-b-2 border-purple-200 mb-4">
+                <div
+                    class="text-[#832aff] text-center py-2 cursor-pointer border-b-4 border-transparent hover:border-purple-300 font-bold text-xl">
+                    Trending Now!
+                </div>
+            </div>
+
+            <!-- Scrollable Section -->
+            <div class="overflow-x-auto scroll-container">
+                <div class="scroll-slow space-x-4 pb-4 flex">
+                    <!-- Story 1 -->
+                    <div class="w-32 h-40 bg-gray-300 rounded-lg flex-none">
+                        <!-- Add content or image here -->
+                        <img src="{{ url_for('static', filename='assets/trending/ex1.jpg') }}" alt="Profile">
+                    </div>
+                    <!-- Story 2 -->
+                    <div class="w-32 h-40 bg-gray-300 rounded-lg flex-none">
+                        <!-- Add content or image here -->
+                        <img src="{{ url_for('static', filename='assets/trending/ex2.jpg') }}" alt="Profile">
+                    </div>
+                    <!-- Story 3 -->
+                    <div class="w-32 h-40 bg-gray-300 rounded-lg flex-none">
+                        <!-- Add content or image here -->
+                        <img src="{{ url_for('static', filename='assets/trending/ex3.jpg') }}" alt="Profile">
+                    </div>
+                    <!-- Story 4 -->
+                    <div class="w-32 h-40 bg-gray-300 rounded-lg flex-none">
+                        <!-- Add content or image here -->
+                        <img src="{{ url_for('static', filename='assets/trending/ex4.jpg') }}" alt="Profile">
+                    </div>
+                    <!-- Story 5 -->
+                    <div class="w-32 h-40 bg-gray-300 rounded-lg flex-none">
+                        <!-- Add content or image here -->
+                        <img src="{{ url_for('static', filename='assets/trending/ex5.jpg') }}" alt="Profile">
+                    </div>
+                    <!-- Repeat the stories to create the continuous scroll effect -->
+                    <div class="w-32 h-40 bg-gray-300 rounded-lg flex-none">
+                        <!-- Add content or image here -->
+                        <img src="{{ url_for('static', filename='assets/trending/ex6.jpg') }}" alt="Profile">
+                    </div>
+                    <div class="w-32 h-40 bg-gray-300 rounded-lg flex-none">
+                        <!-- Add content or image here -->
+                        <img src="{{ url_for('static', filename='assets/trending/ex1.jpg') }}" alt="Profile">
+                    </div>
+                    <div class="w-32 h-40 bg-gray-300 rounded-lg flex-none">
+                        <!-- Add content or image here -->
+                        <img src="{{ url_for('static', filename='assets/trending/ex2.jpg') }}" alt="Profile">
+                    </div>
+                    <div class="w-32 h-40 bg-gray-300 rounded-lg flex-none">
+                        <!-- Add content or image here -->
+                        <img src="{{ url_for('static', filename='assets/trending/ex3.jpg') }}" alt="Profile">
+                    </div>
+                    <div class="w-32 h-40 bg-gray-300 rounded-lg flex-none">
+                        <!-- Add content or image here -->
+                        <img src="{{ url_for('static', filename='assets/trending/ex4.jpg') }}" alt="Profile">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <form class="bg-white p-6 rounded-lg shadow-md mb-6 mt-6 flex flex-col items-center">
+            <textarea id="emojiTextBox"
+                class="w-full p-3 border border-[#832aff] rounded-md focus:outline-none focus:ring-2 focus:ring-[#832aff] transition duration-300 ease-in-out mb-4"
+                rows="3" placeholder="What's on your mind?"></textarea>
+            <div class="w-full flex justify-between items-center">
+                <div class="flex justify-start space-x-4">
+                    <button type="button" class="relative text-[#832aff] hover:text-[#5a1baf]">
+                        <i class="fas fa-image text-xl"></i>
+                        <input type="file" class="absolute inset-0 opacity-0 cursor-pointer w-full h-full">
+                    </button>
+
+                    <button type="button" id="mapButton" class="text-[#832aff] hover:text-[#5a1baf] focus:outline-none">
+                        <i class="fas fa-location text-xl"></i>
+                    </button>
+
+                    <div id="mapModal"
+                        class="hidden fixed inset-0 z-50 overflow-auto bg-black bg-opacity-0 flex items-center justify-center">
+                        <div class="bg-white rounded-lg shadow-xl w-2/6 max-h-2/6 overflow-hidden">
+                            <!-- Content of your modal goes here -->
+                            <div class="border-b px-4 py-2 flex justify-between items-center">
+                                <h3 class="font-semibold text-lg">Location</h3>
+                                <button id="closeModal" class="text-black close-modal">
+                                    <i class="fas fa-times"></i>
+                                </button>
+                            </div>
+                            <div class="p-4">
+                                <div id="map" class="w-full h-64"></div>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+                    <button id="imojiButton" type="button" class="text-[#832aff] hover:text-[#5a1baf]">
+                        <i class="fas fa-smile text-xl"></i>
+                    </button>
+
+                    <div id="emojiModal"
+                        class="fixed inset-0 bg-black bg-opacity-0 flex items-center justify-center z-50 hidden">
+                        <div class="bg-white rounded-lg p-6 w-96 h-80 overflow-y-auto">
+                            <div class="flex justify-between items-center mb-4">
+                                <h2 class="text-lg font-semibold">We are joking with you!</h2>
+                                <button id="closeEmojiModal" class="text-gray-500 hover:text-gray-700">✕</button>
+                            </div>
+                            <div id="emojiGrid" class="grid grid-cols-5 gap-2">
+                                <!-- Emojis will be inserted here by JavaScript -->
+                            </div>
+                        </div>
+                    </div>
+
+
+
+                </div>
+                <button type="submit"
+                    class="bg-[#832aff] text-white px-6 py-2 rounded-full hover:bg-blue-600 transition duration-300 ease-in-out">
+                    <i class="fas fa-plus-circle mr-2"></i> Post
+                </button>
+            </div>
+        </form>
+
+        <div class="bg-white border border-gray-300 rounded-lg p-4 mb-6">
+            <div class="flex items-start mb-4">
+                <img src="https://placehold.co/48x48" alt="Profile picture of MD ALLMAMUN"
+                    class="w-12 h-12 rounded-full">
+                <div class="ml-4">
+                    <div class="flex items-center">
+                        <h2 class="text-sm font-semibold">Sumaiya Tarannum Noor</h2>
+                    </div>
+                    <p class="text-sm text-gray-500">Freelancher</p>
+                    <p class="text-sm text-gray-500">13h • <i class="fas fa-globe text-[#832aff]"></i></p>
+                </div>
+            </div>
+
+            <p class="text-base mb-2">MARSS TTS: Open Source Text to Speech with insane prosodic control! <span
+                    class="text-orange-600">🔥</span></p>
+            <div class="relative">
+                <p id="post-text" class="text-sm text-gray-700 mb-4 truncate-text">Voice cloning with less than 5
+                    seconds of audio kjhsjehch\sh,c,hdzhvc\dzc Voice cloning with less than 5 seconds of audio
+                    kjhsjehch\sh,c,hdzhvc\dzc Voice cloning with less than 5 seconds of audio
+                    kjhsjehch\sh,c,hdzhvc\dzc
+                    Voice cloning with less than 5 seconds of audio kjhsjehch\sh,c,hdzhvc\dzc Voice cloning with
+                    less
+                    than 5 seconds of audio kjhsjehch\sh,c,hdzhvc\dzc Voice cloning with less than 5 seconds of
+                    audio
+                    kjhsjehch\sh,c,hdzhvc\dzc Voice cloning with less than 5 seconds of audio
+                    kjhsjehch\sh,c,hdzhvc\dzc
+                </p>
+                <a id="toggle-link" href="#"
+                    class="absolute bottom-0 right-0 text-blue-600 text-sm px-1 bg-white">...see more</a>
+            </div>
+            <div class="">
+                <img src="{{ url_for('static', filename='assets/life_stories/1719298118419.jpeg') }}"
+                    alt="Waveform image" class="bg-white border border-gray-300 rounded-lg">
+                <!-- <p class="text-lg font-semibold">HEAR IT BE COMMANDING</p> -->
+            </div>
+            <div class="flex items-center mb-4">
+                <div class="flex items-center mr-4">
+                    <i class="fas fa-thumbs-up text-blue-600"></i>
+
+
+                    <span class="text-gray-500 ml-2">1,340</span>
+                </div>
+                <p class="text-gray-500">• 50 comments</p>
+            </div>
+            <div class="">
+                <div class="flex items-center justify-between space-x-4 p-2 bg-white">
+                    <!-- <div class="relative">
+                        <img src="/path/to/your/profile.jpg" alt="Profile Picture" class="w-10 h-10 rounded-full">
+                        <div class="absolute bottom-0 right-0 w-3 h-3 bg-green-500 border-2 border-white rounded-full"></div>
+                    </div> -->
+                    <button class="flex items-center space-x-2 text-gray-700 hover:text-black">
+                        <i class="far fa-thumbs-up text-[#832aff]"></i>
+                        <span>Like</span>
+                    </button>
+                    <button class="flex items-center space-x-2 text-gray-700 hover:text-black">
+                        <i class="far fa-comment text-[#832aff]"></i>
+                        <span>Comment</span>
+                    </button>
+                    <button class="flex items-center space-x-2 text-gray-700 hover:text-black">
+                        <i class="fas fa-share text-[#832aff]"></i>
+                        <span>Share</span>
+                    </button>
+                    <button class="flex items-center space-x-2 text-gray-700 hover:text-black">
+                        <i class="far fa-bookmark text-[#832aff]"></i>
+                        <span>Save</span>
+                    </button>
+                </div>
+            </div>
+            <div class="border-t border-gray-300 pt-4 mb-4">
+                <div class="flex items-start">
+                    <img src="https://placehold.co/36x36" alt="Profile picture of Pavol Harar"
+                        class="w-9 h-9 rounded-full">
+                    <div class="ml-4">
+                        <div class="flex items-center">
+                            <h2 class="text-sm font-semibold">Pavol Harar</h2>
+                            <span class="text-gray-500 ml-2 text-sm">3rd+</span>
+                        </div>
+                        <p class="text-sm text-gray-500 mb-1">Deep Learning Researcher & Engineer Advancing
+                            Biomedical
+                            Data Science...</p>
+                        <p class="text-sm text-gray-700">This post is in a desperate need of a link. <a
+                                href="https://github.com/SumaiyaTarannumNoor"
+                                class="text-blue-600">https://github.com/SumaiyaTarannumNoor</a></p>
+                    </div>
+                </div>
+            </div>
+            <div class="flex items-center border-t border-gray-300 pt-4">
+                <img src="https://placehold.co/36x36" alt="Profile picture of commenter" class="w-9 h-9 rounded-full">
+                <input type="text" placeholder="Add a comment..."
+                    class="ml-4 mt-2 w-full p-3 border border-[#832aff] rounded-full focus:outline-none focus:ring-2 focus:ring-[#832aff] transition duration-300 ease-in-out mb-4">
+            </div>
+        </div>
+    </div>
+    </div>
+
+
+
+
+    <script>
+        document.getElementById('toggle-link').addEventListener('click', function (event) {
+            event.preventDefault();
+            var postText = document.getElementById('post-text');
+            postText.classList.toggle('truncate-text');
+            this.textContent = postText.classList.contains('truncate-text') ? '...see more' : 'see less';
+        });
+
+        // JavaScript to toggle visibility of the drawer based on button click
+        document.getElementById('profileIcon').addEventListener('click', function (event) {
+            event.preventDefault();
+            const drawer = document.getElementById('drawer');
+            drawer.classList.toggle('translate-x-full');
+        });
+
+
+
+        const mapButton = document.getElementById('mapButton');
+        const mapModal = document.getElementById('mapModal');
+        const closeModal = document.getElementById('closeModal');
+        let map;
+
+        function initMap() {
+            const mapOptions = {
+                center: { lat: -34.397, lng: 150.644 },
+                zoom: 8
+            };
+            map = new google.maps.Map(document.getElementById('map'), mapOptions);
+
+            // Add a marker
+            new google.maps.Marker({
+                position: mapOptions.center,
+                map: map,
+                title: 'Location'
+            });
+        }
+
+        mapButton.addEventListener('click', () => {
+            mapModal.classList.remove('hidden');
+            // Initialize the map after the modal is visible
+            setTimeout(initMap, 0);
+        });
+
+        closeModal.addEventListener('click', () => {
+            mapModal.classList.add('hidden');
+        });
+
+        mapModal.addEventListener('click', (event) => {
+            if (event.target === mapModal) {
+                mapModal.classList.add('hidden');
+            }
+        });
+
+
+
+
+
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const imojiButton = document.getElementById('imojiButton');
+            const emojiModal = document.getElementById('emojiModal');
+            const emojiGrid = document.getElementById('emojiGrid');
+            const closeEmojiModal = document.getElementById('closeEmojiModal');
+            const emojiTextBox = document.getElementById('emojiTextBox');
+
+            const popularEmojis = [
+                // Smileys & Emotion
+                { emoji: '😂', category: 'Smileys & Emotion' },
+                { emoji: '❤️', category: 'Smileys & Emotion' },
+                { emoji: '😍', category: 'Smileys & Emotion' },
+                { emoji: '🤣', category: 'Smileys & Emotion' },
+                { emoji: '😊', category: 'Smileys & Emotion' },
+                { emoji: '🙏', category: 'Smileys & Emotion' },
+                { emoji: '💕', category: 'Smileys & Emotion' },
+                { emoji: '😭', category: 'Smileys & Emotion' },
+                { emoji: '😘', category: 'Smileys & Emotion' },
+                { emoji: '👍', category: 'Smileys & Emotion' },
+                { emoji: '😅', category: 'Smileys & Emotion' },
+                { emoji: '👏', category: 'Smileys & Emotion' },
+                { emoji: '🔥', category: 'Smileys & Emotion' },
+                { emoji: '😁', category: 'Smileys & Emotion' },
+                { emoji: '🥰', category: 'Smileys & Emotion' },
+                { emoji: '💪', category: 'Smileys & Emotion' },
+                { emoji: '💖', category: 'Smileys & Emotion' },
+                { emoji: '💙', category: 'Smileys & Emotion' },
+                { emoji: '😢', category: 'Smileys & Emotion' },
+                { emoji: '🤔', category: 'Smileys & Emotion' },
+                // Animals & Nature
+                { emoji: '🐶', category: 'Animals & Nature' },
+                { emoji: '🐱', category: 'Animals & Nature' },
+                { emoji: '🐭', category: 'Animals & Nature' },
+                { emoji: '🐹', category: 'Animals & Nature' },
+                { emoji: '🐰', category: 'Animals & Nature' },
+                { emoji: '🦊', category: 'Animals & Nature' },
+                { emoji: '🐻', category: 'Animals & Nature' },
+                { emoji: '🐼', category: 'Animals & Nature' },
+                { emoji: '🐨', category: 'Animals & Nature' },
+                { emoji: '🐯', category: 'Animals & Nature' },
+                // Food & Drink
+                { emoji: '🍇', category: 'Food & Drink' },
+                { emoji: '🍈', category: 'Food & Drink' },
+                { emoji: '🍉', category: 'Food & Drink' },
+                { emoji: '🍊', category: 'Food & Drink' },
+                { emoji: '🍋', category: 'Food & Drink' },
+                { emoji: '🍌', category: 'Food & Drink' },
+                { emoji: '🍍', category: 'Food & Drink' },
+                { emoji: '🥭', category: 'Food & Drink' },
+                { emoji: '🍎', category: 'Food & Drink' },
+                { emoji: '🍏', category: 'Food & Drink' },
+                // Activities
+                { emoji: '⚽', category: 'Activities' },
+                { emoji: '🏀', category: 'Activities' },
+                { emoji: '🏈', category: 'Activities' },
+                { emoji: '⚾', category: 'Activities' },
+                { emoji: '🎾', category: 'Activities' },
+                { emoji: '🏐', category: 'Activities' },
+                { emoji: '🏓', category: 'Activities' },
+                { emoji: '🏸', category: 'Activities' },
+                { emoji: '🥅', category: 'Activities' },
+                { emoji: '🏒', category: 'Activities' },
+                // Travel & Places
+                { emoji: '🚗', category: 'Travel & Places' },
+                { emoji: '🚕', category: 'Travel & Places' },
+                { emoji: '🚙', category: 'Travel & Places' },
+                { emoji: '🚌', category: 'Travel & Places' },
+                { emoji: '🚎', category: 'Travel & Places' },
+                { emoji: '🏎️', category: 'Travel & Places' },
+                { emoji: '🚓', category: 'Travel & Places' },
+                { emoji: '🚑', category: 'Travel & Places' },
+                { emoji: '🚒', category: 'Travel & Places' },
+                { emoji: '🚐', category: 'Travel & Places' },
+                // Objects
+                { emoji: '⌚', category: 'Objects' },
+                { emoji: '📱', category: 'Objects' },
+                { emoji: '💻', category: 'Objects' },
+                { emoji: '🖥️', category: 'Objects' },
+                { emoji: '🖨️', category: 'Objects' },
+                { emoji: '⌨️', category: 'Objects' },
+                { emoji: '🖱️', category: 'Objects' },
+                { emoji: '🖲️', category: 'Objects' },
+                { emoji: '🕹️', category: 'Objects' },
+                { emoji: '🗜️', category: 'Objects' },
+            ];
+
+            // Function to populate emojis in the modal grid
+            function populateEmojis() {
+                popularEmojis.forEach(item => {
+                    const emojiButton = document.createElement('button');
+                    emojiButton.textContent = item.emoji;
+                    emojiButton.className = 'text-3xl hover:bg-gray-100 p-2 rounded';
+                    emojiButton.onclick = (event) => {
+                        event.preventDefault(); // Prevent form submission or link follow
+                        emojiTextBox.value += item.emoji; // Add emoji to the text box
+                    };
+                    emojiGrid.appendChild(emojiButton);
+                });
+            }
+
+            // Open modal when imojiButton is clicked
+            imojiButton.onclick = (event) => {
+                event.preventDefault(); // Prevent any default behavior
+                emojiGrid.innerHTML = ''; // Clear previous emojis
+                populateEmojis(); // Populate emojis in the modal
+                emojiModal.classList.remove('hidden'); // Show the modal
+            };
+
+            // Close modal when closeEmojiModal button is clicked
+            closeEmojiModal.onclick = (event) => {
+                event.preventDefault(); // Prevent the default behavior (e.g., form submission or link follow)
+                emojiModal.classList.add('hidden'); // Hide the modal
+            };
+        });
+
+    </script>
+</body>
+
+</html>
