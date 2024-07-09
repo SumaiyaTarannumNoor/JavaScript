@@ -73,7 +73,7 @@
             <div class="flex justify-between items-center h-20">
                 <div class="flex items-center">
                     <a href="#" class="flex-shrink-0">
-                        <img src="{{ url_for('static', filename='assets/logo/logo.png') }}"
+                        <img src="{{ url_for('static', filename='assets/logo/logo.png') }}" alt=""
                             class="h-16 filter invert brightness-0">
                     </a>
                     <div class="ml-6 hidden md:block">
@@ -101,7 +101,7 @@
                         </a>
 
                     </div>
-                    <a href="#" id="profileIcon" class="flex items-center">
+                    <a id="profileIcon" class="flex items-center">
                         <img src="{{ url_for('static', filename='assets/profile_avatar/avatar.jpg') }}" alt="Profile"
                             class="w-8 h-8 rounded-full">
                     </a>
@@ -141,15 +141,36 @@
             <div class="px-3 py-2 flex flex-col justify-between">
                 <div>
                     <div class="flex justify-center -mt-10">
-                        <img src="{{ url_for('static', filename='assets/profile_avatar/avatar.jpg') }}" alt="Profile"
+                        <img id="Profile_image"
+                            src="{{ url_for('static', filename='assets/profile_avatar/avatar.jpg') }}" alt="Profile"
                             class="w-16 h-16 rounded-full border-2 border-white shadow-lg">
                     </div>
                     <div class="text-center mt-4">
-                        <h2 class="text-base font-semibold text-gray-800 mt-4">Sumaiya Tarannum Noor</h2>
-                        <p class="text-xxs text-gray-600 mt-3">Software Engineer from Bangladesh</p>
-                        <p class="text-xxs text-gray-600 flex items-center justify-center mt-2">
-                            <i class="fas fa-map-marker-alt mr-1 text-gray-500"></i> Dhaka,Bangladesh
+                        <h2 id="Profile_name" class="text-base font-semibold text-gray-800 mt-4"></h2>
+                        <p class="text-xxs text-gray-600 flex items-center justify-center mt-2 ml-3">
+                            <i class="fas fa-business-time mr-1 text-purple-700 mr-2"></i>
+                            <span id="Profile_Experience"></span>
+                            <span>s Experience</span>
                         </p>
+
+                        <p class="text-xxs text-gray-600 flex items-center justify-center mt-2 ml-3">
+                            <span class="mr-4">From </span>
+                            <i class="fas fa-map-marker-alt mr-4 text-blue-500"></i>
+                            <span id="Profile_Address"></span>
+
+                        </p>
+
+                        <div class="mt-4 flex items-center justify-center">
+                            <!-- <h2 class="text-gray-700 font-semibold mr-2">Skills:</h2> -->
+                            <div id="Profile_Skills" class="flex flex-wrap gap-2 items-center justify-center">
+                                <!-- Ensure child elements inside #Profile_Skills are set appropriately -->
+                                <!-- For example: -->
+                                <!-- <span class="inline-block ...">Icon or Element</span> -->
+                            </div>
+                        </div>
+
+
+
                     </div>
                     <div class="flex justify-between mt-6 text-center">
                         <div>
@@ -166,7 +187,7 @@
                         </div>
                     </div>
                     <div class="flex justify-center space-x-1 mt-8">
-                        <div class="w-5 h-5 lg:w-6 lg:h-6 rounded-full bg-blue-100 flex items-center justify-center">
+                        <!-- <div class="w-5 h-5 lg:w-6 lg:h-6 rounded-full bg-blue-100 flex items-center justify-center">
                             <i class="fab fa-facebook-f text-blue-600 text-xxs lg:text-xs"></i>
                         </div>
                         <div class="w-5 h-5 lg:w-6 lg:h-6 rounded-full bg-blue-100 flex items-center justify-center">
@@ -186,8 +207,17 @@
                         </div>
                         <div class="w-5 h-5 lg:w-6 lg:h-6 rounded-full bg-red-100 flex items-center justify-center">
                             <i class="fab fa-pinterest-p text-red-600 text-xxs lg:text-xs"></i>
+                        </div> -->
+
+                        <div class="flex space-x-4 mt-4" id="Profile_Portfolios">
+                            <!-- Icons will be generated dynamically here -->
                         </div>
                     </div>
+
+
+
+
+
                 </div>
             </div>
             <div class="mt-6 flex space-x-1 px-3">
@@ -247,8 +277,8 @@
 
 
 
-    <!-- <div class="lg:flex lg:flex-row lg:justify-end fixed top-24 right-4 z-40 mt-2">
-        <!-- Toggle button for the drawer -->
+    <!-- <div class="lg:flex lg:flex-row lg:justify-end fixed top-24 right-4 z-40 mt-2"> -->
+    <!-- Toggle button for the drawer -->
 
 
 
@@ -386,12 +416,16 @@
             <textarea id="emojiTextBox"
                 class="w-full p-3 border border-[#832aff] rounded-md focus:outline-none focus:ring-2 focus:ring-[#832aff] transition duration-300 ease-in-out mb-4"
                 rows="3" placeholder="What's on your mind?"></textarea>
+
+            <div id="fileNameDisplay" class="text-[#832aff] mt-2"></div>
             <div class="w-full flex justify-between items-center">
                 <div class="flex justify-start space-x-4">
                     <button type="button" class="relative text-[#832aff] hover:text-[#5a1baf]">
                         <i class="fas fa-image text-xl"></i>
-                        <input type="file" class="absolute inset-0 opacity-0 cursor-pointer w-full h-full">
+                        <input type="file" accept=".jpg, .jpeg, .png" id="imageInput"
+                            class="absolute inset-0 opacity-0 cursor-pointer w-full h-full">
                     </button>
+
 
                     <button type="button" id="mapButton" class="text-[#832aff] hover:text-[#5a1baf] focus:outline-none">
                         <i class="fas fa-location text-xl"></i>
@@ -432,10 +466,19 @@
                         </div>
                     </div>
 
+                    <button id="speechButton" type="button" class="text-[#832aff] hover:text-[#5a1baf]">
+                        <i class="fas fa-microphone text-xl"></i>
+                    </button>
+
 
 
                 </div>
-                <button type="submit"
+                <!-- <button type="submit"
+                    class="bg-[#832aff] text-white px-6 py-2 rounded-full hover:bg-blue-600 transition duration-300 ease-in-out">
+                    <i class="fas fa-plus-circle mr-2"></i> Post
+                </button> -->
+
+                <button id="postButton" type="button"
                     class="bg-[#832aff] text-white px-6 py-2 rounded-full hover:bg-blue-600 transition duration-300 ease-in-out">
                     <i class="fas fa-plus-circle mr-2"></i> Post
                 </button>
@@ -448,7 +491,7 @@
                     class="w-12 h-12 rounded-full">
                 <div class="ml-4">
                     <div class="flex items-center">
-                        <h2 class="text-sm font-semibold">Sumaiya Tarannum Noor</h2>
+                        <h2 class="text-sm font-semibold">MD ALLMAMUN</h2>
                     </div>
                     <p class="text-sm text-gray-500">Freelancher</p>
                     <p class="text-sm text-gray-500">13h • <i class="fas fa-globe text-[#832aff]"></i></p>
@@ -523,8 +566,8 @@
                             Biomedical
                             Data Science...</p>
                         <p class="text-sm text-gray-700">This post is in a desperate need of a link. <a
-                                href="https://github.com/SumaiyaTarannumNoor"
-                                class="text-blue-600">https://github.com/SumaiyaTarannumNoor</a></p>
+                                href="https://github.com/Cambia-ai/MARSS-TTS"
+                                class="text-blue-600">https://github.com/Cambia-ai/MARSS-TTS</a></p>
                     </div>
                 </div>
             </div>
@@ -541,6 +584,191 @@
 
 
     <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            fetchUserProfiles();
+        });
+
+        function fetchUserProfiles() {
+            fetch('/fetch_user_data')
+                .then(response => response.json())
+                .then(data => {
+                    console.log(data)
+                    var profileIcon = document.getElementById('profileIcon');
+                    // console.log(data[0].)
+                    // Set the src attribute of the <img> element
+                    profileIcon.querySelector('img').src = data[0].Image;
+                    // document.getElementById('profileIcon').src = data[0].Image;
+                    document.getElementById('Profile_name').innerText = data[0].Full_name;
+                    document.getElementById('Profile_image').src = data[0].Image;
+                    document.getElementById('Profile_Address').innerText = data[0].Address;
+                    document.getElementById('Profile_Experience').innerText = data[0].Freelancing_Experience;
+
+
+                    // Get the skills string from the data
+                    const skillsString = data[0].Skills.split(',');
+                    console.log(skillsString)
+                    // const skillsArray = skillsString.split(',').map(skills => skills.trim());
+                    const firstTwoSkills = skillsString.slice(0, 2);
+                    // Split the skills string into an array
+                    console.log(firstTwoSkills)
+                    // firstTwoSkills = skillsString.split(', ');
+
+                    // Get the container element where the skill spans will be added
+                    const skillsContainer = document.getElementById('Profile_Skills');
+
+                    // Function to generate a random pastel color
+                    function getRandomPastelColor() {
+                        const hue = Math.floor(Math.random() * 360);
+                        return `hsl(${hue}, 70%, 80%)`;
+                    }
+
+                    // Loop through the skills array and create a span for each skill
+                    firstTwoSkills.forEach(skill => {
+                        const skillTag = document.createElement('span');
+                        const backgroundColor = getRandomPastelColor();
+                        const textColor = `hsl(${backgroundColor.match(/\d+/)[0]}, 70%, 30%)`;
+
+                        skillTag.className = 'inline-flex items-center px-3 py-1 rounded-full text-sm font-medium transition-all duration-200 ease-in-out transform hover:scale-105 hover:shadow-md';
+                        skillTag.style.backgroundColor = backgroundColor;
+                        skillTag.style.color = textColor;
+                        skillTag.style.border = `1px solid ${textColor}`;
+
+                        // Create an icon element (you can replace this with any icon library you prefer)
+                        const icon = document.createElement('span');
+                        icon.innerHTML = '&#9733;'; // Star icon
+                        icon.className = 'mr-1';
+
+                        skillTag.appendChild(icon);
+                        skillTag.appendChild(document.createTextNode(skill));
+
+                        skillsContainer.appendChild(skillTag);
+                    });
+
+                    // Add a subtle animation to the skills container
+                    skillsContainer.style.animation = 'fadeIn 0.5s ease-in-out';
+
+                    // Add the animation keyframes to the document
+                    const style = document.createElement('style');
+                    style.textContent = `
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(10px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+`;
+                    document.head.appendChild(style);
+
+                    // Assuming data is an array of objects where each object has a Portfolio_Links property
+                    const linksString = data[0].Portfolio_Links;
+
+                    // Split the string into key-value pairs
+                    const pairs = linksString.split(',');
+
+                    // Define an object to map keys to their respective image URLs and container styles
+                    const platformMap = {
+                        'Fiverr': {
+                            imgSrc: 'https://cdn.worldvectorlogo.com/logos/fiverr-1.svg',
+                            bgColor: 'bg-green-100'
+                        },
+                        'Upwork': {
+                            imgSrc: 'https://cdn.worldvectorlogo.com/logos/upwork.svg',
+                            bgColor: 'bg-green-100'
+                        },
+                        'Freelancer': {
+                            imgSrc: 'https://www.f-cdn.com/assets/main/en/assets/freelancer-logo-light.svg',
+                            bgColor: 'bg-blue-100'
+                        },
+                        'Toptal': {
+                            imgSrc: 'https://bs-uploads.toptal.io/blackfish-uploads/uploaded_file/file/173824/image-1580243128243-b6df35fac3e5bed02385cb5496a7effa.png',
+                            bgColor: 'bg-blue-100'
+                        },
+                        'Guru': {
+                            imgSrc: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABwAAAAcCAMAAABF0y+mAAAAflBMVEX////8/PyOjo6WlpavxuNnlsx/pdPj6/VycnEgIB8ZGReKiYcgcb03e8Da5PGdnZ0zMzIoKCdpaWjQ3/O6zui8vLzY2NgjIyE5OThBQUDm5ub08/NhX1xHR0ZQUE4AAADIyMewsLATExF/f38xMTDu7u7d3d0KCgbMzMxTU1PRvMujAAAAw0lEQVR4Ad2RBQKDMAwAg9MwoCnubv9/4HzDXrBdXeLwh0iyAqqm6aoBZ0yGlnGx72jO8c1lnAR4nq/btg5BuH2zMIqTNMuLECQdSqzq9a1po+a+dFHP70vWcrLWx4GoHABkpOJ+KHpWbfWmEaGcgtJlqYxRXw+wJRMtwyjPCVkrJDgSdpz3PeddCGdq0T8fzfr0NBYYIUsSdl+KdP8WTITy+NLeUjvvVE60fB1MC5rC9S2tKgEblqrK1opIq/Prxa9xA5pMDjQnd/T3AAAAAElFTkSuQmCC',
+                            bgColor: 'bg-purple-100'
+                        },
+                        'Other': {
+                            imgSrc: '',
+                            bgColor: 'bg-gray-100',
+                            isIcon: true,
+                            iconClass: 'fas fa-globe text-purple-400 text-xxs lg:text-xs'
+                        }
+                    };
+
+                    // Initialize an object to store URLs for each platform
+                    // Initialize an object to store URLs for each platform
+                    const platformUrls = {};
+                    let generatedHTML = '';
+
+                    // Parse the input string and populate platformUrls
+                    pairs.forEach(pair => {
+                        // Split by the first occurrence of ':'
+                        const [key, ...valueParts] = pair.split(':');
+                        const value = valueParts.join(':');
+
+                        // Trim any whitespace around the key and value
+                        const trimmedKey = key.trim();
+                        const trimmedValue = value.trim();
+
+                        console.log(`Processing platform: ${trimmedKey}, URL: ${trimmedValue}`);
+
+                        // Check if the platform key exists in the map
+                        if (platformMap[trimmedKey]) {
+                            const platform = platformMap[trimmedKey];
+
+                            // Build the HTML for each platform icon/link
+                            generatedHTML += `
+            <div class="w-6 h-6 lg:w-6 lg:h-6 rounded-full ${platform.bgColor} flex items-center justify-center">
+                <a href="${trimmedValue}" target="_blank" class="flex items-center justify-center">
+                    ${platform.isIcon ?
+                                    `<i class="${platform.iconClass}"></i>` :
+                                    `<img src="${platform.imgSrc}" alt="${trimmedKey} Logo" class="w-6 h-6 lg:w-4 lg:h-4">`
+                                }
+                </a>
+            </div>
+        `;
+                        } else {
+                            console.warn(`Platform not found in platformMap: ${trimmedKey}`);
+                        }
+                    });
+
+                    // Append the generated HTML to a container element
+                    // const container = document.getElementById('platformIconsContainer');
+                    // container.innerHTML = generatedHTML;
+
+                    console.log(platformUrls)
+                    //                 let generatedHTML = '';
+
+                    //                 // Generate HTML for each platform in the platformMap
+                    //                 Object.keys(platformMap).forEach(platform => {
+                    //                     if (platformUrls[platform]) {
+                    //                         const platformInfo = platformMap[platform];
+                    //                         generatedHTML += `
+                    //     <div class="w-6 h-6 lg:w-6 lg:h-6 rounded-full ${platformInfo.bgColor} flex items-center justify-center">
+                    //         <a href="${platformUrls[platform]}" target="_blank">
+                    //             ${platformInfo.isIcon ?
+                    //                                 `<i class="${platformInfo.iconClass}"></i>` :
+                    //                                 `<img src="${platformInfo.imgSrc}" alt="${platform}" class="w-6 h-6 lg:w-4 lg:h-4">`
+                    //                             }
+                    //         </a>
+                    //     </div>
+                    // // `;
+                    //                     }
+                    //                 });
+
+                    // Get the container element where icons will be generated
+                    const container = document.getElementById('Profile_Portfolios');
+
+                    // Append generatedHTML to the container
+                    container.innerHTML = generatedHTML;
+
+
+
+
+                })
+                .catch(error => {
+                    console.error('Error fetching user profiles:', error);
+                });
+        }
+
         document.getElementById('toggle-link').addEventListener('click', function (event) {
             event.preventDefault();
             var postText = document.getElementById('post-text');
@@ -577,13 +805,15 @@
             });
         }
 
-        mapButton.addEventListener('click', () => {
+        mapButton.addEventListener('click', (event) => {
+            event.preventDefault();  // Prevent default button behavior
             mapModal.classList.remove('hidden');
             // Initialize the map after the modal is visible
             setTimeout(initMap, 0);
         });
 
-        closeModal.addEventListener('click', () => {
+        closeModal.addEventListener('click', (event) => {
+            event.preventDefault();  // Prevent default button behavior
             mapModal.classList.add('hidden');
         });
 
@@ -596,17 +826,17 @@
 
 
 
-
-
         document.addEventListener('DOMContentLoaded', () => {
             const imojiButton = document.getElementById('imojiButton');
             const emojiModal = document.getElementById('emojiModal');
             const emojiGrid = document.getElementById('emojiGrid');
             const closeEmojiModal = document.getElementById('closeEmojiModal');
             const emojiTextBox = document.getElementById('emojiTextBox');
+            const speechButton = document.getElementById('speechButton');
+
+            let temp = '';
 
             const popularEmojis = [
-                // Smileys & Emotion
                 { emoji: '😂', category: 'Smileys & Emotion' },
                 { emoji: '❤️', category: 'Smileys & Emotion' },
                 { emoji: '😍', category: 'Smileys & Emotion' },
@@ -627,7 +857,6 @@
                 { emoji: '💙', category: 'Smileys & Emotion' },
                 { emoji: '😢', category: 'Smileys & Emotion' },
                 { emoji: '🤔', category: 'Smileys & Emotion' },
-                // Animals & Nature
                 { emoji: '🐶', category: 'Animals & Nature' },
                 { emoji: '🐱', category: 'Animals & Nature' },
                 { emoji: '🐭', category: 'Animals & Nature' },
@@ -638,7 +867,6 @@
                 { emoji: '🐼', category: 'Animals & Nature' },
                 { emoji: '🐨', category: 'Animals & Nature' },
                 { emoji: '🐯', category: 'Animals & Nature' },
-                // Food & Drink
                 { emoji: '🍇', category: 'Food & Drink' },
                 { emoji: '🍈', category: 'Food & Drink' },
                 { emoji: '🍉', category: 'Food & Drink' },
@@ -649,7 +877,6 @@
                 { emoji: '🥭', category: 'Food & Drink' },
                 { emoji: '🍎', category: 'Food & Drink' },
                 { emoji: '🍏', category: 'Food & Drink' },
-                // Activities
                 { emoji: '⚽', category: 'Activities' },
                 { emoji: '🏀', category: 'Activities' },
                 { emoji: '🏈', category: 'Activities' },
@@ -660,7 +887,6 @@
                 { emoji: '🏸', category: 'Activities' },
                 { emoji: '🥅', category: 'Activities' },
                 { emoji: '🏒', category: 'Activities' },
-                // Travel & Places
                 { emoji: '🚗', category: 'Travel & Places' },
                 { emoji: '🚕', category: 'Travel & Places' },
                 { emoji: '🚙', category: 'Travel & Places' },
@@ -671,7 +897,6 @@
                 { emoji: '🚑', category: 'Travel & Places' },
                 { emoji: '🚒', category: 'Travel & Places' },
                 { emoji: '🚐', category: 'Travel & Places' },
-                // Objects
                 { emoji: '⌚', category: 'Objects' },
                 { emoji: '📱', category: 'Objects' },
                 { emoji: '💻', category: 'Objects' },
@@ -684,34 +909,171 @@
                 { emoji: '🗜️', category: 'Objects' },
             ];
 
-            // Function to populate emojis in the modal grid
             function populateEmojis() {
                 popularEmojis.forEach(item => {
                     const emojiButton = document.createElement('button');
                     emojiButton.textContent = item.emoji;
                     emojiButton.className = 'text-3xl hover:bg-gray-100 p-2 rounded';
                     emojiButton.onclick = (event) => {
-                        event.preventDefault(); // Prevent form submission or link follow
-                        emojiTextBox.value += item.emoji; // Add emoji to the text box
+                        event.preventDefault();
+                        const caretPos = emojiTextBox.selectionStart;
+                        const textBefore = emojiTextBox.value.substring(0, caretPos);
+                        const textAfter = emojiTextBox.value.substring(caretPos, emojiTextBox.value.length);
+                        emojiTextBox.value = textBefore + item.emoji + textAfter;
+                        temp = emojiTextBox.value;
+                        emojiTextBox.focus();
+                        emojiTextBox.selectionStart = caretPos + item.emoji.length;
+                        emojiTextBox.selectionEnd = caretPos + item.emoji.length;
                     };
                     emojiGrid.appendChild(emojiButton);
                 });
             }
 
-            // Open modal when imojiButton is clicked
             imojiButton.onclick = (event) => {
-                event.preventDefault(); // Prevent any default behavior
-                emojiGrid.innerHTML = ''; // Clear previous emojis
-                populateEmojis(); // Populate emojis in the modal
-                emojiModal.classList.remove('hidden'); // Show the modal
+                event.preventDefault();
+                emojiGrid.innerHTML = '';
+                populateEmojis();
+                emojiModal.classList.remove('hidden');
             };
 
-            // Close modal when closeEmojiModal button is clicked
             closeEmojiModal.onclick = (event) => {
-                event.preventDefault(); // Prevent the default behavior (e.g., form submission or link follow)
-                emojiModal.classList.add('hidden'); // Hide the modal
+                event.preventDefault();
+                emojiModal.classList.add('hidden');
             };
+
+            // Speech Recognition Setup
+            let recognition;
+            let recognizing = false;
+
+            function initializeSpeechRecognition() {
+                if (!('webkitSpeechRecognition' in window)) {
+                    emojiTextBox.placeholder = "Your browser does not support WebKit Speech Recognition.";
+                } else {
+                    recognition = new webkitSpeechRecognition();
+                    recognition.continuous = true;
+                    recognition.interimResults = true;
+
+                    recognition.onstart = function () {
+                        recognizing = true;
+                        emojiTextBox.placeholder = "Listening...";
+                        speechButton.innerHTML = `<i class="fas fa-microphone-slash text-xl"></i>`;
+                    };
+
+                    recognition.onresult = function (event) {
+                        let interimTranscript = '';
+                        for (let i = event.resultIndex; i < event.results.length; i++) {
+                            const transcript = event.results[i][0].transcript;
+                            if (event.results[i].isFinal) {
+                                temp += transcript + ' ';
+                            } else {
+                                interimTranscript += transcript;
+                            }
+                        }
+                        if (interimTranscript.trim() !== '') {
+                            emojiTextBox.value = temp + interimTranscript;
+                        }
+                    };
+
+                    recognition.onerror = function (event) {
+                        console.error("Speech recognition error: ", event.error);
+                    };
+
+                    recognition.onend = function () {
+                        emojiTextBox.placeholder = "Type here...";
+                        speechButton.innerHTML = `<i class="fas fa-microphone text-xl"></i>`;
+                        recognizing = false;
+                    };
+
+                    speechButton.onclick = function () {
+                        if (recognizing) {
+                            recognition.stop();
+                        } else {
+                            recognition.start();
+                        }
+                    };
+
+                    emojiTextBox.onclick = function () {
+                        if (recognizing) {
+                            recognition.stop();
+                        }
+                    };
+
+                    emojiTextBox.oninput = function () {
+                        temp = emojiTextBox.value;
+                    };
+                }
+            }
+
+            initializeSpeechRecognition();
         });
+        const imageInput = document.getElementById('imageInput');
+        const fileNameDisplay = document.getElementById('fileNameDisplay');
+
+        let selectedImageFile = null; // Variable to store the selected image file
+
+        // Event listener for the file input change
+        imageInput.addEventListener('change', function (event) {
+            const files = event.target.files;
+            if (files.length > 0) {
+                fileNameDisplay.innerHTML = `
+            Selected file: ${files[0].name}
+            <button id="removeImage" class="ml-2 text-red-500 hover:text-red-700">
+                <i class="fas fa-times"></i>
+            </button>
+        `;
+                // Store the selected file
+                selectedImageFile = files[0];
+
+                // Add click event listener to the remove button
+                document.getElementById('removeImage').addEventListener('click', function () {
+                    imageInput.value = ''; // Clear the file input
+                    fileNameDisplay.innerHTML = ''; // Clear the file name display
+                    selectedImageFile = null; // Reset the selected image file variable
+                });
+            } else {
+                fileNameDisplay.innerHTML = ''; // Clear the file name display if no file is selected
+                selectedImageFile = null; // Reset the selected image file variable
+            }
+        });
+
+        document.getElementById('postButton').addEventListener('click', async (event) => {
+            event.preventDefault();
+            const emojiText = emojiTextBox.value;
+            console.log(emojiText)
+            console.log(selectedImageFile)
+
+
+            // Clear the text area
+            // emojiTextBox.value = '';
+            // // Reset the file input and display
+            // // fileNameDisplay.innerHTML = '';
+            // imageInput.value = ''; // Clear the file input
+            // fileNameDisplay.innerHTML = ''; // Clear the file name display
+            // Reset the temp variable used in speech recognition
+            temp = '';
+
+
+            // Prepare FormData
+            const formData = new FormData();
+            formData.append('emojiText', emojiText);
+
+            formData.append('imageFile', selectedImageFile);
+            fileNameDisplay.innerHTML = '';
+            emojiTextBox.value = '';
+            imageInput.value = '';
+
+
+            fetch('/user_blog', {
+                method: 'POST',
+                body: formData
+            })
+                .then(response => response.json())
+                .then(data => {
+                    // const errorContainer = document.getElementById('error_show');
+                    console.log(data);
+                });
+        })
+
 
     </script>
 </body>
