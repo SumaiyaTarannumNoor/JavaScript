@@ -73,7 +73,7 @@
             <div class="flex justify-between items-center h-20">
                 <div class="flex items-center">
                     <a href="#" class="flex-shrink-0">
-                        <img src="{{ url_for('static', filename='assets/logo/logo.png') }}" alt=""
+                        <img src="{{ url_for('static', filename='assets/logo/logo.png') }}"
                             class="h-16 filter invert brightness-0">
                     </a>
                     <div class="ml-6 hidden md:block">
@@ -101,7 +101,7 @@
                         </a>
 
                     </div>
-                    <a id="profileIcon" class="flex items-center">
+                    <a href="#" id="profileIcon" class="flex items-center">
                         <img src="{{ url_for('static', filename='assets/profile_avatar/avatar.jpg') }}" alt="Profile"
                             class="w-8 h-8 rounded-full">
                     </a>
@@ -141,36 +141,15 @@
             <div class="px-3 py-2 flex flex-col justify-between">
                 <div>
                     <div class="flex justify-center -mt-10">
-                        <img id="Profile_image"
-                            src="{{ url_for('static', filename='assets/profile_avatar/avatar.jpg') }}" alt="Profile"
+                        <img src="{{ url_for('static', filename='assets/profile_avatar/avatar.jpg') }}" alt="Profile"
                             class="w-16 h-16 rounded-full border-2 border-white shadow-lg">
                     </div>
                     <div class="text-center mt-4">
-                        <h2 id="Profile_name" class="text-base font-semibold text-gray-800 mt-4"></h2>
-                        <p class="text-xxs text-gray-600 flex items-center justify-center mt-2 ml-3">
-                            <i class="fas fa-business-time mr-1 text-purple-700 mr-2"></i>
-                            <span id="Profile_Experience"></span>
-                            <span>s Experience</span>
+                        <h2 class="text-base font-semibold text-gray-800 mt-4">Sumaiya Tarannum Noor</h2>
+                        <p class="text-xxs text-gray-600 mt-3">AI & Software Engineer from Bangladesh</p>
+                        <p class="text-xxs text-gray-600 flex items-center justify-center mt-2">
+                            <i class="fas fa-map-marker-alt mr-1 text-gray-500"></i> Dhaka,Bangladesh
                         </p>
-
-                        <p class="text-xxs text-gray-600 flex items-center justify-center mt-2 ml-3">
-                            <span class="mr-4">From </span>
-                            <i class="fas fa-map-marker-alt mr-4 text-blue-500"></i>
-                            <span id="Profile_Address"></span>
-
-                        </p>
-
-                        <div class="mt-4 flex items-center justify-center">
-                            <!-- <h2 class="text-gray-700 font-semibold mr-2">Skills:</h2> -->
-                            <div id="Profile_Skills" class="flex flex-wrap gap-2 items-center justify-center">
-                                <!-- Ensure child elements inside #Profile_Skills are set appropriately -->
-                                <!-- For example: -->
-                                <!-- <span class="inline-block ...">Icon or Element</span> -->
-                            </div>
-                        </div>
-
-
-
                     </div>
                     <div class="flex justify-between mt-6 text-center">
                         <div>
@@ -187,7 +166,7 @@
                         </div>
                     </div>
                     <div class="flex justify-center space-x-1 mt-8">
-                        <!-- <div class="w-5 h-5 lg:w-6 lg:h-6 rounded-full bg-blue-100 flex items-center justify-center">
+                        <div class="w-5 h-5 lg:w-6 lg:h-6 rounded-full bg-blue-100 flex items-center justify-center">
                             <i class="fab fa-facebook-f text-blue-600 text-xxs lg:text-xs"></i>
                         </div>
                         <div class="w-5 h-5 lg:w-6 lg:h-6 rounded-full bg-blue-100 flex items-center justify-center">
@@ -207,17 +186,8 @@
                         </div>
                         <div class="w-5 h-5 lg:w-6 lg:h-6 rounded-full bg-red-100 flex items-center justify-center">
                             <i class="fab fa-pinterest-p text-red-600 text-xxs lg:text-xs"></i>
-                        </div> -->
-
-                        <div class="flex space-x-4 mt-4" id="Profile_Portfolios">
-                            <!-- Icons will be generated dynamically here -->
                         </div>
                     </div>
-
-
-
-
-
                 </div>
             </div>
             <div class="mt-6 flex space-x-1 px-3">
@@ -277,8 +247,8 @@
 
 
 
-    <!-- <div class="lg:flex lg:flex-row lg:justify-end fixed top-24 right-4 z-40 mt-2"> -->
-    <!-- Toggle button for the drawer -->
+    <!-- <div class="lg:flex lg:flex-row lg:justify-end fixed top-24 right-4 z-40 mt-2">
+        <!-- Toggle button for the drawer -->
 
 
 
@@ -349,232 +319,344 @@
         </div>
     </div> -->
 
-    <div class="max-w-2xl mx-auto mt-2 p-4 bg-gray-100 rounded-lg shadow-md">
-        <div class="bg-white rounded-lg shadow-lg p-4">
-            <!-- Navbar -->
-            <div class="flex justify-center border-b-2 border-purple-200 mb-4">
-                <div
-                    class="text-[#832aff] text-center py-2 cursor-pointer border-b-4 border-transparent hover:border-purple-300 font-bold text-xl">
-                    Trending Now!
-                </div>
-            </div>
 
-            <!-- Scrollable Section -->
-            <div class="overflow-x-auto scroll-container">
-                <div class="scroll-slow space-x-4 pb-4 flex">
-                    <!-- Story 1 -->
-                    <div class="w-32 h-40 bg-gray-300 rounded-lg flex-none">
-                        <!-- Add content or image here -->
-                        <img src="{{ url_for('static', filename='assets/trending/ex1.jpg') }}" alt="Profile">
-                    </div>
-                    <!-- Story 2 -->
-                    <div class="w-32 h-40 bg-gray-300 rounded-lg flex-none">
-                        <!-- Add content or image here -->
-                        <img src="{{ url_for('static', filename='assets/trending/ex2.jpg') }}" alt="Profile">
-                    </div>
-                    <!-- Story 3 -->
-                    <div class="w-32 h-40 bg-gray-300 rounded-lg flex-none">
-                        <!-- Add content or image here -->
-                        <img src="{{ url_for('static', filename='assets/trending/ex3.jpg') }}" alt="Profile">
-                    </div>
-                    <!-- Story 4 -->
-                    <div class="w-32 h-40 bg-gray-300 rounded-lg flex-none">
-                        <!-- Add content or image here -->
-                        <img src="{{ url_for('static', filename='assets/trending/ex4.jpg') }}" alt="Profile">
-                    </div>
-                    <!-- Story 5 -->
-                    <div class="w-32 h-40 bg-gray-300 rounded-lg flex-none">
-                        <!-- Add content or image here -->
-                        <img src="{{ url_for('static', filename='assets/trending/ex5.jpg') }}" alt="Profile">
-                    </div>
-                    <!-- Repeat the stories to create the continuous scroll effect -->
-                    <div class="w-32 h-40 bg-gray-300 rounded-lg flex-none">
-                        <!-- Add content or image here -->
-                        <img src="{{ url_for('static', filename='assets/trending/ex6.jpg') }}" alt="Profile">
-                    </div>
-                    <div class="w-32 h-40 bg-gray-300 rounded-lg flex-none">
-                        <!-- Add content or image here -->
-                        <img src="{{ url_for('static', filename='assets/trending/ex1.jpg') }}" alt="Profile">
-                    </div>
-                    <div class="w-32 h-40 bg-gray-300 rounded-lg flex-none">
-                        <!-- Add content or image here -->
-                        <img src="{{ url_for('static', filename='assets/trending/ex2.jpg') }}" alt="Profile">
-                    </div>
-                    <div class="w-32 h-40 bg-gray-300 rounded-lg flex-none">
-                        <!-- Add content or image here -->
-                        <img src="{{ url_for('static', filename='assets/trending/ex3.jpg') }}" alt="Profile">
-                    </div>
-                    <div class="w-32 h-40 bg-gray-300 rounded-lg flex-none">
-                        <!-- Add content or image here -->
-                        <img src="{{ url_for('static', filename='assets/trending/ex4.jpg') }}" alt="Profile">
-                    </div>
-                </div>
+    <div class="flex flex-col md:flex-row max-w-12xl mx-auto p-4 bg-blue-200 shadow-md">
+
+        <div class="w-full md:w-1/3 lg:w-1/4 lg:pr-4 mb-4 md:mb-0">
+            <div class="bg-white rounded-lg shadow-md sticky top-16 overflow-y-auto max-h-screen p-4">
+                <ul>
+                    <li class="mb-2">
+                        <div class="bg-white p-6 rounded-lg shadow-lg max-w-xs mx-auto">
+                            <h1
+                                class="text-xl sm:text-2xl font-bold text-center text-purple-600 border-b-4 border-purple-300 pb-2">
+                                Watch the Trending Video Now!
+                            </h1>
+                            <div class="video-container cursor-pointer">
+                                <iframe width="280" height="200" src="https://www.youtube.com/embed/YOUR_VIDEO_ID_1"
+                                    frameborder="0" allowfullscreen class="w-full h-[200px] rounded-md"></iframe>
+                            </div>
+                            <div class="video-details mt-4 cursor-pointer">
+                                <h2 class="text-gray-700 font-semibold">Professional Graphic Design</h2>
+                                <p class="text-gray-700 mt-1">Published on June 23, 2024</p>
+                            </div>
+                        </div>
+
+
+
+
+
+                    </li>
+                    <li class="mb-2">
+                        <div class="flex flex-wrap justify-center space-x-2 mt-4 mb-4">
+                            <button class="bg-purple-600 text-white px-2 py-1 rounded text-xs hover:bg-blue-600 mt-2">
+                                Your Courses
+                            </button>
+                            <button class="bg-purple-600 text-white px-2 py-1 rounded text-xs hover:bg-blue-600 mt-2">
+                                Your Friends
+                            </button>
+                            <button class="bg-purple-600 text-white px-2 py-1 rounded text-xs hover:bg-blue-600 mt-2">
+                                Main Home Page
+                            </button>
+                        </div>
+                    </li>
+
+                    <li>
+                        <div class="relative">
+                            <div class="text-3xl cursor-pointer" id="triggerModal">
+                                &#128712; <!-- Gear icon -->
+                            </div>
+                            <!-- Modal structure -->
+                            <div id="myModal"
+                                class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+                                <div class="bg-white rounded-lg p-4 w-11/12 sm:w-96 h-80 overflow-y-auto z-60">
+                                    <div class="flex justify-between items-center mb-4 sticky top-0 bg-white z-10 p-2">
+                                        <h2 class="text-lg font-semibold">Warning: Content Guidelines</h2>
+                                        <button id="closeModalButton"
+                                            class="text-gray-500 hover:text-gray-700">✕</button>
+                                    </div>
+                                    <p class="font-semibold mb-2">We value and respect diversity, beliefs, and cultures.
+                                        Please refrain from posting or discussing content that could potentially:</p>
+                                    <ul class="list-disc ml-5 mb-3">
+                                        <li>Disparage or promote hatred towards any religion, religious figure, or
+                                            religious group.</li>
+                                        <li>Insult or discriminate against individuals based on their ethnicity,
+                                            nationality, or cultural background.</li>
+                                        <!-- <li>Advocate harm or violence towards any individual or group, including
+                                            political figures or governments.</li> -->
+                                    </ul>
+                                    <p class="text-sm">We encourage constructive and respectful discussions. Any content
+                                        violating these guidelines may be removed without notice. Thank you for helping
+                                        us maintain a welcoming and inclusive community.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <script>
+                            // Get the modal
+                            var modal = document.getElementById("myModal");
+
+                            // Get the icon that opens the modal
+                            var icon = document.getElementById("triggerModal");
+
+                            // Get the <span> element that closes the modal
+                            var closeButton = document.getElementById("closeModalButton");
+
+                            // When the user clicks the icon, toggle the modal
+                            icon.onclick = function () {
+                                modal.classList.toggle("hidden");
+                            }
+
+                            // When the user clicks on <span> (x), close the modal
+                            closeButton.onclick = function () {
+                                modal.classList.add("hidden");
+                            }
+
+                            // When the user clicks anywhere outside of the modal, close it
+                            window.onclick = function (event) {
+                                if (event.target == modal) {
+                                    modal.classList.add("hidden");
+                                }
+                            }
+                        </script>
+
+
+
+                    </li>
+
+                    <li class="mb-2">
+                        <div class="hidden md:block bg-[#8a3ef5] text-white py-4 px-2 rounded-lg">
+                            <div class="container mx-auto max-w-2xl px-4 text-center">
+                                <p class="text-sm sm:text-base">&copy; 2024 Freelanching Pathshala. All rights reserved.
+                                </p>
+                                <div class="mt-2">
+                                    <p class="text-xs sm:text-sm">Designed by <a href="https://www.techknowgram.com/"
+                                            class="text-white font-semibold hover:underline">TechKnowGram Limited</a>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+
+                </ul>
             </div>
         </div>
 
-        <form class="bg-white p-6 rounded-lg shadow-md mb-6 mt-6 flex flex-col items-center">
-            <textarea id="emojiTextBox"
-                class="w-full p-3 border border-[#832aff] rounded-md focus:outline-none focus:ring-2 focus:ring-[#832aff] transition duration-300 ease-in-out mb-4"
-                rows="3" placeholder="What's on your mind?"></textarea>
+        <div class="max-w-2xl mx-auto mt-2 p-4 bg-gray-100 rounded-lg shadow-md">
+            <div class="bg-white rounded-lg shadow-lg p-4">
+                <!-- Navbar -->
+                <div class="flex justify-center border-b-2 border-purple-200 mb-4">
+                    <div
+                        class="text-[#832aff] text-center py-2 cursor-pointer border-b-4 border-transparent hover:border-purple-300 font-bold text-xl">
+                        Trending Now!
+                    </div>
+                </div>
 
-            <div id="fileNameDisplay" class="text-[#832aff] mt-2"></div>
-            <div class="w-full flex justify-between items-center">
-                <div class="flex justify-start space-x-4">
-                    <button type="button" class="relative text-[#832aff] hover:text-[#5a1baf]">
-                        <i class="fas fa-image text-xl"></i>
-                        <input type="file" accept=".jpg, .jpeg, .png" id="imageInput"
-                            class="absolute inset-0 opacity-0 cursor-pointer w-full h-full">
-                    </button>
-
-
-                    <button type="button" id="mapButton" class="text-[#832aff] hover:text-[#5a1baf] focus:outline-none">
-                        <i class="fas fa-location text-xl"></i>
-                    </button>
-
-                    <div id="mapModal"
-                        class="hidden fixed inset-0 z-50 overflow-auto bg-black bg-opacity-0 flex items-center justify-center">
-                        <div class="bg-white rounded-lg shadow-xl w-2/6 max-h-2/6 overflow-hidden">
-                            <!-- Content of your modal goes here -->
-                            <div class="border-b px-4 py-2 flex justify-between items-center">
-                                <h3 class="font-semibold text-lg">Location</h3>
-                                <button id="closeModal" class="text-black close-modal">
-                                    <i class="fas fa-times"></i>
-                                </button>
-                            </div>
-                            <div class="p-4">
-                                <div id="map" class="w-full h-64"></div>
-                            </div>
+                <!-- Scrollable Section -->
+                <div class="overflow-x-auto scroll-container">
+                    <div class="scroll-slow space-x-4 pb-4 flex">
+                        <!-- Story 1 -->
+                        <div class="w-32 h-40 bg-gray-300 rounded-lg flex-none">
+                            <!-- Add content or image here -->
+                            <img src="{{ url_for('static', filename='assets/trending/ex1.jpg') }}" alt="Profile">
+                        </div>
+                        <!-- Story 2 -->
+                        <div class="w-32 h-40 bg-gray-300 rounded-lg flex-none">
+                            <!-- Add content or image here -->
+                            <img src="{{ url_for('static', filename='assets/trending/ex2.jpg') }}" alt="Profile">
+                        </div>
+                        <!-- Story 3 -->
+                        <div class="w-32 h-40 bg-gray-300 rounded-lg flex-none">
+                            <!-- Add content or image here -->
+                            <img src="{{ url_for('static', filename='assets/trending/ex3.jpg') }}" alt="Profile">
+                        </div>
+                        <!-- Story 4 -->
+                        <div class="w-32 h-40 bg-gray-300 rounded-lg flex-none">
+                            <!-- Add content or image here -->
+                            <img src="{{ url_for('static', filename='assets/trending/ex4.jpg') }}" alt="Profile">
+                        </div>
+                        <!-- Story 5 -->
+                        <div class="w-32 h-40 bg-gray-300 rounded-lg flex-none">
+                            <!-- Add content or image here -->
+                            <img src="{{ url_for('static', filename='assets/trending/ex5.jpg') }}" alt="Profile">
+                        </div>
+                        <!-- Repeat the stories to create the continuous scroll effect -->
+                        <div class="w-32 h-40 bg-gray-300 rounded-lg flex-none">
+                            <!-- Add content or image here -->
+                            <img src="{{ url_for('static', filename='assets/trending/ex6.jpg') }}" alt="Profile">
+                        </div>
+                        <div class="w-32 h-40 bg-gray-300 rounded-lg flex-none">
+                            <!-- Add content or image here -->
+                            <img src="{{ url_for('static', filename='assets/trending/ex1.jpg') }}" alt="Profile">
+                        </div>
+                        <div class="w-32 h-40 bg-gray-300 rounded-lg flex-none">
+                            <!-- Add content or image here -->
+                            <img src="{{ url_for('static', filename='assets/trending/ex2.jpg') }}" alt="Profile">
+                        </div>
+                        <div class="w-32 h-40 bg-gray-300 rounded-lg flex-none">
+                            <!-- Add content or image here -->
+                            <img src="{{ url_for('static', filename='assets/trending/ex3.jpg') }}" alt="Profile">
+                        </div>
+                        <div class="w-32 h-40 bg-gray-300 rounded-lg flex-none">
+                            <!-- Add content or image here -->
+                            <img src="{{ url_for('static', filename='assets/trending/ex4.jpg') }}" alt="Profile">
                         </div>
                     </div>
+                </div>
+            </div>
 
+            <form class="bg-white p-6 rounded-lg shadow-md mb-6 mt-6 flex flex-col items-center">
+                <textarea id="emojiTextBox"
+                    class="w-full p-3 border border-[#832aff] rounded-md focus:outline-none focus:ring-2 focus:ring-[#832aff] transition duration-300 ease-in-out mb-4"
+                    rows="3" placeholder="What's on your mind?"></textarea>
+                <div class="w-full flex justify-between items-center">
+                    <div class="flex justify-start space-x-4">
+                        <button type="button" class="relative text-[#832aff] hover:text-[#5a1baf]">
+                            <i class="fas fa-image text-xl"></i>
+                            <input type="file" class="absolute inset-0 opacity-0 cursor-pointer w-full h-full">
+                        </button>
 
+                        <button type="button" id="mapButton"
+                            class="text-[#832aff] hover:text-[#5a1baf] focus:outline-none">
+                            <i class="fas fa-location text-xl"></i>
+                        </button>
 
-                    <button id="imojiButton" type="button" class="text-[#832aff] hover:text-[#5a1baf]">
-                        <i class="fas fa-smile text-xl"></i>
-                    </button>
-
-                    <div id="emojiModal"
-                        class="fixed inset-0 bg-black bg-opacity-0 flex items-center justify-center z-50 hidden">
-                        <div class="bg-white rounded-lg p-6 w-96 h-80 overflow-y-auto">
-                            <div class="flex justify-between items-center mb-4">
-                                <h2 class="text-lg font-semibold">We are joking with you!</h2>
-                                <button id="closeEmojiModal" class="text-gray-500 hover:text-gray-700">✕</button>
-                            </div>
-                            <div id="emojiGrid" class="grid grid-cols-5 gap-2">
-                                <!-- Emojis will be inserted here by JavaScript -->
+                        <div id="mapModal"
+                            class="hidden fixed inset-0 z-50 overflow-auto bg-black bg-opacity-0 flex items-center justify-center">
+                            <div class="bg-white rounded-lg shadow-xl w-2/6 max-h-2/6 overflow-hidden">
+                                <!-- Content of your modal goes here -->
+                                <div class="border-b px-4 py-2 flex justify-between items-center">
+                                    <h3 class="font-semibold text-lg">Location</h3>
+                                    <button id="closeModal" class="text-black close-modal">
+                                        <i class="fas fa-times"></i>
+                                    </button>
+                                </div>
+                                <div class="p-4">
+                                    <div id="map" class="w-full h-64"></div>
+                                </div>
                             </div>
                         </div>
-                    </div>
 
-                    <button id="speechButton" type="button" class="text-[#832aff] hover:text-[#5a1baf]">
-                        <i class="fas fa-microphone text-xl"></i>
+
+
+                        <button id="imojiButton" type="button" class="text-[#832aff] hover:text-[#5a1baf]">
+                            <i class="fas fa-smile text-xl"></i>
+                        </button>
+
+                        <div id="emojiModal"
+                            class="fixed inset-0 bg-black bg-opacity-0 flex items-center justify-center z-50 hidden">
+                            <div class="bg-white rounded-lg p-6 w-96 h-80 overflow-y-auto">
+                                <div class="flex justify-between items-center mb-4">
+                                    <h2 class="text-lg font-semibold">We are joking with you!</h2>
+                                    <button id="closeEmojiModal" class="text-gray-500 hover:text-gray-700">✕</button>
+                                </div>
+                                <div id="emojiGrid" class="grid grid-cols-5 gap-2">
+                                    <!-- Emojis will be inserted here by JavaScript -->
+                                </div>
+                            </div>
+                        </div>
+
+
+
+                    </div>
+                    <button type="submit"
+                        class="bg-[#832aff] text-white px-6 py-2 rounded-full hover:bg-blue-600 transition duration-300 ease-in-out">
+                        <i class="fas fa-plus-circle mr-2"></i> Post
                     </button>
-
-
-
                 </div>
-                <!-- <button type="submit"
-                    class="bg-[#832aff] text-white px-6 py-2 rounded-full hover:bg-blue-600 transition duration-300 ease-in-out">
-                    <i class="fas fa-plus-circle mr-2"></i> Post
-                </button> -->
+            </form>
 
-                <button id="postButton" type="button"
-                    class="bg-[#832aff] text-white px-6 py-2 rounded-full hover:bg-blue-600 transition duration-300 ease-in-out">
-                    <i class="fas fa-plus-circle mr-2"></i> Post
-                </button>
-            </div>
-        </form>
-
-        <div class="bg-white border border-gray-300 rounded-lg p-4 mb-6">
-            <div class="flex items-start mb-4">
-                <img src="https://placehold.co/48x48" alt=""
-                    class="w-12 h-12 rounded-full">
-                <div class="ml-4">
-                    <div class="flex items-center">
-                        <h2 class="text-sm font-semibold"></h2>
+            <div class="bg-white border border-gray-300 rounded-lg p-4 mb-6">
+                <div class="flex items-start mb-4">
+                    <img src="https://placehold.co/48x48" alt="Profile picture of MD ALLMAMUN"
+                        class="w-12 h-12 rounded-full">
+                    <div class="ml-4">
+                        <div class="flex items-center">
+                            <h2 class="text-sm font-semibold">Sumaiya Tarannum Noor</h2>
+                        </div>
+                        <p class="text-sm text-gray-500">AI & Software Engineer</p>
+                        <p class="text-sm text-gray-500">13h • <i class="fas fa-globe text-[#832aff]"></i></p>
                     </div>
-                    <p class="text-sm text-gray-500">Freelancher</p>
-                    <p class="text-sm text-gray-500">13h • <i class="fas fa-globe text-[#832aff]"></i></p>
                 </div>
-            </div>
 
-            <p class="text-base mb-2">MARSS TTS: Open Source Text to Speech with insane prosodic control! <span
-                    class="text-orange-600">🔥</span></p>
-            <div class="relative">
-                <p id="post-text" class="text-sm text-gray-700 mb-4 truncate-text">Voice cloning with less than 5
-                    seconds of audio kjhsjehch\sh,c,hdzhvc\dzc Voice cloning with less than 5 seconds of audio
-                    kjhsjehch\sh,c,hdzhvc\dzc Voice cloning with less than 5 seconds of audio
-                    kjhsjehch\sh,c,hdzhvc\dzc
-                    Voice cloning with less than 5 seconds of audio kjhsjehch\sh,c,hdzhvc\dzc Voice cloning with
-                    less
-                    than 5 seconds of audio kjhsjehch\sh,c,hdzhvc\dzc Voice cloning with less than 5 seconds of
-                    audio
-                    kjhsjehch\sh,c,hdzhvc\dzc Voice cloning with less than 5 seconds of audio
-                    kjhsjehch\sh,c,hdzhvc\dzc
-                </p>
-                <a id="toggle-link" href="#"
-                    class="absolute bottom-0 right-0 text-blue-600 text-sm px-1 bg-white">...see more</a>
-            </div>
-            <div class="">
-                <img src="{{ url_for('static', filename='assets/life_stories/1719298118419.jpeg') }}"
-                    alt="Waveform image" class="bg-white border border-gray-300 rounded-lg">
-                <!-- <p class="text-lg font-semibold">HEAR IT BE COMMANDING</p> -->
-            </div>
-            <div class="flex items-center mb-4">
-                <div class="flex items-center mr-4">
-                    <i class="fas fa-thumbs-up text-blue-600"></i>
-
-
-                    <span class="text-gray-500 ml-2">1,340</span>
+                <p class="text-base mb-2">MARSS TTS: Open Source Text to Speech with insane prosodic control! <span
+                        class="text-orange-600">🔥</span></p>
+                <div class="relative">
+                    <p id="post-text" class="text-sm text-gray-700 mb-4 truncate-text">Voice cloning with less than 5
+                        seconds of audio kjhsjehch\sh,c,hdzhvc\dzc Voice cloning with less than 5 seconds of audio
+                        kjhsjehch\sh,c,hdzhvc\dzc Voice cloning with less than 5 seconds of audio
+                        kjhsjehch\sh,c,hdzhvc\dzc
+                        Voice cloning with less than 5 seconds of audio kjhsjehch\sh,c,hdzhvc\dzc Voice cloning with
+                        less
+                        than 5 seconds of audio kjhsjehch\sh,c,hdzhvc\dzc Voice cloning with less than 5 seconds of
+                        audio
+                        kjhsjehch\sh,c,hdzhvc\dzc Voice cloning with less than 5 seconds of audio
+                        kjhsjehch\sh,c,hdzhvc\dzc
+                    </p>
+                    <a id="toggle-link" href="#"
+                        class="absolute bottom-0 right-0 text-blue-600 text-sm px-1 bg-white">...see more</a>
                 </div>
-                <p class="text-gray-500">• 50 comments</p>
-            </div>
-            <div class="">
-                <div class="flex items-center justify-between space-x-4 p-2 bg-white">
-                    <!-- <div class="relative">
+                <div class="">
+                    <img src="{{ url_for('static', filename='assets/life_stories/1719298118419.jpeg') }}"
+                        alt="Waveform image" class="bg-white border border-gray-300 rounded-lg">
+                    <!-- <p class="text-lg font-semibold">HEAR IT BE COMMANDING</p> -->
+                </div>
+                <div class="flex items-center mb-4">
+                    <div class="flex items-center mr-4">
+                        <i class="fas fa-thumbs-up text-blue-600"></i>
+
+
+                        <span class="text-gray-500 ml-2">1,340</span>
+                    </div>
+                    <p class="text-gray-500">• 50 comments</p>
+                </div>
+                <div class="">
+                    <div class="flex items-center justify-between space-x-4 p-2 bg-white">
+                        <!-- <div class="relative">
                         <img src="/path/to/your/profile.jpg" alt="Profile Picture" class="w-10 h-10 rounded-full">
                         <div class="absolute bottom-0 right-0 w-3 h-3 bg-green-500 border-2 border-white rounded-full"></div>
                     </div> -->
-                    <button class="flex items-center space-x-2 text-gray-700 hover:text-black">
-                        <i class="far fa-thumbs-up text-[#832aff]"></i>
-                        <span>Like</span>
-                    </button>
-                    <button class="flex items-center space-x-2 text-gray-700 hover:text-black">
-                        <i class="far fa-comment text-[#832aff]"></i>
-                        <span>Comment</span>
-                    </button>
-                    <button class="flex items-center space-x-2 text-gray-700 hover:text-black">
-                        <i class="fas fa-share text-[#832aff]"></i>
-                        <span>Share</span>
-                    </button>
-                    <button class="flex items-center space-x-2 text-gray-700 hover:text-black">
-                        <i class="far fa-bookmark text-[#832aff]"></i>
-                        <span>Save</span>
-                    </button>
-                </div>
-            </div>
-            <div class="border-t border-gray-300 pt-4 mb-4">
-                <div class="flex items-start">
-                    <img src="https://placehold.co/36x36" alt="Profile picture of Pavol Harar"
-                        class="w-9 h-9 rounded-full">
-                    <div class="ml-4">
-                        <div class="flex items-center">
-                            <h2 class="text-sm font-semibold">Pavol Harar</h2>
-                            <span class="text-gray-500 ml-2 text-sm">3rd+</span>
-                        </div>
-                        <p class="text-sm text-gray-500 mb-1">Deep Learning Researcher & Engineer Advancing
-                            Biomedical
-                            Data Science...</p>
-                        <p class="text-sm text-gray-700">This post is in a desperate need of a link. <a
-                                href="https://github.com/Cambia-ai/MARSS-TTS"
-                                class="text-blue-600">https://github.com/Cambia-ai/MARSS-TTS</a></p>
+                        <button class="flex items-center space-x-2 text-gray-700 hover:text-black">
+                            <i class="far fa-thumbs-up text-[#832aff]"></i>
+                            <span>Like</span>
+                        </button>
+                        <button class="flex items-center space-x-2 text-gray-700 hover:text-black">
+                            <i class="far fa-comment text-[#832aff]"></i>
+                            <span>Comment</span>
+                        </button>
+                        <button class="flex items-center space-x-2 text-gray-700 hover:text-black">
+                            <i class="fas fa-share text-[#832aff]"></i>
+                            <span>Share</span>
+                        </button>
+                        <button class="flex items-center space-x-2 text-gray-700 hover:text-black">
+                            <i class="far fa-bookmark text-[#832aff]"></i>
+                            <span>Save</span>
+                        </button>
                     </div>
                 </div>
-            </div>
-            <div class="flex items-center border-t border-gray-300 pt-4">
-                <img src="https://placehold.co/36x36" alt="Profile picture of commenter" class="w-9 h-9 rounded-full">
-                <input type="text" placeholder="Add a comment..."
-                    class="ml-4 mt-2 w-full p-3 border border-[#832aff] rounded-full focus:outline-none focus:ring-2 focus:ring-[#832aff] transition duration-300 ease-in-out mb-4">
+                <div class="border-t border-gray-300 pt-4 mb-4">
+                    <div class="flex items-start">
+                        <img src="https://placehold.co/36x36" alt="Profile picture of Pavol Harar"
+                            class="w-9 h-9 rounded-full">
+                        <div class="ml-4">
+                            <div class="flex items-center">
+                                <h2 class="text-sm font-semibold">Pavol Harar</h2>
+                                <span class="text-gray-500 ml-2 text-sm">3rd+</span>
+                            </div>
+                            <p class="text-sm text-gray-500 mb-1">Deep Learning Researcher & Engineer Advancing
+                                Biomedical
+                                Data Science...</p>
+                            <p class="text-sm text-gray-700">This post is in a desperate need of a link. <a
+                                    href="https://github.com/SumaiyaTarannumNoor"
+                                    class="text-blue-600">https://github.com/SumaiyaTarannumNoor</a></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="flex items-center border-t border-gray-300 pt-4">
+                    <img src="https://placehold.co/36x36" alt="Profile picture of commenter"
+                        class="w-9 h-9 rounded-full">
+                    <input type="text" placeholder="Add a comment..."
+                        class="ml-4 mt-2 w-full p-3 border border-[#832aff] rounded-full focus:outline-none focus:ring-2 focus:ring-[#832aff] transition duration-300 ease-in-out mb-4">
+                </div>
             </div>
         </div>
     </div>
@@ -584,191 +666,6 @@
 
 
     <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            fetchUserProfiles();
-        });
-
-        function fetchUserProfiles() {
-            fetch('/fetch_user_data')
-                .then(response => response.json())
-                .then(data => {
-                    console.log(data)
-                    var profileIcon = document.getElementById('profileIcon');
-                    // console.log(data[0].)
-                    // Set the src attribute of the <img> element
-                    profileIcon.querySelector('img').src = data[0].Image;
-                    // document.getElementById('profileIcon').src = data[0].Image;
-                    document.getElementById('Profile_name').innerText = data[0].Full_name;
-                    document.getElementById('Profile_image').src = data[0].Image;
-                    document.getElementById('Profile_Address').innerText = data[0].Address;
-                    document.getElementById('Profile_Experience').innerText = data[0].Freelancing_Experience;
-
-
-                    // Get the skills string from the data
-                    const skillsString = data[0].Skills.split(',');
-                    console.log(skillsString)
-                    // const skillsArray = skillsString.split(',').map(skills => skills.trim());
-                    const firstTwoSkills = skillsString.slice(0, 2);
-                    // Split the skills string into an array
-                    console.log(firstTwoSkills)
-                    // firstTwoSkills = skillsString.split(', ');
-
-                    // Get the container element where the skill spans will be added
-                    const skillsContainer = document.getElementById('Profile_Skills');
-
-                    // Function to generate a random pastel color
-                    function getRandomPastelColor() {
-                        const hue = Math.floor(Math.random() * 360);
-                        return `hsl(${hue}, 70%, 80%)`;
-                    }
-
-                    // Loop through the skills array and create a span for each skill
-                    firstTwoSkills.forEach(skill => {
-                        const skillTag = document.createElement('span');
-                        const backgroundColor = getRandomPastelColor();
-                        const textColor = `hsl(${backgroundColor.match(/\d+/)[0]}, 70%, 30%)`;
-
-                        skillTag.className = 'inline-flex items-center px-3 py-1 rounded-full text-sm font-medium transition-all duration-200 ease-in-out transform hover:scale-105 hover:shadow-md';
-                        skillTag.style.backgroundColor = backgroundColor;
-                        skillTag.style.color = textColor;
-                        skillTag.style.border = `1px solid ${textColor}`;
-
-                        // Create an icon element (you can replace this with any icon library you prefer)
-                        const icon = document.createElement('span');
-                        icon.innerHTML = '&#9733;'; // Star icon
-                        icon.className = 'mr-1';
-
-                        skillTag.appendChild(icon);
-                        skillTag.appendChild(document.createTextNode(skill));
-
-                        skillsContainer.appendChild(skillTag);
-                    });
-
-                    // Add a subtle animation to the skills container
-                    skillsContainer.style.animation = 'fadeIn 0.5s ease-in-out';
-
-                    // Add the animation keyframes to the document
-                    const style = document.createElement('style');
-                    style.textContent = `
-    @keyframes fadeIn {
-        from { opacity: 0; transform: translateY(10px); }
-        to { opacity: 1; transform: translateY(0); }
-    }
-`;
-                    document.head.appendChild(style);
-
-                    // Assuming data is an array of objects where each object has a Portfolio_Links property
-                    const linksString = data[0].Portfolio_Links;
-
-                    // Split the string into key-value pairs
-                    const pairs = linksString.split(',');
-
-                    // Define an object to map keys to their respective image URLs and container styles
-                    const platformMap = {
-                        'Fiverr': {
-                            imgSrc: 'https://cdn.worldvectorlogo.com/logos/fiverr-1.svg',
-                            bgColor: 'bg-green-100'
-                        },
-                        'Upwork': {
-                            imgSrc: 'https://cdn.worldvectorlogo.com/logos/upwork.svg',
-                            bgColor: 'bg-green-100'
-                        },
-                        'Freelancer': {
-                            imgSrc: 'https://www.f-cdn.com/assets/main/en/assets/freelancer-logo-light.svg',
-                            bgColor: 'bg-blue-100'
-                        },
-                        'Toptal': {
-                            imgSrc: 'https://bs-uploads.toptal.io/blackfish-uploads/uploaded_file/file/173824/image-1580243128243-b6df35fac3e5bed02385cb5496a7effa.png',
-                            bgColor: 'bg-blue-100'
-                        },
-                        'Guru': {
-                            imgSrc: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABwAAAAcCAMAAABF0y+mAAAAflBMVEX////8/PyOjo6WlpavxuNnlsx/pdPj6/VycnEgIB8ZGReKiYcgcb03e8Da5PGdnZ0zMzIoKCdpaWjQ3/O6zui8vLzY2NgjIyE5OThBQUDm5ub08/NhX1xHR0ZQUE4AAADIyMewsLATExF/f38xMTDu7u7d3d0KCgbMzMxTU1PRvMujAAAAw0lEQVR4Ad2RBQKDMAwAg9MwoCnubv9/4HzDXrBdXeLwh0iyAqqm6aoBZ0yGlnGx72jO8c1lnAR4nq/btg5BuH2zMIqTNMuLECQdSqzq9a1po+a+dFHP70vWcrLWx4GoHABkpOJ+KHpWbfWmEaGcgtJlqYxRXw+wJRMtwyjPCVkrJDgSdpz3PeddCGdq0T8fzfr0NBYYIUsSdl+KdP8WTITy+NLeUjvvVE60fB1MC5rC9S2tKgEblqrK1opIq/Prxa9xA5pMDjQnd/T3AAAAAElFTkSuQmCC',
-                            bgColor: 'bg-purple-100'
-                        },
-                        'Other': {
-                            imgSrc: '',
-                            bgColor: 'bg-gray-100',
-                            isIcon: true,
-                            iconClass: 'fas fa-globe text-purple-400 text-xxs lg:text-xs'
-                        }
-                    };
-
-                    // Initialize an object to store URLs for each platform
-                    // Initialize an object to store URLs for each platform
-                    const platformUrls = {};
-                    let generatedHTML = '';
-
-                    // Parse the input string and populate platformUrls
-                    pairs.forEach(pair => {
-                        // Split by the first occurrence of ':'
-                        const [key, ...valueParts] = pair.split(':');
-                        const value = valueParts.join(':');
-
-                        // Trim any whitespace around the key and value
-                        const trimmedKey = key.trim();
-                        const trimmedValue = value.trim();
-
-                        console.log(`Processing platform: ${trimmedKey}, URL: ${trimmedValue}`);
-
-                        // Check if the platform key exists in the map
-                        if (platformMap[trimmedKey]) {
-                            const platform = platformMap[trimmedKey];
-
-                            // Build the HTML for each platform icon/link
-                            generatedHTML += `
-            <div class="w-6 h-6 lg:w-6 lg:h-6 rounded-full ${platform.bgColor} flex items-center justify-center">
-                <a href="${trimmedValue}" target="_blank" class="flex items-center justify-center">
-                    ${platform.isIcon ?
-                                    `<i class="${platform.iconClass}"></i>` :
-                                    `<img src="${platform.imgSrc}" alt="${trimmedKey} Logo" class="w-6 h-6 lg:w-4 lg:h-4">`
-                                }
-                </a>
-            </div>
-        `;
-                        } else {
-                            console.warn(`Platform not found in platformMap: ${trimmedKey}`);
-                        }
-                    });
-
-                    // Append the generated HTML to a container element
-                    // const container = document.getElementById('platformIconsContainer');
-                    // container.innerHTML = generatedHTML;
-
-                    console.log(platformUrls)
-                    //                 let generatedHTML = '';
-
-                    //                 // Generate HTML for each platform in the platformMap
-                    //                 Object.keys(platformMap).forEach(platform => {
-                    //                     if (platformUrls[platform]) {
-                    //                         const platformInfo = platformMap[platform];
-                    //                         generatedHTML += `
-                    //     <div class="w-6 h-6 lg:w-6 lg:h-6 rounded-full ${platformInfo.bgColor} flex items-center justify-center">
-                    //         <a href="${platformUrls[platform]}" target="_blank">
-                    //             ${platformInfo.isIcon ?
-                    //                                 `<i class="${platformInfo.iconClass}"></i>` :
-                    //                                 `<img src="${platformInfo.imgSrc}" alt="${platform}" class="w-6 h-6 lg:w-4 lg:h-4">`
-                    //                             }
-                    //         </a>
-                    //     </div>
-                    // // `;
-                    //                     }
-                    //                 });
-
-                    // Get the container element where icons will be generated
-                    const container = document.getElementById('Profile_Portfolios');
-
-                    // Append generatedHTML to the container
-                    container.innerHTML = generatedHTML;
-
-
-
-
-                })
-                .catch(error => {
-                    console.error('Error fetching user profiles:', error);
-                });
-        }
-
         document.getElementById('toggle-link').addEventListener('click', function (event) {
             event.preventDefault();
             var postText = document.getElementById('post-text');
@@ -805,15 +702,13 @@
             });
         }
 
-        mapButton.addEventListener('click', (event) => {
-            event.preventDefault();  // Prevent default button behavior
+        mapButton.addEventListener('click', () => {
             mapModal.classList.remove('hidden');
             // Initialize the map after the modal is visible
             setTimeout(initMap, 0);
         });
 
-        closeModal.addEventListener('click', (event) => {
-            event.preventDefault();  // Prevent default button behavior
+        closeModal.addEventListener('click', () => {
             mapModal.classList.add('hidden');
         });
 
@@ -832,11 +727,9 @@
             const emojiGrid = document.getElementById('emojiGrid');
             const closeEmojiModal = document.getElementById('closeEmojiModal');
             const emojiTextBox = document.getElementById('emojiTextBox');
-            const speechButton = document.getElementById('speechButton');
-
-            let temp = '';
 
             const popularEmojis = [
+                // Smileys & Emotion
                 { emoji: '😂', category: 'Smileys & Emotion' },
                 { emoji: '❤️', category: 'Smileys & Emotion' },
                 { emoji: '😍', category: 'Smileys & Emotion' },
@@ -857,6 +750,7 @@
                 { emoji: '💙', category: 'Smileys & Emotion' },
                 { emoji: '😢', category: 'Smileys & Emotion' },
                 { emoji: '🤔', category: 'Smileys & Emotion' },
+                // Animals & Nature
                 { emoji: '🐶', category: 'Animals & Nature' },
                 { emoji: '🐱', category: 'Animals & Nature' },
                 { emoji: '🐭', category: 'Animals & Nature' },
@@ -867,6 +761,7 @@
                 { emoji: '🐼', category: 'Animals & Nature' },
                 { emoji: '🐨', category: 'Animals & Nature' },
                 { emoji: '🐯', category: 'Animals & Nature' },
+                // Food & Drink
                 { emoji: '🍇', category: 'Food & Drink' },
                 { emoji: '🍈', category: 'Food & Drink' },
                 { emoji: '🍉', category: 'Food & Drink' },
@@ -877,6 +772,7 @@
                 { emoji: '🥭', category: 'Food & Drink' },
                 { emoji: '🍎', category: 'Food & Drink' },
                 { emoji: '🍏', category: 'Food & Drink' },
+                // Activities
                 { emoji: '⚽', category: 'Activities' },
                 { emoji: '🏀', category: 'Activities' },
                 { emoji: '🏈', category: 'Activities' },
@@ -887,6 +783,7 @@
                 { emoji: '🏸', category: 'Activities' },
                 { emoji: '🥅', category: 'Activities' },
                 { emoji: '🏒', category: 'Activities' },
+                // Travel & Places
                 { emoji: '🚗', category: 'Travel & Places' },
                 { emoji: '🚕', category: 'Travel & Places' },
                 { emoji: '🚙', category: 'Travel & Places' },
@@ -897,6 +794,7 @@
                 { emoji: '🚑', category: 'Travel & Places' },
                 { emoji: '🚒', category: 'Travel & Places' },
                 { emoji: '🚐', category: 'Travel & Places' },
+                // Objects
                 { emoji: '⌚', category: 'Objects' },
                 { emoji: '📱', category: 'Objects' },
                 { emoji: '💻', category: 'Objects' },
@@ -909,171 +807,34 @@
                 { emoji: '🗜️', category: 'Objects' },
             ];
 
+            // Function to populate emojis in the modal grid
             function populateEmojis() {
                 popularEmojis.forEach(item => {
                     const emojiButton = document.createElement('button');
                     emojiButton.textContent = item.emoji;
                     emojiButton.className = 'text-3xl hover:bg-gray-100 p-2 rounded';
                     emojiButton.onclick = (event) => {
-                        event.preventDefault();
-                        const caretPos = emojiTextBox.selectionStart;
-                        const textBefore = emojiTextBox.value.substring(0, caretPos);
-                        const textAfter = emojiTextBox.value.substring(caretPos, emojiTextBox.value.length);
-                        emojiTextBox.value = textBefore + item.emoji + textAfter;
-                        temp = emojiTextBox.value;
-                        emojiTextBox.focus();
-                        emojiTextBox.selectionStart = caretPos + item.emoji.length;
-                        emojiTextBox.selectionEnd = caretPos + item.emoji.length;
+                        event.preventDefault(); // Prevent form submission or link follow
+                        emojiTextBox.value += item.emoji; // Add emoji to the text box
                     };
                     emojiGrid.appendChild(emojiButton);
                 });
             }
 
+            // Open modal when imojiButton is clicked
             imojiButton.onclick = (event) => {
-                event.preventDefault();
-                emojiGrid.innerHTML = '';
-                populateEmojis();
-                emojiModal.classList.remove('hidden');
+                event.preventDefault(); // Prevent any default behavior
+                emojiGrid.innerHTML = ''; // Clear previous emojis
+                populateEmojis(); // Populate emojis in the modal
+                emojiModal.classList.remove('hidden'); // Show the modal
             };
 
+            // Close modal when closeEmojiModal button is clicked
             closeEmojiModal.onclick = (event) => {
-                event.preventDefault();
-                emojiModal.classList.add('hidden');
+                event.preventDefault(); // Prevent the default behavior (e.g., form submission or link follow)
+                emojiModal.classList.add('hidden'); // Hide the modal
             };
-
-            // Speech Recognition Setup
-            let recognition;
-            let recognizing = false;
-
-            function initializeSpeechRecognition() {
-                if (!('webkitSpeechRecognition' in window)) {
-                    emojiTextBox.placeholder = "Your browser does not support WebKit Speech Recognition.";
-                } else {
-                    recognition = new webkitSpeechRecognition();
-                    recognition.continuous = true;
-                    recognition.interimResults = true;
-
-                    recognition.onstart = function () {
-                        recognizing = true;
-                        emojiTextBox.placeholder = "Listening...";
-                        speechButton.innerHTML = `<i class="fas fa-microphone-slash text-xl"></i>`;
-                    };
-
-                    recognition.onresult = function (event) {
-                        let interimTranscript = '';
-                        for (let i = event.resultIndex; i < event.results.length; i++) {
-                            const transcript = event.results[i][0].transcript;
-                            if (event.results[i].isFinal) {
-                                temp += transcript + ' ';
-                            } else {
-                                interimTranscript += transcript;
-                            }
-                        }
-                        if (interimTranscript.trim() !== '') {
-                            emojiTextBox.value = temp + interimTranscript;
-                        }
-                    };
-
-                    recognition.onerror = function (event) {
-                        console.error("Speech recognition error: ", event.error);
-                    };
-
-                    recognition.onend = function () {
-                        emojiTextBox.placeholder = "Type here...";
-                        speechButton.innerHTML = `<i class="fas fa-microphone text-xl"></i>`;
-                        recognizing = false;
-                    };
-
-                    speechButton.onclick = function () {
-                        if (recognizing) {
-                            recognition.stop();
-                        } else {
-                            recognition.start();
-                        }
-                    };
-
-                    emojiTextBox.onclick = function () {
-                        if (recognizing) {
-                            recognition.stop();
-                        }
-                    };
-
-                    emojiTextBox.oninput = function () {
-                        temp = emojiTextBox.value;
-                    };
-                }
-            }
-
-            initializeSpeechRecognition();
         });
-        const imageInput = document.getElementById('imageInput');
-        const fileNameDisplay = document.getElementById('fileNameDisplay');
-
-        let selectedImageFile = null; // Variable to store the selected image file
-
-        // Event listener for the file input change
-        imageInput.addEventListener('change', function (event) {
-            const files = event.target.files;
-            if (files.length > 0) {
-                fileNameDisplay.innerHTML = `
-            Selected file: ${files[0].name}
-            <button id="removeImage" class="ml-2 text-red-500 hover:text-red-700">
-                <i class="fas fa-times"></i>
-            </button>
-        `;
-                // Store the selected file
-                selectedImageFile = files[0];
-
-                // Add click event listener to the remove button
-                document.getElementById('removeImage').addEventListener('click', function () {
-                    imageInput.value = ''; // Clear the file input
-                    fileNameDisplay.innerHTML = ''; // Clear the file name display
-                    selectedImageFile = null; // Reset the selected image file variable
-                });
-            } else {
-                fileNameDisplay.innerHTML = ''; // Clear the file name display if no file is selected
-                selectedImageFile = null; // Reset the selected image file variable
-            }
-        });
-
-        document.getElementById('postButton').addEventListener('click', async (event) => {
-            event.preventDefault();
-            const emojiText = emojiTextBox.value;
-            console.log(emojiText)
-            console.log(selectedImageFile)
-
-
-            // Clear the text area
-            // emojiTextBox.value = '';
-            // // Reset the file input and display
-            // // fileNameDisplay.innerHTML = '';
-            // imageInput.value = ''; // Clear the file input
-            // fileNameDisplay.innerHTML = ''; // Clear the file name display
-            // Reset the temp variable used in speech recognition
-            temp = '';
-
-
-            // Prepare FormData
-            const formData = new FormData();
-            formData.append('emojiText', emojiText);
-
-            formData.append('imageFile', selectedImageFile);
-            fileNameDisplay.innerHTML = '';
-            emojiTextBox.value = '';
-            imageInput.value = '';
-
-
-            fetch('/user_blog', {
-                method: 'POST',
-                body: formData
-            })
-                .then(response => response.json())
-                .then(data => {
-                    // const errorContainer = document.getElementById('error_show');
-                    console.log(data);
-                });
-        })
-
 
     </script>
 </body>
