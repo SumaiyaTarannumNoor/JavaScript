@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+    </style>
+</head>
+
+<body class="bg-gray-100">
+    <div class="flex flex-col h-screen">
+        <!-- Header with Hamburger Menu -->
+        <header class="bg-gradient-to-r from-[#5a1baf] to-[#8a3ef5] p-4 flex justify-between items-center md:hidden">
+            <h1 class="text-white text-xl font-bold">Admin Panel</h1>
+            <button id="menu-toggle" class="text-white">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7">
+                    </path>
+                </svg>
+            </button>
+        </header>
+
+        <div class="flex flex-1 overflow-hidden">
+            <!-- Sidebar -->
+            <div id="sidebar"
+                class="w-64 bg-gradient-to-b from-[#5a1baf] to-[#8a3ef5] text-white hidden md:block absolute md:relative h-full z-10 transition-all duration-300 ease-in-out overflow-y-auto">
+                <div class="p-4">
+                    <h2 class="text-2xl font-semibold mb-6 hidden md:block">Admin Panel</h2>
+                    <nav>
+                        <ul class="space-y-2">
+                            <li><a href="/dashboard" class="block py-2 px-4 hover:bg-white/10 rounded">Dashboard</a>
+                            </li>
+                            <li><a href="/Users_list" class="block py-2 px-4 hover:bg-white/10 rounded">User List</a>
+                            </li>
+                            <li><a href="/Users_blogs" class="block py-2 px-4 hover:bg-white/10 rounded">Blogs</a></li>
+                            <li><a href="/Admin_to_LandingPage_CarouselImage"
+                                    class="block py-2 px-4 hover:bg-white/10 rounded">Landing Page Carousel Image</a>
+                            </li>
+                            <li><a href="/Admin_to_LandingPage_AboutUs"
+                                    class="block py-2 px-4 hover:bg-white/10 rounded">Landing Page About Us</a></li>
+                            <li><a href="/Admin_to_LandingPage_Latest"
+                                    class="block py-2 px-4 hover:bg-white/10 rounded">Landing Page Latest Videos</a>
+                            </li>
+                            <li><a href="/Admin_to_LandingPage_Trending"
+                                    class="block py-2 px-4 hover:bg-white/10 rounded">Landing Page Trending Videos</a>
+                            </li>
+                            <li><a href="/Admin_to_LandingPage_Seminer"
+                                    class="block py-2 px-4 hover:bg-white/10 rounded">Landing Page Seminer Update</a>
+                            </li>
+                            <li><a href="/Admin_to_LandingPage_SuccessStories"
+                                    class="block py-2 px-4 hover:bg-white/10 rounded">Landing Page Success Stories</a>
+                            </li>
+                            <li><a href="/Admin_to_LandingPage_AdminBlog"
+                                    class="block py-2 px-4 hover:bg-white/10 rounded">Landing Page Admin Blog</a>
+                            </li>
+                            <li><a href="#" class="block py-2 px-4 hover:bg-white/10 rounded">Courses</a></li>
+                            <li><a href="#" class="block py-2 px-4 hover:bg-white/10 rounded">Products</a></li>
+                            <li><a href="#" class="block py-2 px-4 hover:bg-white/10 rounded">Gallery and Partners</a>
+                            </li>
+                            <li><a href="#" class="block py-2 px-4 hover:bg-white/10 rounded">Setting</a></li>
+                            <li>
+                                <form action="{{ url_for('logout') }}" method="post"
+                                    class="block py-2 px-4 hover:bg-white/10 rounded">
+                                    <button type="submit" class="w-full text-left">Sign Out</button>
+                                </form>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+
+            <!-- Main Content -->
+            <div class="flex-1 overflow-auto">
+                <div class="p-4 md:p-8">
+                    <h1 class="text-xl md:text-2xl font-bold mb-6 text-gray-800">Dashboard</h1>
+
+                    <div
+                        class="space-y-4 mb-12 bg-white p-4 md:p-6 lg:p-8 rounded-lg shadow-lg border border-purple-600 w-full max-w-2xl mx-auto">
+                        <h2 class="text-xl font-semibold text-gray-900 mb-4">Landing Page Trending Videos</h2>
+                    </div>
+
+                    <div class="max-w-7xl mx-auto">
+                        <div class="mt-6 mb-12 overflow-x-auto bg-white rounded-lg shadow-lg border border-purple-600">
+                            <h3 class="text-lg font-semibold text-gray-800 mb-4 px-6 pt-4">Trending Videos</h3>
+                            <div class="overflow-x-auto">
+                                <table class="min-w-full border-collapse border border-purple-600 w-full">
+                                    <thead>
+                                        <tr class="bg-purple-100">
+                                            <th class="border border-purple-600 px-4 py-2 text-left">Video ID</th>
+                                            <th class="border border-purple-600 px-4 py-2 text-left">Link</th>
+                                            <th class="border border-purple-600 px-4 py-2 text-left">Title</th>
+                                            <th class="border border-purple-600 px-4 py-2 text-left">Details</th>
+                                            <th class="border border-purple-600 px-4 py-2 text-left">Created At</th>
+                                            <th class="border border-purple-600 px-4 py-2 text-left">Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="table-body">
+                                        <!-- Rows will be dynamically added here -->
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div id="pagination" class="mt-4 flex justify-center mb-12">
+                                <button id="prev-btn"
+                                    class="bg-purple-600 text-white px-4 py-2 rounded-l hover:bg-purple-700"
+                                    disabled>Prev</button>
+                                <span id="page-info" class="mx-2 py-2"></span>
+                                <button id="next-btn"
+                                    class="bg-purple-600 text-white px-4 py-2 rounded-r hover:bg-purple-700">Next</button>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
+                        <div class="bg-white p-4 rounded-lg shadow">
+                            <h2 class="text-sm font-semibold text-gray-600">Verified Users</h2>
+                            <p class="text-3xl font-bold text-blue-600">75</p>
+                            <div class="mt-4 flex justify-around">
+                                <button
+                                    class="text-white bg-[#5a1baf] hover:bg-blue-400 font-bold py-2 px-4 rounded transition">See
+                                    the List</button>
+                            </div>
+                        </div>
+                        <div class="bg-white p-4 rounded-lg shadow">
+                            <h2 class="text-sm font-semibold text-gray-600">Unverified Users</h2>
+                            <p class="text-3xl font-bold text-purple-600">30</p>
+                            <div class="mt-4 flex justify-around">
+                                <button
+                                    class="text-white bg-[#5a1baf] hover:bg-blue-400 font-bold py-2 px-4 rounded transition">See
+                                    the List</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
+                        <div class="bg-white p-4 rounded-lg shadow">
+                            <h2 class="text-sm font-semibold text-gray-600">Total Blogs</h2>
+                            <p class="text-3xl font-bold text-[#5a1baf]">98</p>
+                        </div>
+                        <div class="bg-white p-4 rounded-lg shadow">
+                            <h2 class="text-sm font-semibold text-gray-600">Blogs by Users</h2>
+                            <p class="text-3xl font-bold text-green-600">33</p>
+                        </div>
+                        <div class="bg-white p-4 rounded-lg shadow">
+                            <h2 class="text-sm font-semibold text-gray-600">Blogs by Admins</h2>
+                            <p class="text-3xl font-bold text-red-600">16</p>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                        <div class="bg-white p-4 rounded-lg shadow">
+                            <h2 class="text-lg font-semibold mb-4 text-[#5a1baf]">Hello World</h2>
+                            <p class="text-gray-600">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                        </div>
+                        <div class="bg-white p-4 rounded-lg shadow">
+                            <h2 class="text-lg font-semibold mb-4 text-[#5a1baf]">Hello World</h2>
+                            <p class="text-gray-600">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const menuToggle = document.getElementById('menu-toggle');
+            const sidebar = document.getElementById('sidebar');
+
+            menuToggle.addEventListener('click', function (e) {
+                e.stopPropagation(); // Prevent event from bubbling up
+                sidebar.classList.toggle('hidden');
+            });
+
+            // Close sidebar when clicking outside on smaller screens
+            document.addEventListener('click', function (e) {
+                if (window.innerWidth < 768 && !sidebar.contains(e.target) && e.target !== menuToggle) {
+                    sidebar.classList.add('hidden');
+                }
+            });
+
+            // Ensure sidebar is visible on larger screens
+            function checkScreenSize() {
+                if (window.innerWidth >= 768) {
+                    sidebar.classList.remove('hidden');
+                } else {
+                    sidebar.classList.add('hidden');
+                }
+            }
+
+            window.addEventListener('resize', checkScreenSize);
+            checkScreenSize(); // Initial check
+        });
+
+        // // JavaScript code to handle logout
+        // document.getElementById('logoutBtn').addEventListener('click', function (event) {
+        //     event.preventDefault(); // Prevent the default link behavior
+
+        //     fetch('/logout', {
+        //         method: 'POST',
+        //         headers: {
+        //             'Content-Type': 'application/json'
+        //         },
+        //         // Optionally send data in the body (if required by your backend)
+        //         body: JSON.stringify({}),
+        //     })
+        //         .then(response => {
+        //             if (response.ok) {
+        //                 return response.json(); // Parse JSON response
+        //             }
+        //             throw new Error('Failed to logout');
+        //         })
+        //         .then(data => {
+        //             alert(data.message); // Show success message (optional)
+        //             window.location.href = '/admin'; // Redirect to admin page or desired location
+        //         })
+        //         .catch(error => console.error('Error logging out:', error));
+        // });
+
+
+        ///////// Landing Page Text ///////////
+
+        let currentPage = 1;
+        const itemsPerPage = 3;
+        let allData = [];
+
+        async function fetchData() {
+            try {
+                const response = await fetch('/fetch_trending_videos_trending');
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                allData = await response.json();
+                updateTable();
+            } catch (error) {
+                console.error('Error fetching data:', error);
+                document.getElementById('table-body').innerHTML = '<tr><td colspan="6" class="px-6 py-4 text-center text-red-500 border border-purple-600">Error fetching data. Please try again later.</td></tr>';
+            }
+        }
+
+        function updateTable() {
+            const tableBody = document.getElementById('table-body');
+            const startIndex = (currentPage - 1) * itemsPerPage;
+            const endIndex = startIndex + itemsPerPage;
+            const pageData = allData.slice(startIndex, endIndex);
+
+            tableBody.innerHTML = '';
+            pageData.forEach(item => {
+                const row = `
+                    <tr class="hover:bg-purple-50">
+                        <td class="border border-purple-600 px-4 py-2">${item.trending_id}</td>
+                        <td class="border border-purple-600 px-4 py-2">
+                            <a href="${item.trending_link}" class="text-blue-600 hover:text-blue-800 break-all" target="_blank">
+                                ${item.trending_link}
+                            </a>
+                        </td>
+                        <td class="border border-purple-600 px-4 py-2">${item.trending_title}</td>
+                        <td class="border border-purple-600 px-4 py-2">${item.trending_details}</td>
+                        <td class="border border-purple-600 px-4 py-2">${item.created_at}</td>
+                        <td class="border border-purple-600 px-4 py-2">
+                            <button onclick="deleteVideo(${item.trending_id})" class="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded">
+                                Delete
+                            </button>
+                        </td>
+                    </tr>
+                `;
+                tableBody.innerHTML += row;
+            });
+
+            updatePagination();
+        }
+
+        function updatePagination() {
+            const totalPages = Math.ceil(allData.length / itemsPerPage);
+            document.getElementById('page-info').textContent = `Page ${currentPage} of ${totalPages}`;
+            document.getElementById('prev-btn').disabled = currentPage === 1;
+            document.getElementById('next-btn').disabled = currentPage === totalPages;
+        }
+
+        document.getElementById('prev-btn').addEventListener('click', () => {
+            if (currentPage > 1) {
+                currentPage--;
+                updateTable();
+            }
+        });
+
+        document.getElementById('next-btn').addEventListener('click', () => {
+            const totalPages = Math.ceil(allData.length / itemsPerPage);
+            if (currentPage < totalPages) {
+                currentPage++;
+                updateTable();
+            }
+        });
+
+        async function deleteVideo(trendingId) {
+            if (confirm('Are you sure you want to delete this video?')) {
+                try {
+                    console.log(`Attempting to delete video with ID: ${trendingId}`);
+                    const response = await fetch(`/delete_trending_video/${trendingId}`, {
+                        method: 'DELETE',
+                    });
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    const result = await response.json();
+                    console.log(`Response from server: ${result.message}`);
+                    alert(result.message);
+                    // Remove the deleted item from allData
+                    allData = allData.filter(item => item.trending_id !== trendingId);
+                    // Refresh the table
+                    updateTable();
+                } catch (error) {
+                    console.error('Error deleting video:', error);
+                    alert('An error occurred while deleting the video. Please try again.');
+                }
+            }
+        }
+
+
+        fetchData();
+    </script>
+</body>
+
+</html>
