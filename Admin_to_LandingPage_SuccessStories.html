@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+    </style>
+</head>
+
+<body class="bg-gray-100">
+    <div class="flex flex-col h-screen">
+        <!-- Header with Hamburger Menu -->
+        <header class="bg-gradient-to-r from-[#5a1baf] to-[#8a3ef5] p-4 flex justify-between items-center md:hidden">
+            <h1 class="text-white text-xl font-bold">Admin Panel</h1>
+            <button id="menu-toggle" class="text-white">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7">
+                    </path>
+                </svg>
+            </button>
+        </header>
+
+        <div class="flex flex-1 overflow-hidden">
+            <!-- Sidebar -->
+            <div id="sidebar"
+                class="w-64 bg-gradient-to-b from-[#5a1baf] to-[#8a3ef5] text-white hidden md:block absolute md:relative h-full z-10 transition-all duration-300 ease-in-out overflow-y-auto">
+                <div class="p-4">
+                    <h2 class="text-2xl font-semibold mb-6 hidden md:block">Admin Panel</h2>
+                    <nav>
+                        <ul class="space-y-2">
+                            <li><a href="/dashboard" class="block py-2 px-4 hover:bg-white/10 rounded">Dashboard</a>
+                            </li>
+                            <li><a href="/Users_list" class="block py-2 px-4 hover:bg-white/10 rounded">User List</a>
+                            </li>
+                            <li><a href="/Users_blogs" class="block py-2 px-4 hover:bg-white/10 rounded">Blogs</a></li>
+                            <li><a href="/Admin_to_LandingPage_CarouselImage"
+                                    class="block py-2 px-4 hover:bg-white/10 rounded">Landing Page Carousel Image</a>
+                            </li>
+                            <li><a href="/Admin_to_LandingPage_AboutUs"
+                                    class="block py-2 px-4 hover:bg-white/10 rounded">Landing Page About Us</a></li>
+                            <li><a href="/Admin_to_LandingPage_Latest"
+                                    class="block py-2 px-4 hover:bg-white/10 rounded">Landing Page Latest Videos</a>
+                            </li>
+                            <li><a href="/Admin_to_LandingPage_Trending"
+                                    class="block py-2 px-4 hover:bg-white/10 rounded">Landing Page Trending Videos</a>
+                            </li>
+                            <li><a href="/Admin_to_LandingPage_Seminer"
+                                    class="block py-2 px-4 hover:bg-white/10 rounded">Landing Page Seminer Update</a>
+                            </li>
+                            <li><a href="/Admin_to_LandingPage_SuccessStories"
+                                    class="block py-2 px-4 hover:bg-white/10 rounded">Landing Page Success Stories</a>
+                            </li>
+                            <li><a href="/Admin_to_LandingPage_AdminBlog"
+                                    class="block py-2 px-4 hover:bg-white/10 rounded">Landing Page Admin Blog</a>
+                            </li>
+                            <li><a href="#" class="block py-2 px-4 hover:bg-white/10 rounded">Courses</a></li>
+                            <li><a href="#" class="block py-2 px-4 hover:bg-white/10 rounded">Products</a></li>
+                            <li><a href="#" class="block py-2 px-4 hover:bg-white/10 rounded">Gallery and Partners</a>
+                            </li>
+                            <li><a href="#" class="block py-2 px-4 hover:bg-white/10 rounded">Setting</a></li>
+                            <li>
+                                <form action="{{ url_for('logout') }}" method="post"
+                                    class="block py-2 px-4 hover:bg-white/10 rounded">
+                                    <button type="submit" class="w-full text-left">Sign Out</button>
+                                </form>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+
+            <!-- Main Content -->
+            <div class="flex-1 overflow-auto">
+                <div class="p-4 md:p-8">
+                    <h1 class="text-xl md:text-2xl font-bold mb-6 text-gray-800">Dashboard</h1>
+
+                    <div
+                        class="space-y-4 mb-12 bg-white p-4 md:p-6 lg:p-8 rounded-lg shadow-lg border border-purple-600 w-full max-w-2xl mx-auto">
+                        <h2 class="text-xl font-semibold text-gray-900 mb-4">Landing Page Success Stories</h2>
+
+                        <!-- <form id="landing-page-form" class="space-y-4">
+                            <div>
+                                <label for="latest-link" class="block text-sm font-medium text-purple-700">Video
+                                    Link</label>
+                                <div class="mt-1 p-1 border-2 border-purple-600 rounded-md">
+                                    <input type="text" id="latest-link" name="latest-link"
+                                        class="p-2 block w-full rounded-md border-none shadow-sm focus:border-purple-500 focus:ring focus:ring-purple-500 focus:ring-opacity-50"
+                                        placeholder="Enter video link">
+                                </div>
+                            </div>
+
+                            <div>
+                                <label for="latest-title" class="block text-sm font-medium text-purple-700">Video
+                                    Title</label>
+                                <div class="mt-1 p-1 border-2 border-purple-600 rounded-md">
+                                    <input type="text" id="latest-title" name="latest-title"
+                                        class="p-2 block w-full rounded-md border-none shadow-sm focus:border-purple-500 focus:ring focus:ring-purple-500 focus:ring-opacity-50"
+                                        placeholder="Enter video title">
+                                </div>
+                            </div>
+
+                            <div>
+                                <label for="latest-details" class="block text-sm font-medium text-purple-700">Video
+                                    Details</label>
+                                <div class="mt-1 p-1 border-2 border-purple-600 rounded-md">
+                                    <textarea id="latest-details" name="latest-details" rows="4"
+                                        class="p-2 block w-full rounded-md border-none shadow-sm focus:border-purple-500 focus:ring focus:ring-purple-500 focus:ring-opacity-50 resize"
+                                        placeholder="Enter video details"></textarea>
+                                </div>
+                            </div>
+
+
+                            <div class="mt-4 flex justify-around">
+                                <button type="submit"
+                                    class="w-full py-2 px-4 rounded bg-purple-600 text-white font-bold hover:bg-purple-700 transition ease-in-out duration-300">
+                                    Submit
+                                </button>
+                            </div>
+
+
+                        </form> -->
+
+
+                        <form id="landing-page-form" class="space-y-4">
+                            <div>
+                                <label for="latest-link" class="block text-sm font-medium text-purple-700">Video
+                                    Link</label>
+                                <div class="mt-1 p-1 border-2 border-purple-600 rounded-md">
+                                    <input type="text" id="latest-link" name="latest-link"
+                                        class="p-2 block w-full rounded-md border-none shadow-sm focus:border-purple-500 focus:ring focus:ring-purple-500 focus:ring-opacity-50"
+                                        placeholder="Enter video link">
+                                </div>
+                            </div>
+
+                            <div>
+                                <label for="latest-title" class="block text-sm font-medium text-purple-700">Video
+                                    Title</label>
+                                <div class="mt-1 p-1 border-2 border-purple-600 rounded-md">
+                                    <input type="text" id="latest-title" name="latest-title"
+                                        class="p-2 block w-full rounded-md border-none shadow-sm focus:border-purple-500 focus:ring focus:ring-purple-500 focus:ring-opacity-50"
+                                        placeholder="Enter video title">
+                                </div>
+                            </div>
+
+                            <div>
+                                <label for="latest-details" class="block text-sm font-medium text-purple-700">Video
+                                    Details</label>
+                                <div class="mt-1 p-1 border-2 border-purple-600 rounded-md">
+                                    <textarea id="latest-details" name="latest-details" rows="4"
+                                        class="p-2 block w-full rounded-md border-none shadow-sm focus:border-purple-500 focus:ring focus:ring-purple-500 focus:ring-opacity-50 resize"
+                                        placeholder="Enter video details"></textarea>
+                                </div>
+                            </div>
+
+                            <div>
+                                <label class="block text-sm font-medium text-purple-700">Success Stories Image</label>
+                                <div class="mt-1 p-1 border-2 border-purple-600 rounded-md">
+                                    <input type="file" id="success-image" accept="image/png, image/jpeg, image/jpg"
+                                        class="p-2 block w-full rounded-md border-none shadow-sm focus:border-purple-500 focus:ring focus:ring-purple-500 focus:ring-opacity-50">
+                                </div>
+                            </div>
+
+                            <div class="mt-4 flex justify-around">
+                                <button type="submit"
+                                    class="w-full py-2 px-4 rounded bg-purple-600 text-white font-bold hover:bg-purple-700 transition ease-in-out duration-300">
+                                    Submit
+                                </button>
+                            </div>
+                        </form>
+
+
+
+
+
+
+                    </div>
+
+                    <div class="mt-6 mb-12 overflow-x-auto bg-white rounded-lg shadow-lg border border-purple-600">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-4">Success Stories</h3>
+                        <div class="overflow-x-hidden">
+                            <table class="min-w-full border-collapse border border-purple-600 w-full">
+                                <thead>
+                                    <tr class="bg-purple-100">
+                                        <th class="border border-purple-600 px-4 py-2 text-left">Success ID</th>
+                                        <th class="border border-purple-600 px-4 py-2 text-left">Link</th>
+                                        <th class="border border-purple-600 px-4 py-2 text-left">Title</th>
+                                        <th class="border border-purple-600 px-4 py-2 text-left">Details</th>
+                                        <th class="border border-purple-600 px-4 py-2 text-left">Image</th>
+                                        <th class="border border-purple-600 px-4 py-2 text-left">DELETE</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="text_table_body">
+                                    <!-- Rows will be dynamically added here -->
+                                </tbody>
+                            </table>
+                        </div>
+                        <div id="pagination" class="mt-4 flex justify-center mb-12">
+                            <button id="previous_page_button"
+                                class="bg-purple-600 text-white px-4 py-2 rounded-l hover:bg-purple-700"
+                                disabled>Prev</button>
+                            <span id="current_page_text" class="mx-2"></span>
+                            <button id="next_page_button"
+                                class="bg-purple-600 text-white px-4 py-2 rounded-r hover:bg-purple-700">Next</button>
+                        </div>
+                    </div>
+
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
+                        <div class="bg-white p-4 rounded-lg shadow">
+                            <h2 class="text-sm font-semibold text-gray-600">Verified Users</h2>
+                            <p class="text-3xl font-bold text-blue-600">75</p>
+                            <div class="mt-4 flex justify-around">
+                                <button
+                                    class="text-white bg-[#5a1baf] hover:bg-blue-400 font-bold py-2 px-4 rounded transition">See
+                                    the List</button>
+                            </div>
+                        </div>
+                        <div class="bg-white p-4 rounded-lg shadow">
+                            <h2 class="text-sm font-semibold text-gray-600">Unverified Users</h2>
+                            <p class="text-3xl font-bold text-purple-600">30</p>
+                            <div class="mt-4 flex justify-around">
+                                <button
+                                    class="text-white bg-[#5a1baf] hover:bg-blue-400 font-bold py-2 px-4 rounded transition">See
+                                    the List</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
+                        <div class="bg-white p-4 rounded-lg shadow">
+                            <h2 class="text-sm font-semibold text-gray-600">Total Blogs</h2>
+                            <p class="text-3xl font-bold text-[#5a1baf]">98</p>
+                        </div>
+                        <div class="bg-white p-4 rounded-lg shadow">
+                            <h2 class="text-sm font-semibold text-gray-600">Blogs by Users</h2>
+                            <p class="text-3xl font-bold text-green-600">33</p>
+                        </div>
+                        <div class="bg-white p-4 rounded-lg shadow">
+                            <h2 class="text-sm font-semibold text-gray-600">Blogs by Admins</h2>
+                            <p class="text-3xl font-bold text-red-600">16</p>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                        <div class="bg-white p-4 rounded-lg shadow">
+                            <h2 class="text-lg font-semibold mb-4 text-[#5a1baf]">Hello World</h2>
+                            <p class="text-gray-600">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                        </div>
+                        <div class="bg-white p-4 rounded-lg shadow">
+                            <h2 class="text-lg font-semibold mb-4 text-[#5a1baf]">Hello World</h2>
+                            <p class="text-gray-600">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const menuToggle = document.getElementById('menu-toggle');
+            const sidebar = document.getElementById('sidebar');
+
+            menuToggle.addEventListener('click', function (e) {
+                e.stopPropagation(); // Prevent event from bubbling up
+                sidebar.classList.toggle('hidden');
+            });
+
+            // Close sidebar when clicking outside on smaller screens
+            document.addEventListener('click', function (e) {
+                if (window.innerWidth < 768 && !sidebar.contains(e.target) && e.target !== menuToggle) {
+                    sidebar.classList.add('hidden');
+                }
+            });
+
+            // Ensure sidebar is visible on larger screens
+            function checkScreenSize() {
+                if (window.innerWidth >= 768) {
+                    sidebar.classList.remove('hidden');
+                } else {
+                    sidebar.classList.add('hidden');
+                }
+            }
+
+            window.addEventListener('resize', checkScreenSize);
+            checkScreenSize(); // Initial check
+        });
+
+        // // JavaScript code to handle logout
+        // document.getElementById('logoutBtn').addEventListener('click', function (event) {
+        //     event.preventDefault(); // Prevent the default link behavior
+
+        //     fetch('/logout', {
+        //         method: 'POST',
+        //         headers: {
+        //             'Content-Type': 'application/json'
+        //         },
+        //         // Optionally send data in the body (if required by your backend)
+        //         body: JSON.stringify({}),
+        //     })
+        //         .then(response => {
+        //             if (response.ok) {
+        //                 return response.json(); // Parse JSON response
+        //             }
+        //             throw new Error('Failed to logout');
+        //         })
+        //         .then(data => {
+        //             alert(data.message); // Show success message (optional)
+        //             window.location.href = '/admin'; // Redirect to admin page or desired location
+        //         })
+        //         .catch(error => console.error('Error logging out:', error));
+        // });
+
+
+        ///////// Landing Page Text ///////////
+
+        // document.getElementById('landing-page-form').addEventListener('submit', async function (event) {
+        //     event.preventDefault();
+
+        //     const latestLink = document.getElementById('latest-link').value;
+        //     const latestTitle = document.getElementById('latest-title').value;
+        //     const latestDetails = document.getElementById('latest-details').value;
+
+        //     const data = {
+        //         latest_link: latestLink,
+        //         latest_title: latestTitle,
+        //         latest_details: latestDetails
+        //     };
+
+        //     try {
+        //         const response = await fetch('/latest_video_upload', {
+        //             method: 'POST',
+        //             headers: {
+        //                 'Content-Type': 'application/json'
+        //             },
+        //             body: JSON.stringify(data)
+        //         });
+
+        //         const result = await response.json();
+
+        //         if (response.ok) {
+        //             document.getElementById('landing-page-form').reset(); // Clear the form fields
+        //             alert('Post successful');
+        //         } else {
+        //             alert(result.message || 'An error occurred. Please try again.');
+        //         }
+        //     } catch (error) {
+        //         console.error('Error submitting form:', error);
+        //         alert('An error occurred. Please try again.');
+        //     } finally {
+        //         window.location.reload(); // Reload the window after form submission attempt
+        //     }
+        // });
+
+
+        document.getElementById('landing-page-form').addEventListener('submit', async function (event) {
+            event.preventDefault(); // Prevent default form submission
+
+            const link = document.getElementById('latest-link').value;
+            const title = document.getElementById('latest-title').value;
+            const details = document.getElementById('latest-details').value;
+            const fileInput = document.getElementById('success-image');
+
+            if (fileInput.files.length === 0) {
+                alert("Please select an image.");
+                return;
+            }
+
+            const file = fileInput.files[0];
+            const reader = new FileReader();
+
+            reader.onloadend = async function () {
+                const base64Image = reader.result;
+
+                // Prepare the payload
+                const payload = {
+                    success_link: link,
+                    success_title: title,
+                    success_details: details,
+                    success_image: base64Image
+                };
+
+                try {
+                    // Send the data to the server
+                    const response = await fetch('/success_story_upload', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify(payload),
+                    });
+
+                    const result = await response.json();
+                    alert(result.message);
+
+                    // Reset the form fields after successful submission
+                    document.getElementById('landing-page-form').reset();
+
+                } catch (error) {
+                    console.error('Error:', error);
+                    alert('An error occurred while uploading the success story.');
+                }
+            };
+
+            reader.readAsDataURL(file);
+        });
+
+        ///////////////////////
+        document.addEventListener('DOMContentLoaded', function () {
+            let currentPage = 1;
+            const recordsPerPage = 3;
+
+            function fetchSuccessStories(page) {
+                fetch(`/fetch_success_stories`)
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.message) {
+                            console.log(data.message);
+                        } else {
+                            displaySuccessStories(data, page);
+                            updatePagination(data.length, page);
+                        }
+                    })
+                    .catch(error => console.error('Error fetching success stories:', error));
+            }
+
+            function displaySuccessStories(successStories, page) {
+                const tbody = document.getElementById('text_table_body');
+                tbody.innerHTML = '';
+                const start = (page - 1) * recordsPerPage;
+                const end = page * recordsPerPage;
+                const pageSuccessStories = successStories.slice(start, end);
+
+                pageSuccessStories.forEach(story => {
+                    const tr = document.createElement('tr');
+                    tr.innerHTML = `
+                <td class="border border-purple-600 px-4 py-2">${story.success_id}</td>
+                <td class="border border-purple-600 px-4 py-2">${story.success_link || 'N/A'}</td>
+                <td class="border border-purple-600 px-4 py-2">${story.success_title || 'N/A'}</td>
+                <td class="border border-purple-600 px-4 py-2">${story.success_details || 'N/A'}</td>
+                <td class="border border-purple-600 px-4 py-2">
+                    ${story.success_image ? `<img src="data:image/jpeg;base64,${story.success_image}" alt="${story.success_title}" class="h-16 w-16 object-cover"/>` : 'No Image'}
+                </td>
+                <td class="border border-purple-600 px-4 py-2">
+                    <button class="delete-button bg-red-500 text-white px-4 py-2 rounded hover:bg-red-700 active:bg-red-800 transition-all duration-300" data-id="${story.success_id}">Delete</button>
+                </td>
+            `;
+                    tbody.appendChild(tr);
+                });
+
+                // Attach event listeners to delete buttons
+                document.querySelectorAll('.delete-button').forEach(button => {
+                    button.addEventListener('click', function () {
+                        const successId = this.getAttribute('data-id');
+                        if (confirm('Are you sure you want to delete this success story?')) {
+                            deleteSuccessStory(successId);
+                        }
+                    });
+                });
+            }
+
+            function updatePagination(totalRecords, page) {
+                const totalPages = Math.ceil(totalRecords / recordsPerPage);
+                document.getElementById('current_page_text').textContent = `Page ${page} of ${totalPages}`;
+
+                document.getElementById('previous_page_button').disabled = page === 1;
+                document.getElementById('next_page_button').disabled = page === totalPages;
+            }
+
+            function deleteSuccessStory(successId) {
+                fetch(`/delete_success_story/${successId}`, {
+                    method: 'DELETE'
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.message) {
+                            alert(data.message); // Show alert with the server response
+                            // Refetch and update the table
+                            fetchSuccessStories(currentPage);
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error deleting success story:', error);
+                        alert('An error occurred while deleting the success story.'); // Alert on error
+                    });
+            }
+
+            document.getElementById('previous_page_button').addEventListener('click', () => {
+                if (currentPage > 1) {
+                    currentPage--;
+                    fetchSuccessStories(currentPage);
+                }
+            });
+
+            document.getElementById('next_page_button').addEventListener('click', () => {
+                currentPage++;
+                fetchSuccessStories(currentPage);
+            });
+
+            // Initial fetch
+            fetchSuccessStories(currentPage);
+        });
+    </script>
+</body>
+
+</html>
