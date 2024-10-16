@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teacher Signup Form</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .profile-img {
+            width: 120px;
+            height: 120px;
+            object-fit: cover;
+            border-radius: 50%;
+        }
+    </style>
+</head>
+<body class="bg-gray-100">
+
+    <div class="max-w-4xl mx-auto mt-10 bg-white rounded-lg shadow-lg overflow-hidden">
+        <!-- Header Section -->
+        <div class="bg-blue-500 text-white text-center py-8">
+            <h2 class="text-3xl font-semibold">Teacher Signup</h2>
+        </div>
+
+        <!-- Profile Picture Upload -->
+        <div class="flex justify-center mt-8">
+            <img id="profile-image" src="static/assets/profile_avatar/avatar.jpg" alt="Profile Picture" class="profile-img border-4 border-white shadow-lg">
+        </div>
+        <div class="flex justify-center mt-4">
+            <input type="file" id="image-upload" name="image-upload" accept="image/*" class="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100" onchange="previewImage(event)">
+        </div>
+
+        <!-- Signup Form -->
+        <form id="signup-form" enctype="multipart/form-data" class="px-8 py-6">
+            <!-- Name and Email -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                    <label for="name" class="block text-gray-700 font-semibold">Name:</label>
+                    <input type="text" id="name" name="name" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
+                </div>
+                <div>
+                    <label for="email" class="block text-gray-700 font-semibold">Email:</label>
+                    <input type="email" id="email" name="email" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
+                </div>
+            </div>
+
+            <!-- Phone Number and Password -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
+                <div>
+                    <label for="phone-number" class="block text-gray-700 font-semibold">Phone Number:</label>
+                    <input type="tel" id="phone-number" name="phone-number" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
+                </div>
+                <div>
+                    <label for="password" class="block text-gray-700 font-semibold">Password:</label>
+                    <input type="password" id="password" name="password" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
+                </div>
+            </div>
+
+            <!-- Education -->
+            <div class="mt-6">
+                <label for="educational-institution-level-passing-year" class="block text-gray-700 font-semibold">Institution, Degree, and Passing Year:</label>
+                <input type="text" id="educational-institution-level-passing-year" name="educational-institution-level-passing-year" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
+            </div>
+
+            <!-- Skills -->
+            <div class="mt-6">
+                <label for="skills" class="block text-gray-700 font-semibold">Skills:</label>
+                <textarea id="skills" name="skills" rows="3" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"></textarea>
+            </div>
+
+            <!-- Experiences -->
+            <div class="mt-6">
+                <label for="experiences" class="block text-gray-700 font-semibold">Experiences:</label>
+                <textarea id="experiences" name="experiences" rows="4" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"></textarea>
+            </div>
+
+            <!-- Cover Letter -->
+            <div class="mt-6">
+                <label for="cover-letter" class="block text-gray-700 font-semibold">Cover Letter:</label>
+                <textarea id="cover-letter" name="cover-letter" rows="6" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500" placeholder="Please describe your motivation and background."></textarea>
+            </div>
+
+            <!-- Submit Button -->
+            <div class="mt-8 flex justify-center">
+                <button type="submit" class="bg-blue-500 text-white px-6 py-2 rounded-full hover:bg-blue-600">Sign Up</button>
+            </div>
+        </form>
+    </div>
+
+    <!-- Script to Preview Image -->
+    <script>
+        function previewImage(event) {
+            const reader = new FileReader();
+            reader.onload = function() {
+                const output = document.getElementById('profile-image');
+                output.src = reader.result;
+            };
+            reader.readAsDataURL(event.target.files[0]);
+        }
+
+        document.getElementById('signup-form').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            // Create FormData object to collect form data
+            const formData = new FormData(this);
+
+            // Send the form data using fetch API
+            fetch('/T_Signup', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.message === "Signup successful") {
+                    alert("Signup successful!");
+                } else {
+                    alert("Error: " + data.message);
+                }
+            })
+            .catch(error => {
+                console.error("Error occurred during signup:", error);
+            });
+        });
+    </script>
+
+</body>
+</html>
