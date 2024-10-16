@@ -1,126 +1,402 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Teacher Signup Form</title>
+    <title>Responsive Navbar with Drawer</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap JS and dependencies (jQuery) -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/libphonenumber-js@^1.7.6/bundle/libphonenumber-min.js"></script>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.13/css/intlTelInput.css" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.13/js/intlTelInput.min.js"></script>
+
     <style>
+        .bg-brandPrimary {
+            background-color: #832aff;
+        }
+
+        @keyframes wave {
+            0% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-10px);
+            }
+
+            100% {
+                transform: translateY(0);
+            }
+        }
+
+        .wave-animation {
+            animation: wave 2s infinite;
+        }
+
+        .text-brandSecondary {
+            color: #2bafff;
+        }
+
+        .hover\:text-brandSecondary:hover {
+            color: #2bafff;
+        }
+
+        .font-roboto {
+            font-family: 'Roboto', sans-serif;
+        }
+
+        /* Updated CSS for Sticky Navbar */
+        .sticky-navbar {
+            position: sticky;
+            top: 0;
+            background-color: #ffffff;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+            /* Ensure it stays above other content */
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        /* When scrolled, change background color and text color */
+        .sticky-navbar.scrolled {
+            background-color: #8a3ef5 !important;
+            color: #FFFFFF !important;
+        }
+
+        /* Prevent logo jumping by keeping it same size */
+        .sticky-navbar img {
+            height: auto;
+            width: 150px;
+            /* Set a fixed width */
+            transition: filter 0.3s ease;
+        }
+
+        .scrolled .nav-link,
+        .scrolled #menu-btn i {
+            color: #FFFFFF !important;
+        }
+
+        .scrolled .logo-img {
+            filter: brightness(0) invert(1);
+        }
+
+        /* Drawer styles */
+        .drawer {
+            transition: transform 0.3s ease-in-out;
+            transform: translateX(100%);
+        }
+
+        .drawer.open {
+            transform: translateX(0%);
+        }
+
+        .transition {
+            transition: all 0.3s ease-in-out;
+        }
+
+        /* Example CSS for Carousel */
+        .carousel {
+            position: relative;
+        }
+
+        .carousel-item {
+            position: relative;
+            display: none;
+            transition: transform 3s ease;
+        }
+
+        .carousel-item.active {
+            display: block;
+            transform: translateX(0);
+        }
+
+        .carousel-control-prev,
+        .carousel-control-next {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 1;
+        }
+
+        .carousel-control-prev {
+            left: 10px;
+        }
+
+        .carousel-control-next {
+            right: 10px;
+        }
+
+        .scroll-container {
+            overflow-x: scroll;
+            display: flex;
+            scrollbar-width: none;
+            /* Firefox */
+        }
+
+        .scroll-container::-webkit-scrollbar {
+            display: none;
+            /* Safari and Chrome */
+        }
+
         .profile-img {
-            width: 120px;
-            height: 120px;
+            width: 150px;
+            height: 150px;
             object-fit: cover;
             border-radius: 50%;
+            transition: all 0.3s ease;
+        }
+        .profile-img:hover {
+            transform: scale(1.05);
         }
     </style>
 </head>
-<body class="bg-gray-100">
 
-    <div class="max-w-4xl mx-auto mt-10 bg-white rounded-lg shadow-lg overflow-hidden">
+<body class="font-roboto">
+    <!-- Top Bar -->
+    <div
+        class="bg-brandPrimary text-white py-2 px-4 md:px-32 flex flex-col md:flex-row md:justify-between items-center text-sm md:text-base">
+        <div class="flex items-center mb-2 md:mb-0 space-x-2 md:space-x-4">
+            <span class="hidden md:inline">Have any questions?</span>
+            <i class="fas fa-phone-alt"></i>
+            <a id="phoneLink" href="tel:+8801817547177" class="hover:underline">+88 01819250309</a>
+            <i class="fas fa-envelope"></i>
+            <a id="emailLink" href="mailto:info@TechKnowGram.com" class="hover:underline">info@TechKnowGram.com</a>
+        </div>
+        <div class="flex items-center space-x-2">
+            <a id="facebookLink" href="https://www.facebook.com/TechKnowGramLTD" class="hover:text-brandSecondary"><i
+                    class="fab fa-facebook"></i></a>
+            <a id="linkedinLink"
+                href="https://www.linkedin.com/company/techknowgram/?trk=similar-pages&originalSubdomain=bd"
+                class="hover:text-brandSecondary"><i class="fab fa-linkedin"></i></a>
+        </div>
+    </div>
+
+    <div id="navbar" class="sticky-navbar sticky top-0 bg-white shadow-lg py-2 px-4 md:px-16 z-50">
+        <div class="flex items-center justify-between max-w-7xl mx-auto w-full">
+            <div class="flex items-center text-2xl font-bold text-orange-600">
+                <a href="{{ url_for('index') }}">
+                    <img id="logo-img" src="{{ url_for('static', filename='assets/logo/logo.png') }}"
+                        alt="Freelanching Pathshala" class="logo-img w-20 h-auto md:w-28 md:h-auto">
+                </a>
+            </div>
+            <nav class="hidden md:flex lg:flex space-x-2 items-center">
+                <a href="{{ url_for('index') }}"
+                    class="nav-link text-[#5a1baf] hover:text-brandSecondary font-bold hover:underline">Home</a>
+                <a href="{{ url_for('index') }}"
+                    class="nav-link text-[#5a1baf] hover:text-brandSecondary font-bold hover:underline">Products</a>
+                <a href="{{ url_for('index') }}"
+                    class="nav-link text-[#5a1baf] hover:text-brandSecondary font-bold hover:underline">Gallery</a>
+                <a href="{{ url_for('index') }}"
+                    class="nav-link text-[#5a1baf] hover:text-brandSecondary font-bold hover:underline">The Company</a>
+                <a href="{{ url_for('index') }}"
+                    class="nav-link text-[#5a1baf] hover:text-brandSecondary font-bold hover:underline">Contact</a>
+                <div class="hidden md:flex lg:flex items-center space-x-2">
+                    <button id="registerButton"
+                        class="text-white bg-[#5a1baf] hover:bg-blue-400 font-bold py-2 px-4 rounded transition">Register</button>
+                    <button id="loginButton"
+                        class="text-white bg-[#5a1baf] hover:bg-blue-400 font-bold py-2 px-4 rounded transition">Login</button>
+                </div>
+            </nav>
+            <button class="flex md:hidden lg:hidden text-[#5a1baf] focus:outline-none" id="menu-btn">
+                <i class="fas fa-bars text-2xl"></i>
+            </button>
+        </div>
+    </div>
+
+
+
+
+
+    <!-- Drawer -->
+    <div id="drawer" class="fixed top-0 right-0 w-3/4 max-w-xs h-full bg-white shadow-lg drawer z-50 hidden md:hidden">
+        <div class="flex justify-between items-center p-4 border-b">
+            <a href="{{ url_for('index') }}">
+                <img src="{{ url_for('static', filename='assets/logo/logo.png') }}" alt="Freelanching Pathshala"
+                    class="w-32 md:w-44 h-8 md:h-10">
+            </a>
+            <button class="text-[#5a1baf] focus:outline-none" id="close-btn">
+                <i class="fas fa-times text-2xl"></i>
+            </button>
+        </div>
+        <nav class="p-4 space-y-4">
+            <a href="{{ url_for('index') }}"
+                class="block py-2 text-[#5a1baf] hover:text-brandSecondary font-bold nav-link">
+                <i class="fas fa-home mr-2"></i>Home
+            </a>
+            <a href="{{ url_for('index') }}"
+                class="block py-2 text-[#5a1baf] hover:text-brandSecondary font-bold nav-link">
+                <i class="fas fa-box mr-2"></i>Products
+            </a>
+            <a href="{{ url_for('index') }}"
+                class="block py-2 text-[#5a1baf] hover:text-brandSecondary font-bold nav-link">
+                <i class="fas fa-images mr-2"></i>Gallery
+            </a>
+            <a href="{{ url_for('index') }}"
+                class="block py-2 text-[#5a1baf] hover:text-brandSecondary font-bold nav-link">
+                <i class="fas fa-building mr-2"></i>The Company
+            </a>
+            <a href="{{ url_for('index') }}"
+                class="block py-2 text-[#5a1baf] hover:text-brandSecondary font-bold nav-link">
+                <i class="fas fa-envelope mr-2"></i>Contact
+            </a>
+            <button
+                class="w-full text-white bg-purple-600 hover:text-brandSecondary font-bold py-2 rounded-full transition">Register</button>
+            <button
+                class="w-full text-white bg-purple-600 hover:text-brandSecondary font-bold py-2 rounded-full transition">Login</button>
+        </nav>
+    </div>
+
+    
+    <div class="max-w-4xl mx-auto bg-white rounded-xl shadow-2xl overflow-hidden">
         <!-- Header Section -->
-        <div class="bg-blue-500 text-white text-center py-8">
-            <h2 class="text-3xl font-semibold">Teacher Signup</h2>
+        <div class="bg-gradient-to-r from-blue-500 to-indigo-600 text-white text-center py-10 px-6">
+            <h2 class="text-4xl font-bold mb-2">Teacher Signup</h2>
+            <p class="text-blue-100">Join our community of educators</p>
         </div>
 
         <!-- Profile Picture Upload -->
-        <div class="flex justify-center mt-8">
-            <img id="profile-image" src="static/assets/profile_avatar/avatar.jpg" alt="Profile Picture" class="profile-img border-4 border-white shadow-lg">
-        </div>
-        <div class="flex justify-center mt-4">
-            <input type="file" id="image-upload" name="image-upload" accept="image/*" class="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100" onchange="previewImage(event)">
+        <div class="flex flex-col items-center mt-10">
+            <div class="relative group">
+                <img id="profile-image" src="static/assets/profile_avatar/avatar.jpg" alt="Profile Picture" class="profile-img border-4 border-white shadow-lg group-hover:opacity-75">
+                <div class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                    <label for="image-upload" class="bg-blue-500 text-white px-4 py-2 rounded-full cursor-pointer hover:bg-blue-600 transition">
+                        Change Photo
+                    </label>
+                </div>
+            </div>
+            <input type="file" id="image-upload" name="image-upload" accept="image/*" class="hidden" onchange="previewImage(event)">
         </div>
 
         <!-- Signup Form -->
-        <form id="signup-form" enctype="multipart/form-data" class="px-8 py-6">
-            <!-- Name and Email -->
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div>
-                    <label for="name" class="block text-gray-700 font-semibold">Name:</label>
-                    <input type="text" id="name" name="name" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
+        <form id="signup-form" enctype="multipart/form-data" class="px-8 py-10">
+            <div class="space-y-6">
+                <!-- Name and Email -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <label for="name" class="block text-sm font-medium text-gray-700">Full Name</label>
+                        <input type="text" id="name" name="name" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 transition">
+                    </div>
+                    <div>
+                        <label for="email" class="block text-sm font-medium text-gray-700">Email Address</label>
+                        <input type="email" id="email" name="email" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 transition">
+                    </div>
                 </div>
-                <div>
-                    <label for="email" class="block text-gray-700 font-semibold">Email:</label>
-                    <input type="email" id="email" name="email" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
+
+                <!-- Phone Number and Password -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <label for="phone-number" class="block text-sm font-medium text-gray-700">Phone Number</label>
+                        <input type="tel" id="phone-number" name="phone-number" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 transition">
+                    </div>
+                    <div>
+                        <label for="password" class="block text-sm font-medium text-gray-700">Password</label>
+                        <input type="password" id="password" name="password" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 transition">
+                    </div>
                 </div>
-            </div>
 
-            <!-- Phone Number and Password -->
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
+                <!-- Confirm Password -->
                 <div>
-                    <label for="phone-number" class="block text-gray-700 font-semibold">Phone Number:</label>
-                    <input type="tel" id="phone-number" name="phone-number" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
+                    <label for="confirm-password" class="block text-sm font-medium text-gray-700">Confirm Password</label>
+                    <input type="password" id="confirm-password" name="confirm-password" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 transition">
                 </div>
+
+                <!-- Education -->
                 <div>
-                    <label for="password" class="block text-gray-700 font-semibold">Password:</label>
-                    <input type="password" id="password" name="password" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
+                    <label for="educational-institution-level-passing-year" class="block text-sm font-medium text-gray-700">Education Details</label>
+                    <input type="text" id="educational-institution-level-passing-year" name="educational-institution-level-passing-year" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 transition" placeholder="Institution, Degree, Passing Year">
                 </div>
-            </div>
 
-            <!-- Education -->
-            <div class="mt-6">
-                <label for="educational-institution-level-passing-year" class="block text-gray-700 font-semibold">Institution, Degree, and Passing Year:</label>
-                <input type="text" id="educational-institution-level-passing-year" name="educational-institution-level-passing-year" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
-            </div>
+                <!-- Skills -->
+                <div>
+                    <label for="skills" class="block text-sm font-medium text-gray-700">Skills</label>
+                    <textarea id="skills" name="skills" rows="3" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 transition" placeholder="List your key teaching skills"></textarea>
+                </div>
 
-            <!-- Skills -->
-            <div class="mt-6">
-                <label for="skills" class="block text-gray-700 font-semibold">Skills:</label>
-                <textarea id="skills" name="skills" rows="3" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"></textarea>
-            </div>
+                <!-- Experiences -->
+                <div>
+                    <label for="experiences" class="block text-sm font-medium text-gray-700">Experiences</label>
+                    <textarea id="experiences" name="experiences" rows="4" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 transition" placeholder="Summarize your teaching experiences"></textarea>
+                </div>
 
-            <!-- Experiences -->
-            <div class="mt-6">
-                <label for="experiences" class="block text-gray-700 font-semibold">Experiences:</label>
-                <textarea id="experiences" name="experiences" rows="4" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"></textarea>
-            </div>
+                <!-- Cover Letter -->
+                <div>
+                    <label for="cover-letter" class="block text-sm font-medium text-gray-700">Cover Letter</label>
+                    <textarea id="cover-letter" name="cover-letter" rows="6" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 transition" placeholder="Tell us about your motivation and background"></textarea>
+                </div>
 
-            <!-- Cover Letter -->
-            <div class="mt-6">
-                <label for="cover-letter" class="block text-gray-700 font-semibold">Cover Letter:</label>
-                <textarea id="cover-letter" name="cover-letter" rows="6" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500" placeholder="Please describe your motivation and background."></textarea>
-            </div>
-
-            <!-- Submit Button -->
-            <div class="mt-8 flex justify-center">
-                <button type="submit" class="bg-blue-500 text-white px-6 py-2 rounded-full hover:bg-blue-600">Sign Up</button>
+                <!-- Submit Button -->
+                <div class="flex justify-center">
+                    <button type="submit" class="px-6 py-3 bg-gradient-to-r from-blue-500 to-indigo-600 text-white font-semibold rounded-full shadow-md hover:from-blue-600 hover:to-indigo-700 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-75 transition">
+                        Join as a Teacher
+                    </button>
+                </div>
             </div>
         </form>
     </div>
 
-    <!-- Script to Preview Image -->
     <script>
-        function previewImage(event) {
-            const reader = new FileReader();
-            reader.onload = function() {
-                const output = document.getElementById('profile-image');
-                output.src = reader.result;
-            };
-            reader.readAsDataURL(event.target.files[0]);
+     // Function to preview the uploaded profile picture
+function previewImage(event) {
+    const reader = new FileReader();
+    reader.onload = function() {
+        const output = document.getElementById('profile-image');
+        output.src = reader.result;  // Update the profile image preview
+    };
+    reader.readAsDataURL(event.target.files[0]);
+}
+
+// Handle form submission and send data to the backend
+document.getElementById('signup-form').addEventListener('submit', function(event) {
+    event.preventDefault();  // Prevent the default form submission behavior
+
+    // Get password and confirm password fields
+    const password = document.getElementById('password').value;
+    const confirmPassword = document.getElementById('confirm-password').value;
+
+    // Ensure passwords match before proceeding
+    if (password !== confirmPassword) {
+        alert("Passwords do not match!");  // Show error if passwords are different
+        return;  // Stop form submission
+    }
+
+    // Create a FormData object to hold the form data (including the file)
+    const formData = new FormData(this);
+
+    // Send the form data using fetch to the backend route '/T_Signup'
+    fetch('/T_Signup', {
+        method: 'POST',  // POST request to send form data
+        body: formData  // Send FormData object which contains all form fields
+    })
+    .then(response => response.json())  // Parse response as JSON
+    .then(data => {
+        // Check the response from the backend and take action
+        if (data.message === "Signup successful") {
+            alert("Signup successful!");  // Show success message
+            // Optionally, redirect to another page (e.g., login page)
+            // window.location.href = '/login';
+            // Optionally, reset the form if needed
+            // this.reset();  
+        } else {
+            // Show an error message if something went wrong (e.g., email already registered)
+            alert("Error: " + data.message);
         }
+    })
+    .catch(error => {
+        // Catch and log any network or server errors
+        console.error("Error occurred during signup:", error);
+        alert("An error occurred during signup. Please try again.");  // Show error to the user
+    });
+});
 
-        document.getElementById('signup-form').addEventListener('submit', function(event) {
-            event.preventDefault();
-
-            // Create FormData object to collect form data
-            const formData = new FormData(this);
-
-            // Send the form data using fetch API
-            fetch('/T_Signup', {
-                method: 'POST',
-                body: formData
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.message === "Signup successful") {
-                    alert("Signup successful!");
-                } else {
-                    alert("Error: " + data.message);
-                }
-            })
-            .catch(error => {
-                console.error("Error occurred during signup:", error);
-            });
-        });
     </script>
 
 </body>
