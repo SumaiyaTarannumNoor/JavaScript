@@ -61,8 +61,7 @@
     padding-left: 60px;  /* Adjust as needed */
     padding-right: 60px; /* Adjust as needed */
 }
-
-.glow-on-hover {
+/* .glow-on-hover {
     width: 220px;
     height: 50px;
     border: none;
@@ -120,8 +119,113 @@
     0% { background-position: 0 0; }
     50% { background-position: 400% 0; }
     100% { background-position: 0 0; }
-}
+} */
 
+
+@import url(https://fonts.googleapis.com/css?family=Fira+Sans:400,300,700,500,400italic,500italic,700italic);
+.combined-button {
+            position: relative;
+            width: 300px;
+            height: 60px;
+            border: none;
+            outline: none;
+            color: #fff;
+            background: #111;
+            cursor: pointer;
+            z-index: 0;
+            border-radius: 10px;
+            font-family: 'Fira Sans', sans-serif;
+            font-size: 16px;
+            transition: all 0.3s;
+        }
+
+        .combined-button:before {
+            content: '';
+            background: linear-gradient(45deg, #ff0000, #ff7300, #fffb00, #48ff00, #00ffd5, #002bff, #7a00ff, #ff00c8, #ff0000);
+            position: absolute;
+            top: -2px;
+            left:-2px;
+            background-size: 400%;
+            z-index: -1;
+            filter: blur(5px);
+            width: calc(100% + 4px);
+            height: calc(100% + 4px);
+            animation: glowing 20s linear infinite;
+            opacity: 0;
+            transition: opacity .3s ease-in-out;
+            border-radius: 10px;
+        }
+
+        .combined-button:hover:before,
+        .combined-button.bounce:before {
+            opacity: 1;
+        }
+
+        .combined-button:after {
+            z-index: -1;
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: #111;
+            left: 0;
+            top: 0;
+            border-radius: 10px;
+        }
+
+        .combined-button:hover,
+        .combined-button.bounce {
+            color: #c81bf3;
+            background: white;
+            box-shadow: 0px 17px 18px -14px rgba(0, 0, 0, 0.08);
+        }
+
+        .combined-button .button-spots {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+        }
+
+        .combined-button .button-spots span {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            border-radius: 50%;
+            background-color: #00C4FF;
+            opacity: 0;
+            transition: all 0.5s;
+        }
+
+        .combined-button:hover .button-spots span,
+        .combined-button.bounce .button-spots span {
+            opacity: 1;
+            animation: fizz 0.8s linear infinite;
+        }
+
+        @keyframes glowing {
+            0% { background-position: 0 0; }
+            50% { background-position: 400% 0; }
+            100% { background-position: 0 0; }
+        }
+
+        @keyframes fizz {
+            0% { transform: translateY(0) scale(1); }
+            50% { transform: translateY(-10px) scale(1.2); }
+            100% { transform: translateY(-20px) scale(0); }
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {transform: translateY(0);}
+            40% {transform: translateY(-10px);}
+            60% {transform: translateY(-5px);}
+        }
+
+        .bounce {
+            animation: bounce 0.8s ease;
+        }
     </style>
 </head>
 
@@ -217,7 +321,53 @@
                             <p id="subscribers" class="text-sm text-gray-500"></p>
                         </div>
                     </div>
-                    <button class="glow-on-hover" type="button">HOVER ME, THEN CLICK ME!</button>
+                    <!-- <button class="glow-on-hover" type="button">HOVER ME, THEN CLICK ME!</button> -->
+                    <button id="openPurchaseModal" class="combined-button">
+                        Buy The Course & Unlock All of Your Lessons!
+                        <div class="button-spots">
+                            <span style="left: 10%; top: 50%;"></span>
+                            <span style="left: 25%; top: 40%;"></span>
+                            <span style="left: 40%; top: 60%;"></span>
+                            <span style="left: 60%; top: 45%;"></span>
+                            <span style="left: 75%; top: 55%;"></span>
+                            <span style="left: 90%; top: 40%;"></span>
+                        </div>
+                    </button>
+                    <script>
+                        const button = document.querySelector('.combined-button');
+
+                        function updateSpots(e) {
+                            const rect = button.getBoundingClientRect();
+                            const x = e ? e.clientX - rect.left : rect.width / 2;
+                            const y = e ? e.clientY - rect.top : rect.height / 2;
+
+                            const spots = button.querySelectorAll('.button-spots span');
+                            spots.forEach((spot, index) => {
+                                const spotX = (Math.sin((index / spots.length) * Math.PI * 2) * 30) + 50;
+                                const spotY = (Math.cos((index / spots.length) * Math.PI * 2) * 30) + 50;
+                                
+                                spot.style.left = `${spotX}%`;
+                                spot.style.top = `${spotY}%`;
+                                spot.style.transform = `translate(${(x / rect.width) * 20 - 10}px, ${(y / rect.height) * 20 - 10}px)`;
+                            });
+                        }
+
+                        button.addEventListener('mousemove', updateSpots);
+
+                        function addBounceAnimation() {
+                            button.classList.add('bounce');
+                            updateSpots(); // Update spots without mouse event
+                            button.addEventListener('animationend', () => {
+                                button.classList.remove('bounce');
+                            }, { once: true });
+                        }
+
+                        // Trigger bounce animation every 5 seconds
+                        setInterval(addBounceAnimation, 5000);
+
+                        // Also trigger bounce on click
+                        button.addEventListener('click', addBounceAnimation);
+                    </script>
                 </div>
                 <p id="teachers-about" class="text-sm text-gray-700 mb-4"></p>
                 
@@ -492,8 +642,8 @@
 // fetchPlaylistDetails();
 
 
-let isCoursePurchased = false;
-let currentPlaylistData = null;
+let isCoursePurchased = false; // Track if the course is purchased
+let currentPlaylistData = null; // Holds current playlist data
 
 async function fetchPlaylistDetails() {
     const urlParams = new URLSearchParams(window.location.search);
@@ -516,11 +666,11 @@ async function fetchPlaylistDetails() {
 
 function renderPlaylistDetails(playlistData) {
     document.getElementById('playlist-name').textContent = playlistData.playlist_name;
-    document.getElementById('playlist-category').textContent = playlistData.playlist_category; // New
+    document.getElementById('playlist-category').textContent = playlistData.playlist_category; 
     document.getElementById('teachers-name').textContent = playlistData.teachers_name;
     document.getElementById('teachers-about').textContent = playlistData.teachers_about;
     document.getElementById('subscribers').textContent = '100K subscribers';
-    document.getElementById('playlist-about').textContent = playlistData.playlist_about; // New
+    document.getElementById('playlist-about').textContent = playlistData.playlist_about; 
 
     const videoList = document.getElementById('video-list');
     videoList.innerHTML = ''; // Clear existing video list
@@ -549,7 +699,7 @@ function renderPlaylistDetails(playlistData) {
                 if (isCoursePurchased || index < 3) {
                     setMainVideo(video);
                 } else {
-                    showPurchaseModal();
+                    showPurchaseModal(); // Show purchase modal if course is not purchased
                 }
             });
 
@@ -585,21 +735,28 @@ function getLockIcon() {
 }
 
 function showPurchaseModal() {
+    // Create modal if it doesn't exist
+    const existingModal = document.querySelector('.modal-container');
+    if (existingModal) {
+        existingModal.remove(); // Remove existing modal to prevent duplicates
+    }
+
     const modal = document.createElement('div');
-    modal.className = 'fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50';
+    modal.className = 'modal-container fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50';
     modal.innerHTML = `
         <div class="bg-white p-8 rounded-lg shadow-lg">
             <h2 class="text-2xl font-bold mb-4">Buy the Course</h2>
             <p class="mb-4">Unlock all videos by purchasing the course!</p>
-            <button id="buyButton" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Buy the Course</button>
+            <button id="buyCourseButton" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Buy the Course</button>
         </div>
     `;
     document.body.appendChild(modal);
 
-    document.getElementById('buyButton').addEventListener('click', () => {
-        isCoursePurchased = true;
-        document.body.removeChild(modal);
-        renderPlaylistDetails(currentPlaylistData);
+    // Handle button click
+    document.getElementById('buyCourseButton').addEventListener('click', () => {
+        isCoursePurchased = true; // Mark course as purchased
+        document.body.removeChild(modal); // Remove the modal
+        renderPlaylistDetails(currentPlaylistData); // Update playlist details to show unlocked videos
     });
 }
 
@@ -611,6 +768,10 @@ if (!window.YT) {
     firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 }
 
+// Event listener for the button to open purchase modal
+document.getElementById('openPurchaseModal').addEventListener('click', showPurchaseModal);
+
+// Load the playlist details
 fetchPlaylistDetails();
 
     </script>
