@@ -1,89 +1,155 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <script src="https://cdn.tailwindcss.com"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    screens: {
+                        'xsm': '860px',
+                        'msm': '960px',
+                        'lsm': '1060px',
+                        'xlsm': '1160px',
+                        'sm': '760px' // Adding a new breakpoint for screens less than 860px
+                    }
+                }
+            }
+        }
+    </script>
     <style>
         .tv-off {
             background: #000 !important;
         }
+        .fade-out {
+            animation: fadeOut 2s forwards;
+        }
+        @keyframes fadeOut {
+            0% { opacity: 1; }
+            100% { opacity: 0; }
+        }
     </style>
 </head>
-<body class="bg-gray-100 min-h-screen flex items-center justify-center p-8">
-    <div class="bg-gradient-to-b from-gray-500 to-gray-600 p-6 rounded-lg relative w-[600px] h-[400px]">
+<body class="bg-gray-100 min-h-screen flex items-center justify-center p-4">
+    <!-- Main TV Container with additional breakpoints -->
+    <div class="bg-gradient-to-b from-gray-500 to-gray-600 rounded-lg relative 
+                p-3 sm:p-4 md:p-5 lg:p-6
+                w-[280px] h-[200px]
+                sm:w-[350px] sm:h-[250px]
+                md:w-[450px] md:h-[300px]
+                xsm:w-[500px] xsm:h-[320px]
+                sm:w-[520px] sm:h-[340px]  <!-- Updated for 760px -->
+                msm:w-[540px] msm:h-[360px]
+                lsm:w-[580px] lsm:h-[380px]
+                xl:w-[600px] xl:h-[400px]
+                2xl:w-[700px] 2xl:h-[500px]">
+        
         <!-- Screen Area -->
-        <div class="border-8 border-gray-800 rounded-lg bg-white relative overflow-hidden h-full" id="tv-screen">
+        <div class="border-4 sm:border-6 md:border-8 border-gray-800 rounded-lg bg-white relative overflow-hidden h-full" id="tv-screen">
             <div class="aspect-video w-full h-full" id="carousel-inner">
                 <!-- Carousel images will be injected here -->
             </div>
             
+            <!-- Status Display -->
+            <div id="status-display" class="absolute top-2 right-2 text-gray-800 bg-white p-1 rounded shadow-md">
+                Volume: 50% <br>
+                Channel: 1
+            </div>
+
             <!-- Screen Curve Overlay -->
             <div class="absolute inset-0 rounded-lg shadow-[inset_0_0_30px_rgba(0,0,0,0.3)]"></div>
         </div>
     
         <!-- Left Side Vents -->
-        <div class="absolute left-4 top-1/4 space-y-1">
-            <div class="w-3 h-0.5 bg-gray-700"></div>
-            <div class="w-3 h-0.5 bg-gray-700"></div>
-            <div class="w-3 h-0.5 bg-gray-700"></div>
-            <div class="w-3 h-0.5 bg-gray-700"></div>
+        <div class="hidden sm:block absolute left-2 md:left-4 top-1/4 space-y-0.5 md:space-y-1">
+            <div class="w-1.5 md:w-2 lsm:w-3 h-0.5 bg-gray-700"></div>
+            <div class="w-1.5 md:w-2 lsm:w-3 h-0.5 bg-gray-700"></div>
+            <div class="w-1.5 md:w-2 lsm:w-3 h-0.5 bg-gray-700"></div>
+            <div class="w-1.5 md:w-2 lsm:w-3 h-0.5 bg-gray-700"></div>
         </div>
     
         <!-- Right Side Vents -->
-        <div class="absolute right-4 top-1/4 space-y-1">
-            <div class="w-3 h-0.5 bg-gray-700"></div>
-            <div class="w-3 h-0.5 bg-gray-700"></div>
-            <div class="w-3 h-0.5 bg-gray-700"></div>
-            <div class="w-3 h-0.5 bg-gray-700"></div>
+        <div class="hidden sm:block absolute right-2 md:right-4 top-1/4 space-y-0.5 md:space-y-1">
+            <div class="w-1.5 md:w-2 lsm:w-3 h-0.5 bg-gray-700"></div>
+            <div class="w-1.5 md:w-2 lsm:w-3 h-0.5 bg-gray-700"></div>
+            <div class="w-1.5 md:w-2 lsm:w-3 h-0.5 bg-gray-700"></div>
+            <div class="w-1.5 md:w-2 lsm:w-3 h-0.5 bg-gray-700"></div>
         </div>
     
         <!-- Control Panel -->
-        <div class="absolute bottom-2 right-8 flex space-x-3">
+        <div class="absolute bottom-1 sm:bottom-2 right-2 sm:right-4 md:right-6 lsm:right-8 
+                    flex space-x-1.5 sm:space-x-2 md:space-x-2.5 lsm:space-x-3">
             <!-- Power Button -->
             <button 
+                id="powerButton"
                 onclick="togglePower()"
-                class="w-3 h-3 bg-red-600 rounded-full hover:bg-red-700 active:bg-red-800 transition-colors duration-200 cursor-pointer"
+                class="w-2 h-2 sm:w-2.5 md:w-2.5 lsm:w-3 
+                       sm:h-2.5 md:h-2.5 lsm:h-3 
+                       bg-red-600 rounded-full hover:bg-red-700 active:bg-red-800 
+                       transition-colors duration-200 cursor-pointer"
                 title="Power">
             </button>
             
             <!-- Volume Down -->
             <button 
+                id="volumeDownButton"
                 onclick="adjustVolume('down')"
-                class="w-3 h-3 bg-gray-800 rounded-full hover:bg-gray-700 active:bg-gray-600 transition-colors duration-200 cursor-pointer"
+                class="w-2 h-2 sm:w-2.5 md:w-2.5 lsm:w-3 
+                       sm:h-2.5 md:h-2.5 lsm:h-3 
+                       bg-gray-800 rounded-full hover:bg-gray-700 active:bg-gray-600 
+                       transition-colors duration-200 cursor-pointer"
                 title="Volume Down">
             </button>
             
             <!-- Volume Up -->
             <button 
+                id="volumeUpButton"
                 onclick="adjustVolume('up')"
-                class="w-3 h-3 bg-gray-800 rounded-full hover:bg-gray-700 active:bg-gray-600 transition-colors duration-200 cursor-pointer"
+                class="w-2 h-2 sm:w-2.5 md:w-2.5 lsm:w-3 
+                       sm:h-2.5 md:h-2.5 lsm:h-3 
+                       bg-gray-800 rounded-full hover:bg-gray-700 active:bg-gray-600 
+                       transition-colors duration-200 cursor-pointer"
                 title="Volume Up">
             </button>
             
             <!-- Channel Down -->
             <button 
+                id="channelDownButton"
                 onclick="changeChannel('down')"
-                class="w-3 h-3 bg-gray-800 rounded-full hover:bg-gray-700 active:bg-gray-600 transition-colors duration-200 cursor-pointer"
+                class="w-2 h-2 sm:w-2.5 md:w-2.5 lsm:w-3 
+                       sm:h-2.5 md:h-2.5 lsm:h-3 
+                       bg-gray-800 rounded-full hover:bg-gray-700 active:bg-gray-600 
+                       transition-colors duration-200 cursor-pointer"
                 title="Channel Down">
             </button>
             
             <!-- Channel Up -->
             <button 
+                id="channelUpButton"
                 onclick="changeChannel('up')"
-                class="w-3 h-3 bg-gray-800 rounded-full hover:bg-gray-700 active:bg-gray-600 transition-colors duration-200 cursor-pointer"
+                class="w-2 h-2 sm:w-2.5 md:w-2.5 lsm:w-3 
+                       sm:h-2.5 md:h-2.5 lsm:h-3 
+                       bg-gray-800 rounded-full hover:bg-gray-700 active:bg-gray-600 
+                       transition-colors duration-200 cursor-pointer"
                 title="Channel Up">
             </button>
             
             <!-- Menu -->
             <button 
+                id="menuButton"
                 onclick="toggleMenu()"
-                class="w-3 h-3 bg-gray-800 rounded-full hover:bg-gray-700 active:bg-gray-600 transition-colors duration-200 cursor-pointer"
+                class="w-2 h-2 sm:w-2.5 md:w-2.5 lsm:w-3 
+                       sm:h-2.5 md:h-2.5 lsm:h-3 
+                       bg-gray-800 rounded-full hover:bg-gray-700 active:bg-gray-600 
+                       transition-colors duration-200 cursor-pointer"
                 title="Menu">
             </button>
         </div>
     
         <!-- Brand Plate -->
-        <div class="absolute bottom-3 left-1/2 transform -translate-x-1/2">
-            <div class="w-20 h-1 bg-gray-700 rounded"></div>
+        <div class="absolute bottom-1 sm:bottom-2 md:bottom-3 left-1/2 transform -translate-x-1/2">
+            <div class="w-10 sm:w-14 md:w-16 lsm:w-20 h-0.5 md:h-1 bg-gray-700 rounded"></div>
         </div>
     </div>
 
@@ -92,6 +158,30 @@
         let volume = 50;
         let channel = 1;
         let menuOpen = false;
+
+        // Function to change button colors
+        function changeButtonColors() {
+            const colors = ['bg-green-500', 'bg-yellow-500', 'bg-blue-500', 'bg-red-500', 'bg-purple-500'];
+            const buttons = [
+                'powerButton',
+                'volumeDownButton',
+                'volumeUpButton',
+                'channelDownButton',
+                'channelUpButton',
+                'menuButton'
+            ];
+
+            buttons.forEach(buttonId => {
+                const button = document.getElementById(buttonId);
+                let currentColorIndex = 0;
+
+                setInterval(() => {
+                    button.classList.remove(colors[currentColorIndex]);
+                    currentColorIndex = (currentColorIndex + 1) % colors.length;
+                    button.classList.add(colors[currentColorIndex]);
+                }, 2000); // Change color every 2 seconds
+            });
+        }
 
         function togglePower() {
             isPowered = !isPowered;
@@ -105,18 +195,16 @@
 
         function adjustVolume(direction) {
             if (!isPowered) return;
-            if (direction === 'up' && volume < 100) volume += 10;
-            if (direction === 'down' && volume > 0) volume -= 10;
-            showOverlay(`Volume: ${volume}%`);
+            if (direction === 'up') volume = Math.min(volume + 10, 100);
+            if (direction === 'down') volume = Math.max(volume - 10, 0);
+            updateStatusDisplay(`Volume: ${volume}%`);
         }
 
         function changeChannel(direction) {
             if (!isPowered) return;
             if (direction === 'up') channel++;
             if (direction === 'down') channel--;
-            if (channel < 1) channel = 99;
-            if (channel > 99) channel = 1;
-            showOverlay(`Channel: ${channel}`);
+            updateStatusDisplay(`Channel: ${channel}`);
         }
 
         function toggleMenu() {
@@ -125,18 +213,27 @@
             showOverlay(menuOpen ? 'Menu Opened' : 'Menu Closed');
         }
 
-        function showOverlay(text) {
-            const existing = document.getElementById('overlay');
-            if (existing) existing.remove();
-
-            const overlay = document.createElement('div');
-            overlay.id = 'overlay';
-            overlay.className = 'absolute top-4 right-4 bg-black bg-opacity-70 text-white px-4 py-2 rounded';
-            overlay.textContent = text;
-
-            document.getElementById('tv-screen').appendChild(overlay);
-            setTimeout(() => overlay.remove(), 1500);
+        function updateStatusDisplay(message) {
+            const statusDisplay = document.getElementById('status-display');
+            statusDisplay.textContent = message;
+            statusDisplay.classList.remove('fade-out'); // Reset the fade-out effect
+            setTimeout(() => {
+                statusDisplay.classList.add('fade-out'); // Add fade-out class after 2 seconds
+            }, 2000);
         }
+
+        function showOverlay(message) {
+            const overlay = document.createElement('div');
+            overlay.textContent = message;
+            overlay.className = 'absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-black text-white p-2 rounded';
+            document.getElementById('tv-screen').appendChild(overlay);
+            setTimeout(() => {
+                overlay.remove();
+            }, 1500);
+        }
+
+        // Start changing button colors
+        changeButtonColors();
     </script>
 </body>
 </html>
