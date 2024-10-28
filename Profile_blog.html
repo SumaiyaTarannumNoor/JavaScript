@@ -1,0 +1,983 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SocialApp</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.0/socket.io.min.js"></script>
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+
+</head>
+<style>
+    .truncate-text {
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        /* max-height: 3.6em; */
+        -webkit-line-clamp: 2;
+        /* Show only 2 lines */
+        max-height: 3.0em;
+        /* adjust based on the number of lines and line height */
+        /* adjust based on the number of lines and line height */
+    }
+
+
+    .scroll-slow {
+        display: flex;
+        animation: scroll 20s linear infinite;
+    }
+
+    @keyframes scroll {
+        0% {
+            transform: translateX(0);
+        }
+
+        100% {
+            transform: translateX(-50%);
+        }
+    }
+
+    .scroll-container {
+        overflow-x: hidden;
+        position: relative;
+        z-index: 10;
+        /* Lower z-index than the drawer */
+    }
+
+    #drawer {
+        z-index: 20;
+        /* Higher z-index than the carousel */
+    }
+
+    .like-button.liked {
+    color: #832aff; /* Purple color for liked */
+}
+
+.like-button.unliked {
+    color: #4a4a4a; /* Gray color for unliked */
+}
+
+
+.menu {
+  filter: url("#shadowed-goo");
+}
+
+.menu-item, .menu-open-button {
+  background: #5509a7;
+  border-radius: 100%;
+  width: 60px;
+  height: 60px;
+  margin-left: -40px;
+  position: absolute;
+  top: 10px;
+  bottom: 10px;
+  color: white;
+  text-align: center;
+  line-height: 80px;
+  transform: translate3d(0, 0, 0);
+  transition: transform ease-out 200ms;
+}
+
+.menu-open {
+  display: none;
+}
+
+.hamburger {
+  width: 25px;
+  height: 3px;
+  background: white;
+  display: block;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin-left: -12.5px;
+  margin-top: -1.5px;
+  transition: transform 200ms;
+}
+
+.hamburger-1 {
+  transform: translate3d(0, -8px, 0);
+}
+
+.hamburger-2 {
+  transform: translate3d(0, 0, 0);
+}
+
+.hamburger-3 {
+  transform: translate3d(0, 8px, 0);
+}
+
+.menu-open:checked + .menu-open-button .hamburger-1 {
+  transform: translate3d(0, 0, 0) rotate(45deg);
+}
+.menu-open:checked + .menu-open-button .hamburger-2 {
+  transform: translate3d(0, 0, 0) scale(0.1, 1);
+}
+.menu-open:checked + .menu-open-button .hamburger-3 {
+  transform: translate3d(0, 0, 0) rotate(-45deg);
+}
+
+.menu {
+  position: absolute;
+  left: 50%;
+  margin-left: -190px;
+  padding-top: 20px;
+  padding-left: 190px;
+  width: 380px;
+  height: 250px;
+  box-sizing: border-box;
+  font-size: 20px;
+  text-align: left;
+}
+
+.menu-item:hover {
+  background: white;
+  color: #c0466f;
+}
+.menu-item:nth-child(3) {
+  transition-duration: 70ms;
+}
+.menu-item:nth-child(4) {
+  transition-duration: 130ms;
+}
+.menu-item:nth-child(5) {
+  transition-duration: 190ms;
+}
+.menu-item:nth-child(6) {
+  transition-duration: 250ms;
+}
+.menu-item:nth-child(7) {
+  transition-duration: 310ms;
+}
+
+.menu-open-button {
+  z-index: 2;
+  transition-timing-function: cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  transition-duration: 400ms;
+  transform: scale(1.1, 1.1) translate3d(0, 0, 0);
+  cursor: pointer;
+}
+
+.menu-open-button:hover {
+  transform: scale(1.2, 1.2) translate3d(0, 0, 0);
+}
+
+.menu-open:checked + .menu-open-button {
+  transition-timing-function: linear;
+  transition-duration: 200ms;
+  transform: scale(0.8, 0.8) translate3d(0, 0, 0);
+}
+
+.menu-open:checked ~ .menu-item {
+  transition-timing-function: cubic-bezier(0.935, 0, 0.34, 1.33);
+}
+.menu-open:checked ~ .menu-item:nth-child(3) {
+  transition-duration: 160ms;
+  transform: translate3d(114.42548px, 11.48084px, 0);
+}
+.menu-open:checked ~ .menu-item:nth-child(4) {
+  transition-duration: 240ms;
+  transform: translate3d(77.18543px, 85.2491px, 0);
+}
+.menu-open:checked ~ .menu-item:nth-child(5) {
+  transition-duration: 320ms;
+  transform: translate3d(0.09158px, 114.99996px, 0);
+}
+.menu-open:checked ~ .menu-item:nth-child(6) {
+  transition-duration: 400ms;
+  transform: translate3d(-77.04956px, 85.37192px, 0);
+}
+.menu-open:checked ~ .menu-item:nth-child(7) {
+  transition-duration: 480ms;
+  transform: translate3d(-114.40705px, 11.66307px, 0);
+}
+
+:root {
+  --color: linear-gradient(
+    to right,
+    #434343,#000000
+  );
+  --color-dark: #c0466f; /* Manually darkened #0cf by 15% */
+}
+
+.button {
+  display: inline-block;
+  padding: .75rem 1.25rem;
+  border-radius: 10rem;
+  color: #fff;
+  text-transform: uppercase;
+  font-size: 1rem;
+  letter-spacing: .15rem;
+  transition: all .3s;
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
+}
+.button::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: var(--color);
+  border-radius: 10rem;
+  z-index: -2;
+}
+.button::before {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0%;
+  height: 100%;
+  background-color: var(--color-dark);
+  transition: all .3s;
+  border-radius: 10rem;
+  z-index: -1;
+}
+.button:hover::before {
+  width: 100%;
+}
+
+/* Optional reset for presentation */
+* {
+  font-family: Arial;
+  text-decoration: none;
+  font-size: 20px;
+}
+.container {
+  padding-top: 50px;
+  margin: 0 auto;
+  width: 100%;
+  text-align: center;
+}
+
+/* Active Link Style */
+.active-link {
+  background-color: #ff69b4; /* Pink background for selected link */
+  border-radius: 4px; /* Optional: add some border radius */
+}
+
+/* Sidebar Text Alignment */
+.nav-link {
+  text-align: left; /* Ensures text is left-aligned */
+}
+
+/* Custom Scrollbar */
+.sidebar-content::-webkit-scrollbar {
+  width: 0; /* Hide scrollbar by default */
+}
+
+.sidebar-content:hover::-webkit-scrollbar {
+  width: 8px; /* Show scrollbar on hover */
+}
+
+.sidebar-content::-webkit-scrollbar-thumb {
+  background-color: rgba(255, 255, 255, 0.5); /* Custom scrollbar thumb */
+  border-radius: 4px;
+}
+
+.sidebar-content:hover::-webkit-scrollbar-thumb {
+  background-color: rgba(255, 255, 255, 0.7); /* Thumb color on hover */
+}
+
+
+.stats-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 24px;
+            width: 100%;
+            max-width: 42rem;
+            margin-left: auto;
+            margin-right: auto;
+            padding: 0 16px;
+        }
+
+        .stat-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .stat-label {
+            font-weight: bold;
+            color: #374151;
+            font-size: 14px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+
+        .circle {
+            width: 64px;
+            height: 64px;
+            border-radius: 50%;
+            background:linear-gradient(
+    to right,
+    #434343,#000000);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .circle-text {
+            color: white;
+            font-size: 18px;
+            margin: 0;
+        }
+
+        #drawer #searchInputMobile, .navbar #searchInput {
+    max-width: 100%;
+    font-size: 1rem;
+}
+
+@media (max-width: 700px) {
+    .navbar #searchInput {
+        display: none;
+    }
+}
+
+@media (min-width: 701px) {
+    #drawer #searchInputMobile {
+        display: none;
+    }
+}
+
+
+</style>
+
+<!-- <body style="background: linear-gradient(#ffffff, #daeefb);" class="min-h-screen"> -->
+    
+<body class="min-h-screen bg-gradient-to-r from-[#9796f0] to-[#fbc7d4]">
+
+    <!-- <nav class="sticky top-0 bg-[#832aff] shadow-md z-50"> -->
+      <nav class="sticky top-0 bg-gradient-to-r from-[#9D50BB] to-[#6E48AA] shadow-md z-50">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="flex justify-between items-center h-20">
+                <!-- Left Section: Logo and Search Bar -->
+                <div class="flex items-center space-x-4 flex-1">
+                    <!-- Logo Section -->
+                    <a href="#" class="flex-shrink-0">
+                        <img src="{{ url_for('static', filename='assets/logo/logo.png') }}" alt="Freelancing Patshala"
+                            class="h-16 filter invert brightness-0">
+                    </a>
+    
+                    <!-- Search Bar Component in Navbar -->
+                    <div id="searchBarContainer" class="flex-1 max-w-md">
+                        <div class="relative">
+                            <input id="searchInput" type="text" placeholder="Search For Courses"
+                                class="w-full bg-gradient-to-r from-[#E3FDF5] to-[#FFE6FA] rounded-full py-2 px-4 pl-10 focus:outline-none focus:ring-2 focus:ring-white">
+                            <i class="fas fa-search absolute left-3 top-3 text-[#832aff]"></i>
+                        </div>
+                    </div>
+                </div>
+    
+                <!-- Right Section: Profile Icon -->
+                <div class="flex items-center">
+                    <a id="profileIcon" class="flex items-center">
+                        <img src="{{ url_for('static', filename='assets/profile_avatar/avatar.jpg') }}" alt="Profile"
+                            class="w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 lg:w-9 lg:h-9 xl:w-10 xl:h-10 border-2 border-white rounded-full object-cover">
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+    
+    <script>
+        function moveSearchBar() {
+            const searchBarContainer = document.getElementById('searchBarContainer');
+            const navbarSearchLocation = document.querySelector('nav .flex.items-center.space-x-4');
+            const mobileSearchContainer = document.getElementById('mobileSearchContainer');
+            
+            function updateSearchBarPosition() {
+                if (window.innerWidth < 768) { // md breakpoint
+                    mobileSearchContainer.appendChild(searchBarContainer);
+                } else {
+                    navbarSearchLocation.appendChild(searchBarContainer);
+                }
+            }
+            
+            // Initial position
+            updateSearchBarPosition();
+            
+            // Update on resize
+            window.addEventListener('resize', updateSearchBarPosition);
+        }
+        
+        // Call the function when the page loads
+        document.addEventListener('DOMContentLoaded', moveSearchBar);
+    </script>
+    
+
+    <div id="drawer"
+        class="fixed top-20 right-0 w-64 h-[calc(100vh-5rem)] bg-white shadow-lg transform translate-x-full transition-transform duration-300 ease-in-out flex flex-col bg-gradient-to-r from-[#E3FDF5] to-[#FFE6FA]">
+        <div class="flex-grow overflow-y-auto">
+          <div class="flex flex-col md:flex-row items-center bg-gradient-to-r from-[#434343] to-[#000000]">
+            <!-- Icons Container -->
+            <div class="flex space-x-4 ml-12 mt-6 items-center">
+                <a href="#" class="m-1 bg-gradient-to-r from-[#E3FDF5] to-[#FFE6FA] bg-clip-text text-transparent hover:text-[#ff69b4]" title="Home">
+                    <i class="fas fa-home text-xl"></i>
+                </a>
+                <a href="#" class="m-1 bg-gradient-to-r from-[#E3FDF5] to-[#FFE6FA] bg-clip-text text-transparent hover:text-[#ff69b4]" title="Notifications">
+                    <i class="fas fa-bell text-xl"></i>
+                </a>
+                <a href="#" class="m-1 bg-gradient-to-r from-[#E3FDF5] to-[#FFE6FA] bg-clip-text text-transparent hover:text-[#ff69b4]" title="Settings">
+                    <i class="fas fa-cog text-xl"></i>
+                </a>
+                <a href="#" class="m-1 bg-gradient-to-r from-[#E3FDF5] to-[#FFE6FA] bg-clip-text text-transparent hover:text-[#ff69b4]" title="Language">
+                    <span class="mr-1">EN</span>
+                    <i class="fas fa-chevron-down"></i>
+                </a>
+            </div>
+        
+            <!-- Search Bar -->
+            <div id="mobileSearchContainer" class="ml-4 p-4"></div>
+        </div>
+        
+
+           
+            <div class="bg-gradient-to-r from-[#434343] to-[#000000] h-16 flex items-center justify-around px-4 top-20">
+            </div>
+            <!-- Profile drawer content -->
+            <div class="bg-gradient-to-r from-[#E3FDF5] to-[#FFE6FA] px-3 py-2 flex flex-col justify-between">
+                
+                    <!-- <div class="flex justify-center -mt-10">
+                        <img id="Profile_image"
+                            src="{{ url_for('static', filename='assets/profile_avatar/avatar.jpg') }}" alt="Profile"
+                            class="w-20 h-20 md:w-24 md:h-24 rounded-full border-4 border-white shadow-lg object-fill">
+                    </div> -->
+                    <div class="flex justify-center -mt-10">
+                      <img id="Profile_image"
+                          src="{{ url_for('static', filename='assets/profile_avatar/avatar.jpg') }}" alt="Profile"
+                          class="w-20 h-20 md:w-24 md:h-24 rounded-full border-4 border-white shadow-lg object-fill">
+                  </div>
+
+
+                  <div class="text-center mt-2">
+                      <h2 id="Profile_name" class="text-base font-semibold text-gray-800"></h2>
+                      <p class="text-xxs text-gray-600 flex items-center justify-center mt-2 ml-3">
+                          <!-- <span class="mr-4">From </span> -->
+                          <i class="fas fa-map-marker-alt mr-4 text-[bg-gradient-to-r from-[#434343] to-[#000000]]"></i>
+                          <span id="Profile_Address"></span>
+                      </p>
+
+                  </div>
+                    <div class="flex justify-between mt-4 text-center">
+                      <div class="stats-container">
+                        <div class="stat-item">
+                            <p class="stat-label">Total Courses</p>
+                            <div class="circle">
+                                <p class="circle-text">10</p>
+                            </div>
+                        </div>
+                
+                        <div class="stat-item">
+                            <p class="stat-label">Finished</p>
+                            <div class="circle">
+                                <p class="circle-text">2</p>
+                            </div>
+                        </div>
+                
+                        <div class="stat-item">
+                            <p class="stat-label">Total Reviews</p>
+                            <div class="circle">
+                                <p class="circle-text">10</p>
+                            </div>
+                        </div>
+                    </div>
+                  </div>
+                  
+                  
+                    <ul class="ml-4 mt-4">
+                      <li class="mb-4">
+                          <a href="{{ url_for('Courses') }}" class="block py-2 pl-4 text-[bg-gradient-to-r from-[#434343] to-[#000000]] hover:text-[#ff69b4] font-bold">
+                              <i class="fas fa-pen mr-2"></i>Your Reviews
+                          </a>
+                      </li>
+                      <li class="mb-4">
+                          <a href="{{ url_for('Courses') }}" class="block py-2 pl-4 text-[bg-gradient-to-r from-[#434343] to-[#000000]] hover:text-[#ff69b4] font-bold">
+                              <i class="fas fa-star-half-alt mr-2"></i>Your Ratings
+                          </a>
+                      </li>
+                      <li class="mb-4">
+                          <a href="{{ url_for('Courses') }}" class="block py-2 pl-4 text-[bg-gradient-to-r from-[#434343] to-[#000000]] hover:text-[#ff69b4] font-bold">
+                              <i class="fas fa-award mr-2"></i>Your Finished Courses
+                          </a>
+                      </li>
+                  </ul>
+
+            </div>
+            <div class="flex space-x-1 px-3 bg-gradient-to-r from-[#E3FDF5] to-[#FFE6FA]">
+              <div class="p-4 block lg:hidden"> <!-- Use 'block lg:hidden' -->
+                  <ul>
+                    <li class="mb-4">
+                      <a href="{{ url_for('Courses') }}" class="block py-2 pl-4 bg-gradient-to-r from-[#434343] to-[#000000] bg-clip-text text-transparent hover:text-[#ff69b4] font-bold">
+                          <i class="fas fa-pen-nib mr-2"></i>Enroll Into Courses
+                      </a>
+                  </li>
+                  <li class="mb-4">
+                      <a href="{{ url_for('Courses') }}" class="block py-2 pl-4 bg-gradient-to-r from-[#434343] to-[#000000] bg-clip-text text-transparent hover:text-[#ff69b4] font-bold">
+                          <i class="fas fa-laptop-code mr-2"></i>Learn From Free Courses
+                      </a>
+                  </li>
+                  <li class="mb-4">
+                      <a href="{{ url_for('Courses') }}" class="block py-2 pl-4 bg-gradient-to-r from-[#434343] to-[#000000] bg-clip-text text-transparent hover:text-[#ff69b4] font-bold">
+                          <i class="fas fa-user-graduate mr-2"></i>Your Courses
+                      </a>
+                  </li>
+                  
+                  </ul>
+              </div>
+          </div>
+
+        </div>
+
+        <!-- Sticky logout button -->
+        <div class="bg-gradient-to-r from-[#E3FDF5] to-[#FFE6FA]">
+            <form action="{{ url_for('S_logout') }}" method="post">
+                <button type="submit"
+                    class="bg-gradient-to-r from-[#434343] to-[#000000] w-full text-white hover:bg-gradient-to-r from-[#E3FDF5] to-[#FFE6FA] hover:text-white font-bold py-2 px-4 rounded-full shadow-lg transition-all duration-300 transform hover:scale-105 border-2 border-[#8a3ef5]">
+                    Logout
+                </button>
+            </form>
+
+            <div class="bg-gradient-to-r from-[#9D50BB] to-[#6E48AA] mx-auto max-w-md px-2 text-center text-white py-2 px-1 rounded-lg md:hidden mt-2">
+                    <p class="text-sm sm:text-base">&copy; 2024 Freelanching Pathshala. All rights reserved.</p>
+                    <div class="mt-1">
+                        <p class="text-xs sm:text-sm">Designed by <a href="https://www.techknowgram.com/"
+                                class="text-white font-semibold hover:underline">TechKnowGram Limited</a></p>
+                    </div>
+            </div>
+
+        </div>
+    </div>
+
+
+    <div class="flex flex-col md:flex-row max-w-full mx-auto p-4 bg-gradient-to-r from-[#9796f0] to-[#fbc7d4] shadow-md">
+      <!-- Sidebar Drawer (for smaller devices) -->
+
+      <div id="sidebar" class="fixed top-20 left-0 w-64 h-full bg-gradient-to-r from-[#434343] to-[#000000] z-40 transform -translate-x-full lg:translate-x-0 transition-transform duration-300 lg:block">
+        <div class="flex flex-col h-full">
+          <!-- Scrollable Links Section -->
+          <div class="flex-1 overflow-hidden sidebar-content hover:overflow-y-auto p-4">
+            <ul>
+              <li class="mb-4">
+                <a href="#" id="enrollIntoCourses" name="enroll_into_courses" class="block py-2 pl-4 text-white hover:text-brandSecondary font-bold nav-link active-link">
+                    <i class="fas fa-pen-nib mr-2"></i>Enroll Into Courses
+                </a>
+            </li>
+            
+              <li class="mb-4">
+                <a href="{{ url_for('Profile_blog_free_courses') }}" class="block py-2 pl-4 text-white hover:text-brandSecondary font-bold nav-link">
+                  <i class="fas fa-laptop-code mr-2"></i>Learn From Free Courses
+                </a>
+              </li>
+              <li class="mb-4">
+                <a href="{{ url_for('Courses') }}" class="block py-2 pl-4 text-white hover:text-brandSecondary font-bold nav-link">
+                  <i class="fas fa-user-graduate mr-2"></i>Your Courses
+                </a>
+              </li>
+            </ul>
+          </div>
+
+          <!-- Sticky Footer Section -->
+          <div class="w-full sticky bottom-0 left-0 z-50 bg-gradient-to-r from-[#9D50BB] to-[#6E48AA] text-white py-4 px-2">
+            <p class="text-sm sm:text-base text-center">&copy; 2024 Freelancing Pathshala. All rights reserved.</p>
+            <div class="mt-2 text-center">
+              <p class="text-xs sm:text-sm">Designed by <a href="https://www.techknowgram.com/" class="text-white font-semibold hover:underline">TechKnowGram Limited</a></p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      
+        <!-- Main Content -->
+        <div class="flex-1 lg:ml-64 p-6 lg:mt-0 bg-gradient-to-r from-[#434343] to-[#000000] rounded-lg shadow-md">
+          <section>
+            <div class="p-4 md:p-8">
+              <!-- Pink Gradient Card -->
+              <div class="bg-gradient-to-r from-pink-300 to-pink-400 rounded-lg p-8 mb-6">
+                <div class="flex justify-between items-start">
+                  <div>
+                    <h3 class="text-black font-semibold mb-1">Available Courses</h3>
+                    <h2 class="text-2xl font-bold text-black mb-4">Explorer</h2>
+                    <h4 class="text-black font-semibold mb-2">Progress</h4>
+                    <div class="bg-blue-200 h-2 rounded-full w-full md:w-96 mb-1">
+                      <div class="bg-blue-500 h-2 rounded-full w-1/6"></div>
+                    </div>
+                    <span class="text-sm text-black">1 / 10 Courses Completed</span>
+                  </div>
+                  <button class="bg-white px-4 py-2 rounded text-sm">View All</button>
+                </div>
+              </div>
+      
+              <!-- Playlists Grid -->
+              <div id="playlists-container" class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+                <!-- Playlists will be dynamically inserted here -->
+              </div>
+
+              <!-- Pagination -->
+              <div class="mt-8 mb-8 flex justify-center items-center space-x-4">
+                <button id="prev-btn" class="px-4 py-2 bg-purple-600 text-white rounded-md disabled:opacity-50 disabled:cursor-not-allowed">Previous</button>
+                <span id="page-info" class="text-gray-200 font-semibold">Page 1</span>
+                <button id="next-btn" class="px-4 py-2 bg-purple-600 text-white rounded-md">Next</button>
+              </div>
+            </div>
+          </section>
+        </div>
+      </div>
+      
+      <!-- JavaScript for Sidebar Toggle (for smaller screens) -->
+      <script>
+        const sidebarToggle = document.getElementById('sidebar-toggle');
+        const sidebar = document.getElementById('sidebar');
+      
+        sidebarToggle.addEventListener('click', () => {
+          sidebar.classList.toggle('-translate-x-full');
+        });
+      </script>
+      
+      
+    
+        
+
+  
+
+    <script>
+// let allPlaylists = [];
+// let filteredPlaylists = [];
+// let currentPage = 1;
+// const playlistsPerPage = 12;
+// let currentCategory = null;
+
+// async function fetchAllPlaylists() {
+//     try {
+//         const response = await fetch('/fetch_all_playlists');
+//         if (!response.ok) throw new Error('Failed to fetch playlists');
+//         allPlaylists = await response.json();
+//         filteredPlaylists = [...allPlaylists]; // Initialize filteredPlaylists with all playlists
+//         console.log('Fetched Playlists:', allPlaylists);
+//         renderPlaylists();
+//         updatePaginationButtons();
+//     } catch (error) {
+//         console.error('Error:', error);
+//     }
+// }
+
+// function renderPlaylists() {
+//     const container = document.getElementById('playlists-container');
+//     container.innerHTML = '';  // Clear previous contents
+//     container.className = 'grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6';
+
+//     const start = (currentPage - 1) * playlistsPerPage;
+//     const end = start + playlistsPerPage;
+//     const playlistsToRender = filteredPlaylists.slice(start, end);
+//     console.log('Current Page:', currentPage);
+//     console.log('Playlists to Render:', playlistsToRender);
+
+//     playlistsToRender.forEach(playlist => {
+//         const card = document.createElement('div');
+//         card.className = 'bg-gradient-to-r from-[#E3FDF5] to-[#FFE6FA] rounded-lg shadow-md overflow-hidden border border-gray-200 flex flex-col';
+//         const thumbnailContent = playlist.playlist_thumbnail 
+//             ? `<img src="${playlist.playlist_thumbnail}" alt="Playlist Thumbnail" class="w-full h-48 object-cover">`
+//             : `<iframe src="${playlist.first_video_url}" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen class="w-full h-48"></iframe>`;
+        
+//         card.innerHTML = `
+//             <div class="relative">
+//                 ${thumbnailContent}
+//             </div>
+//             <div class="p-4 flex-grow flex flex-col justify-between">
+//                 <div>
+//                     <h3 class="text-lg font-semibold text-gray-800 mb-2">${playlist.playlist_name}</h3>
+//                     <p class="text-sm text-gray-600 mb-4 line-clamp-3">${playlist.teachers_about}</p>
+//                 </div>
+//                 <div>
+//                     <div class="text-[#2bafff] font-semibold mb-2">Course Fee: ${playlist.course_fee || 'N/A'}</div>
+//                     <div class="text-yellow-500 mb-4">
+//                         <i class="fas fa-star"></i>
+//                         <i class="fas fa-star"></i>
+//                         <i class="fas fa-star"></i>
+//                         <i class="fas fa-star"></i>
+//                         <i class="fas fa-star-half-alt"></i>
+//                     </div>
+//                     <a href="/playlist_user?id=${playlist.playlist_id}" class="block text-center bg-purple-500 text-white px-4 py-2 rounded hover:bg-blue-600">
+//                         See The Full Course
+//                     </a>
+//                 </div>
+//             </div>
+//         `;
+//         container.appendChild(card);
+//     });
+
+//     updatePageInfo();
+//     updatePaginationButtons();
+// }
+
+// function updatePageInfo() {
+//     const pageInfo = document.getElementById('page-info');
+//     pageInfo.textContent = `Page ${currentPage}`;
+// }
+
+// function updatePaginationButtons() {
+//     const prevBtn = document.getElementById('prev-btn');
+//     const nextBtn = document.getElementById('next-btn');
+
+//     prevBtn.disabled = currentPage === 1;
+//     nextBtn.disabled = currentPage * playlistsPerPage >= filteredPlaylists.length;
+
+//     prevBtn.classList.toggle('opacity-50', prevBtn.disabled);
+//     prevBtn.classList.toggle('cursor-not-allowed', prevBtn.disabled);
+//     nextBtn.classList.toggle('opacity-50', nextBtn.disabled);
+//     nextBtn.classList.toggle('cursor-not-allowed', nextBtn.disabled);
+
+//     console.log('Pagination buttons updated:', {
+//         currentPage,
+//         prevDisabled: prevBtn.disabled,
+//         nextDisabled: nextBtn.disabled
+//     });
+// }
+
+// function searchPlaylists(query) {
+//     query = query.toLowerCase();
+//     filteredPlaylists = allPlaylists.filter(playlist => 
+//         (playlist.playlist_name.toLowerCase().includes(query) ||
+//         playlist.teachers_about.toLowerCase().includes(query)) &&
+//         (currentCategory === null || playlist.category === currentCategory)
+//     );
+//     currentPage = 1; // Reset to first page when searching
+//     renderPlaylists();
+// }
+
+// function filterByCategory(category) {
+//     currentCategory = category;
+//     filteredPlaylists = allPlaylists.filter(playlist => 
+//         playlist.category === category
+//     );
+//     currentPage = 1; // Reset to first page when filtering
+//     renderPlaylists();
+//     document.querySelectorAll('.category-card').forEach(card => {
+//         card.classList.toggle('ring-2', card.dataset.category === category);
+//         card.classList.toggle('ring-purple-500', card.dataset.category === category);
+//     });
+// }
+
+let allPlaylists = [];
+let filteredPlaylists = [];
+let currentPage = 1;
+const playlistsPerPage = 12;
+let currentCategory = null;
+
+async function fetchAllPlaylists() {
+    try {
+        const response = await fetch('/fetch_all_playlists');
+        if (!response.ok) throw new Error('Failed to fetch playlists');
+        allPlaylists = await response.json();
+        filteredPlaylists = [...allPlaylists]; // Initialize filteredPlaylists with all playlists
+        console.log('Fetched Playlists:', allPlaylists);
+        renderPlaylists();
+        updatePaginationButtons();
+    } catch (error) {
+        console.error('Error:', error);
+    }
+}
+
+function renderPlaylists() {
+    const container = document.getElementById('playlists-container');
+    container.innerHTML = '';  // Clear previous contents
+    container.className = 'grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6';
+
+    const start = (currentPage - 1) * playlistsPerPage;
+    const end = start + playlistsPerPage;
+    const playlistsToRender = filteredPlaylists.slice(start, end);
+    console.log('Current Page:', currentPage);
+    console.log('Playlists to Render:', playlistsToRender);
+
+    playlistsToRender.forEach(playlist => {
+        const card = document.createElement('div');
+        card.className = 'bg-gradient-to-r from-[#E3FDF5] to-[#FFE6FA] rounded-lg shadow-md overflow-hidden border border-gray-200 flex flex-col';
+        const thumbnailContent = playlist.playlist_thumbnail 
+            ? `<img src="${playlist.playlist_thumbnail}" alt="Playlist Thumbnail" class="w-full h-48 object-cover">`
+            : `<iframe src="${playlist.first_video_url}" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen class="w-full h-48"></iframe>`;
+        
+        card.innerHTML = `
+            <div class="relative">
+                ${thumbnailContent}
+            </div>
+            <div class="p-4 flex-grow flex flex-col justify-between">
+                <div>
+                    <h3 class="text-lg font-semibold text-gray-800 mb-2">${playlist.playlist_name}</h3>
+                    <p class="text-sm text-gray-600 mb-4 line-clamp-3">${playlist.teachers_about}</p>
+                </div>
+                <div>
+                    <div class="text-[#2bafff] font-semibold mb-2">Course Fee: ${playlist.course_fee || 'N/A'}</div>
+                    <div class="text-yellow-500 mb-4">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star-half-alt"></i>
+                    </div>
+                    <a href="/playlist_user?id=${playlist.playlist_id}" class="block text-center bg-purple-500 text-white px-4 py-2 rounded hover:bg-blue-600">
+                        See The Full Course
+                    </a>
+                </div>
+            </div>
+        `;
+        container.appendChild(card);
+    });
+
+    updatePageInfo();
+    updatePaginationButtons();
+}
+
+function updatePageInfo() {
+    const pageInfo = document.getElementById('page-info');
+    pageInfo.textContent = `Page ${currentPage}`;
+}
+
+function updatePaginationButtons() {
+    const prevBtn = document.getElementById('prev-btn');
+    const nextBtn = document.getElementById('next-btn');
+
+    prevBtn.disabled = currentPage === 1;
+    nextBtn.disabled = currentPage * playlistsPerPage >= filteredPlaylists.length;
+
+    prevBtn.classList.toggle('opacity-50', prevBtn.disabled);
+    prevBtn.classList.toggle('cursor-not-allowed', prevBtn.disabled);
+    nextBtn.classList.toggle('opacity-50', nextBtn.disabled);
+    nextBtn.classList.toggle('cursor-not-allowed', nextBtn.disabled);
+
+    console.log('Pagination buttons updated:', {
+        currentPage,
+        prevDisabled: prevBtn.disabled,
+        nextDisabled: nextBtn.disabled
+    });
+}
+
+function searchPlaylists(query) {
+    query = query.toLowerCase();
+    filteredPlaylists = allPlaylists.filter(playlist => 
+        (playlist.playlist_name.toLowerCase().includes(query) ||
+        playlist.teachers_about.toLowerCase().includes(query)) &&
+        (currentCategory === null || playlist.category === currentCategory)
+    );
+    currentPage = 1; // Reset to first page when searching
+    renderPlaylists();
+}
+
+function filterByCategory(category) {
+    currentCategory = category;
+    filteredPlaylists = allPlaylists.filter(playlist => 
+        playlist.category === category
+    );
+    currentPage = 1; // Reset to first page when filtering
+    renderPlaylists();
+    document.querySelectorAll('.category-card').forEach(card => {
+        card.classList.toggle('ring-2', card.dataset.category === category);
+        card.classList.toggle('ring-purple-500', card.dataset.category === category);
+    });
+}
+
+// Initialize event listeners
+document.addEventListener('DOMContentLoaded', () => {
+    fetchAllPlaylists();
+    fetchUserProfiles();
+
+    document.getElementById('prev-btn').addEventListener('click', () => {
+        if (currentPage > 1) {
+            currentPage--;
+            renderPlaylists();
+        }
+    });
+
+    document.getElementById('next-btn').addEventListener('click', () => {
+        if (currentPage * playlistsPerPage < filteredPlaylists.length) {
+            currentPage++;
+            renderPlaylists();
+        }
+    });
+
+    document.querySelectorAll('.category-card').forEach(card => {
+        card.addEventListener('click', () => {
+            filterByCategory(card.dataset.category);
+        });
+    });
+
+    // Add search input event listener for the original search bar
+    const searchInput = document.getElementById('searchInput');
+    searchInput.addEventListener('input', (event) => {
+        const query = event.target.value;
+        searchPlaylists(query);
+    });
+
+    // Add search input event listener for the new search bar (searchInput2)
+    const searchInput2 = document.getElementById('searchInput2');
+    searchInput2.addEventListener('input', (event) => {
+        const query = event.target.value;
+        searchPlaylists(query);
+    });
+
+    // Add click event listener for the Enroll Into Courses link
+    const enrollIntoCoursesLink = document.getElementById('enrollIntoCourses');
+    const playlistsContainer = document.getElementById('playlists-container');
+    
+    // Hide the playlists container by default
+    playlistsContainer.style.display = 'none';
+
+    enrollIntoCoursesLink.addEventListener('click', (event) => {
+        event.preventDefault(); // Prevent default link behavior
+        if (playlistsContainer.style.display === 'none') {
+            playlistsContainer.style.display = 'grid'; // Show the playlists container
+            fetchAllPlaylists(); // Fetch playlists when shown
+        } else {
+            playlistsContainer.style.display = 'none'; // Hide the playlists container
+        }
+    });
+});
+
+
+
+function fetchUserProfiles() {
+            fetch('/fetch_user_data')
+                .then(response => response.json())
+                .then(data => {
+                    console.log(data)
+                    var profileIcon = document.getElementById('profileIcon');
+                    // console.log(data[0].)
+                    // Set the src attribute of the <img> element
+                    profileIcon.querySelector('img').src = data[0].Image;
+                    // document.getElementById('profileIcon').src = data[0].Image;
+                    document.getElementById('Profile_name').innerText = data[0].Full_name;
+                    document.getElementById('Profile_image').src = data[0].Image;
+                    document.getElementById('Profile_Address').innerText = data[0].Address;
+
+
+                })
+                .catch(error => {
+                    console.error('Error fetching user profiles:', error);
+                });
+        }
+
+
+        // JavaScript to toggle visibility of the drawer based on button click
+        document.getElementById('profileIcon').addEventListener('click', function (event) {
+            event.preventDefault();
+            const drawer = document.getElementById('drawer');
+            drawer.classList.toggle('translate-x-full');
+        });
+
+
+
+
+    </script>
+</body>
+
+</html>
