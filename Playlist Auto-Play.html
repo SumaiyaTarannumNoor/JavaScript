@@ -1,0 +1,1926 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Responsive Navbar with Drawer</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap JS and dependencies (jQuery) -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+    <script src="https://www.youtube.com/iframe_api"></script>
+
+    <style>
+       .bg-brandPrimary {
+            background-color: #832aff;
+        }
+
+        @keyframes wave {
+            0% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-10px);
+            }
+
+            100% {
+                transform: translateY(0);
+            }
+        }
+
+        .wave-animation {
+            animation: wave 2s infinite;
+        }
+
+        .text-brandSecondary {
+            color: #2bafff;
+        }
+
+        .hover\:text-brandSecondary:hover {
+            color: #2bafff;
+        }
+
+        .font-roboto {
+            font-family: 'Roboto', sans-serif;
+        }
+
+        /* Updated CSS for Sticky Navbar */
+        .sticky-navbar {
+            position: sticky;
+            top: 0;
+            background-color: #ffffff;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+            /* Ensure it stays above other content */
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        /* When scrolled, change background color and text color */
+        .sticky-navbar.scrolled {
+            /* background-color: #8a3ef5 !important; */
+            background: #9D50BB;
+            background: linear-gradient(
+                to right,
+                #9D50BB,#6E48AA
+            );
+            color: #FFFFFF !important;
+        }
+        /* Prevent logo jumping by keeping it same size */
+        .sticky-navbar img {
+            height: auto;
+            width: 150px;
+            /* Set a fixed width */
+            transition: filter 0.3s ease;
+        }
+
+        .scrolled .nav-link,
+        .scrolled #menu-btn i {
+            color: #FFFFFF !important;
+        }
+
+        .scrolled .logo-img {
+            filter: brightness(0) invert(1);
+        }
+
+        /* Drawer styles */
+        .drawer {
+            transition: transform 0.3s ease-in-out;
+            transform: translateX(100%);
+        }
+
+        .drawer.open {
+            transform: translateX(0%);
+        }
+
+        .transition {
+            transition: all 0.3s ease-in-out;
+        }
+
+        /* Example CSS for Carousel */
+        .carousel {
+            position: relative;
+        }
+
+        .carousel-item {
+            position: relative;
+            display: none;
+            transition: transform 3s ease;
+        }
+
+        .carousel-item.active {
+            display: block;
+            transform: translateX(0);
+        }
+
+        .carousel-control-prev,
+        .carousel-control-next {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 1;
+        }
+
+        .carousel-control-prev {
+            left: 10px;
+        }
+
+        .carousel-control-next {
+            right: 10px;
+        }
+
+        .scroll-container {
+            overflow-x: scroll;
+            display: flex;
+            scrollbar-width: none;
+            /* Firefox */
+        }
+
+        .scroll-container::-webkit-scrollbar {
+            display: none;
+            /* Safari and Chrome */
+        }
+
+        /* Navbar links styles */
+        .nav-link {
+            transition: color 0.3s ease;
+        }
+
+        /* Drawer styles */
+        .drawer {
+            transition: transform 0.3s ease-in-out;
+            transform: translateX(100%);
+        }
+
+        .drawer.open {
+            transform: translateX(0%);
+        }
+        .custom-padding {
+    padding-left: 60px;  /* Adjust as needed */
+    padding-right: 60px; /* Adjust as needed */
+}
+/* .glow-on-hover {
+    width: 220px;
+    height: 50px;
+    border: none;
+    outline: none;
+    color: #fff;
+    background: #111;
+    cursor: pointer;
+    position: relative;
+    z-index: 0;
+    border-radius: 10px;
+}
+
+.glow-on-hover:before {
+    content: '';
+    background: linear-gradient(45deg, #ff0000, #ff7300, #fffb00, #48ff00, #00ffd5, #002bff, #7a00ff, #ff00c8, #ff0000);
+    position: absolute;
+    top: -2px;
+    left:-2px;
+    background-size: 400%;
+    z-index: -1;
+    filter: blur(5px);
+    width: calc(100% + 4px);
+    height: calc(100% + 4px);
+    animation: glowing 20s linear infinite;
+    opacity: 0;
+    transition: opacity .3s ease-in-out;
+    border-radius: 10px;
+}
+
+.glow-on-hover:active {
+    color: #000
+}
+
+.glow-on-hover:active:after {
+    background: transparent;
+}
+
+.glow-on-hover:hover:before {
+    opacity: 1;
+}
+
+.glow-on-hover:after {
+    z-index: -1;
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: #111;
+    left: 0;
+    top: 0;
+    border-radius: 10px;
+}
+
+@keyframes glowing {
+    0% { background-position: 0 0; }
+    50% { background-position: 400% 0; }
+    100% { background-position: 0 0; }
+} */
+
+
+@import url(https://fonts.googleapis.com/css?family=Fira+Sans:400,300,700,500,400italic,500italic,700italic);
+.combined-button {
+            position: relative;
+            width: 300px;
+            height: 60px;
+            border: none;
+            outline: none;
+            color: #fff;
+            background: #111;
+            cursor: pointer;
+            z-index: 0;
+            border-radius: 10px;
+            font-family: 'Fira Sans', sans-serif;
+            font-size: 16px;
+            transition: all 0.3s;
+        }
+
+        .combined-button:before {
+            content: '';
+            background: linear-gradient(45deg, #ff0000, #ff7300, #fffb00, #48ff00, #00ffd5, #002bff, #7a00ff, #ff00c8, #ff0000);
+            position: absolute;
+            top: -2px;
+            left:-2px;
+            background-size: 400%;
+            z-index: -1;
+            filter: blur(5px);
+            width: calc(100% + 4px);
+            height: calc(100% + 4px);
+            animation: glowing 20s linear infinite;
+            opacity: 0;
+            transition: opacity .3s ease-in-out;
+            border-radius: 10px;
+        }
+
+        .combined-button:hover:before,
+        .combined-button.bounce:before {
+            opacity: 1;
+        }
+
+        .combined-button:after {
+            z-index: -1;
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: #111;
+            left: 0;
+            top: 0;
+            border-radius: 10px;
+        }
+
+        .combined-button:hover,
+        .combined-button.bounce {
+            color: #c81bf3;
+            background: white;
+            box-shadow: 0px 17px 18px -14px rgba(0, 0, 0, 0.08);
+        }
+
+        .combined-button .button-spots {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+        }
+
+        .combined-button .button-spots span {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            border-radius: 50%;
+            background-color: #00C4FF;
+            opacity: 0;
+            transition: all 0.5s;
+        }
+
+        .combined-button:hover .button-spots span,
+        .combined-button.bounce .button-spots span {
+            opacity: 1;
+            animation: fizz 0.8s linear infinite;
+        }
+
+        @keyframes glowing {
+            0% { background-position: 0 0; }
+            50% { background-position: 400% 0; }
+            100% { background-position: 0 0; }
+        }
+
+        @keyframes fizz {
+            0% { transform: translateY(0) scale(1); }
+            50% { transform: translateY(-10px) scale(1.2); }
+            100% { transform: translateY(-20px) scale(0); }
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {transform: translateY(0);}
+            40% {transform: translateY(-10px);}
+            60% {transform: translateY(-5px);}
+        }
+
+        .bounce {
+            animation: bounce 0.8s ease;
+        }
+
+        
+.stats-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 24px;
+            width: 100%;
+            max-width: 42rem;
+            margin-left: auto;
+            margin-right: auto;
+            padding: 0 16px;
+        }
+
+        .stat-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .stat-label {
+            font-weight: bold;
+            color: #374151;
+            font-size: 14px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+
+        .circle {
+            width: 64px;
+            height: 64px;
+            border-radius: 50%;
+            background:linear-gradient(
+    to right,
+    #434343,#000000);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 2px;
+        }
+
+        .circle-text {
+            color: white;
+            font-size: 18px;
+            margin: 0;
+        }
+
+        #drawer #searchInputMobile, .navbar #searchInput {
+    max-width: 100%;
+    font-size: 1rem;
+}
+
+@media (max-width: 700px) {
+    .navbar #searchInput {
+        display: none;
+    }
+}
+
+@media (min-width: 701px) {
+    #drawer #searchInputMobile {
+        display: none;
+    }
+}
+
+
+
+   /* Show only the first six lines */
+    .content-clipped {
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        -webkit-line-clamp: 6; /* Show only the first 6 lines */
+    }
+
+    /* Expand content to show all lines */
+    .content-expanded {
+        -webkit-line-clamp: unset;
+    }
+    </style>
+</head>
+
+<body class="min-h-screen bg-gradient-to-r from-[#E3FDF5] to-[#FFE6FA]">
+    <!-- Top Bar -->
+    <nav class="sticky top-0 bg-gradient-to-r from-[#9D50BB] to-[#6E48AA] shadow-md z-50">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="flex justify-between items-center h-20">
+                <!-- Left Section: Logo and Search Bar -->
+                <div class="flex items-center space-x-4 flex-1">
+                    <!-- Logo Section -->
+                    <a href="#" class="flex-shrink-0">
+                        <img src="{{ url_for('static', filename='assets/logo/logo.png') }}" alt="Freelancing Patshala"
+                            class="h-16 filter invert brightness-0">
+                    </a>
+    
+                </div>
+    
+                <!-- Right Section: Profile Icon -->
+                <div class="flex items-center">
+                    <a id="profileIcon" class="flex items-center">
+                        <img src="{{ url_for('static', filename='assets/profile_avatar/avatar.jpg') }}" alt="Profile"
+                            class="w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 lg:w-9 lg:h-9 xl:w-10 xl:h-10 border-2 border-white rounded-full object-cover">
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+
+    <div id="drawer"
+        class="fixed top-20 right-0 w-64 h-[calc(100vh-5rem)] bg-white shadow-lg transform translate-x-full transition-transform duration-300 ease-in-out flex flex-col bg-gradient-to-r from-[#E3FDF5] to-[#FFE6FA] z-[50]">
+        <div class="flex-grow overflow-y-auto">
+          <div class="flex flex-col md:flex-row items-center bg-gradient-to-r from-[#434343] to-[#000000]">
+            <!-- Icons Container -->
+            <div class="flex space-x-4 ml-12 mt-6 items-center">
+                <a href="#" class="m-1 bg-gradient-to-r from-[#E3FDF5] to-[#FFE6FA] bg-clip-text text-transparent hover:text-[#ff69b4]" title="Home">
+                    <i class="fas fa-home text-xl"></i>
+                </a>
+                <a href="#" class="m-1 bg-gradient-to-r from-[#E3FDF5] to-[#FFE6FA] bg-clip-text text-transparent hover:text-[#ff69b4]" title="Notifications">
+                    <i class="fas fa-bell text-xl"></i>
+                </a>
+                <a href="#" class="m-1 bg-gradient-to-r from-[#E3FDF5] to-[#FFE6FA] bg-clip-text text-transparent hover:text-[#ff69b4]" title="Settings">
+                    <i class="fas fa-cog text-xl"></i>
+                </a>
+                <a href="#" class="m-1 bg-gradient-to-r from-[#E3FDF5] to-[#FFE6FA] bg-clip-text text-transparent hover:text-[#ff69b4]" title="Language">
+                    <span class="mr-1">EN</span>
+                    <i class="fas fa-chevron-down"></i>
+                </a>
+            </div>
+        </div>
+        
+
+           
+            <div class="bg-gradient-to-r from-[#434343] to-[#000000] h-16 flex items-center justify-around px-4 top-20">
+            </div>
+            <!-- Profile drawer content -->
+            <div class="bg-gradient-to-r from-[#E3FDF5] to-[#FFE6FA] px-3 py-2 flex flex-col justify-between">
+                
+                    <!-- <div class="flex justify-center -mt-10">
+                        <img id="Profile_image"
+                            src="{{ url_for('static', filename='assets/profile_avatar/avatar.jpg') }}" alt="Profile"
+                            class="w-20 h-20 md:w-24 md:h-24 rounded-full border-4 border-white shadow-lg object-fill">
+                    </div> -->
+                    <div class="flex justify-center -mt-10">
+                      <img id="Profile_image"
+                          src="{{ url_for('static', filename='assets/profile_avatar/avatar.jpg') }}" alt="Profile"
+                          class="w-20 h-20 md:w-24 md:h-24 rounded-full border-4 border-white shadow-lg object-fill">
+                  </div>
+
+
+                  <div class="text-center mt-2">
+                      <h2 id="Profile_name" class="text-base font-semibold text-gray-800"></h2>
+                      <p class="text-xxs text-gray-600 flex items-center justify-center mt-2 ml-3">
+                          <!-- <span class="mr-4">From </span> -->
+                          <i class="fas fa-map-marker-alt mr-4 text-[bg-gradient-to-r from-[#434343] to-[#000000]]"></i>
+                          <span id="Profile_Address"></span>
+                      </p>
+
+                  </div>
+                    <div class="flex justify-between mt-4 text-center">
+                      <div class="stats-container">
+                        <div class="stat-item">
+                            <p class="stat-label">Total Courses</p>
+                            <div class="circle">
+                                <p class="circle-text">10</p>
+                            </div>
+                        </div>
+                
+                        <div class="stat-item">
+                            <p class="stat-label">Finished</p>
+                            <div class="circle">
+                                <p class="circle-text">2</p>
+                            </div>
+                        </div>
+                
+                        <div class="stat-item">
+                            <p class="stat-label">Total Reviews</p>
+                            <div class="circle">
+                                <p class="circle-text">10</p>
+                            </div>
+                        </div>
+                    </div>
+                  </div>
+                  
+                  
+                    <ul class="ml-4 mt-4">
+                      <li class="mb-4">
+                          <a href="{{ url_for('Courses') }}" class="block py-2 pl-4 text-[bg-gradient-to-r from-[#434343] to-[#000000]] hover:text-[#ff69b4] font-bold">
+                              <i class="fas fa-pen mr-2"></i>Your Reviews
+                          </a>
+                      </li>
+                      <li class="mb-4">
+                          <a href="{{ url_for('Courses') }}" class="block py-2 pl-4 text-[bg-gradient-to-r from-[#434343] to-[#000000]] hover:text-[#ff69b4] font-bold">
+                              <i class="fas fa-star-half-alt mr-2"></i>Your Ratings
+                          </a>
+                      </li>
+                      <li class="mb-4">
+                          <a href="{{ url_for('Courses') }}" class="block py-2 pl-4 text-[bg-gradient-to-r from-[#434343] to-[#000000]] hover:text-[#ff69b4] font-bold">
+                              <i class="fas fa-award mr-2"></i>Your Finished Courses
+                          </a>
+                      </li>
+                  </ul>
+
+            </div>
+            <div class="flex space-x-1 px-3 bg-gradient-to-r from-[#E3FDF5] to-[#FFE6FA]">
+              <div class="p-4 block"> <!-- Use 'block lg:hidden' -->
+                  <ul>
+                    <li class="mb-4">
+                      <a href="{{ url_for('Profile_blog') }}" class="block py-2 pl-4 bg-gradient-to-r from-[#434343] to-[#000000] bg-clip-text text-transparent hover:text-[#ff69b4] font-bold active-link">
+                          <i class="fas fa-pen-nib mr-2"></i>Enroll Into Courses
+                      </a>
+                  </li>
+                  <li class="mb-4">
+                      <a href="{{ url_for('Profile_blog_free_courses') }}" class="block py-2 pl-4 bg-gradient-to-r from-[#434343] to-[#000000] bg-clip-text text-transparent hover:text-[#ff69b4] font-bold">
+                          <i class="fas fa-laptop-code mr-2"></i>Learn From Free Courses
+                      </a>
+                  </li>
+                  <li class="mb-4">
+                      <a href="{{ url_for('Profile_blog_bought_courses') }}" class="block py-2 pl-4 bg-gradient-to-r from-[#434343] to-[#000000] bg-clip-text text-transparent hover:text-[#ff69b4] font-bold">
+                          <i class="fas fa-user-graduate mr-2"></i>Your Courses
+                      </a>
+                  </li>
+                  
+                  </ul>
+              </div>
+          </div>
+
+        </div>
+
+        <!-- Sticky logout button -->
+        <div class="bg-gradient-to-r from-[#E3FDF5] to-[#FFE6FA]">
+            <form action="{{ url_for('S_logout') }}" method="post">
+                <button type="submit"
+                    class="bg-gradient-to-r from-[#434343] to-[#000000] w-full text-white font-bold py-2 px-4 rounded-full shadow-lg transition-all duration-300 transform hover:scale-105 border-2 border-[#8a3ef5]">
+                    Logout
+                </button>
+            </form>
+
+            <div class="bg-gradient-to-r from-[#9D50BB] to-[#6E48AA] mx-auto max-w-md px-2 text-center text-white py-2 px-1 rounded-lg mt-2">
+                    <p class="text-sm sm:text-base">&copy; 2024 Freelanching Pathshala. All rights reserved.</p>
+                    <div class="mt-1">
+                        <p class="text-xs sm:text-sm">Designed by <a href="https://www.techknowgram.com/"
+                                class="text-white font-semibold hover:underline">TechKnowGram Limited</a></p>
+                    </div>
+            </div>
+
+        </div>
+    </div>
+
+
+
+    <div class="max-w-auto mx-auto px-8 py-8"> <!-- Increased px-4 to px-8 for more horizontal padding -->
+        <div class="flex flex-col lg:flex-row gap-6">
+            <!-- Main video player -->
+            <div class="w-full lg:w-2/3">
+                <div id="main-video" class="w-full h-[700px] mb-4">
+                    <!-- Main video player will be inserted here -->
+                </div>
+                <h1 id="video-title" class="text-xl font-bold mb-2"></h1>
+                <div class="flex items-center justify-between mb-4">
+                    <div class="flex items-center">
+                        <img id="channel-icon" src="/api/placeholder/40/40" alt="Channel icon" class="w-10 h-10 rounded-full mr-3">
+                        <div>
+                            <p id="teachers-name" class="font-bold"></p>
+                            <p id="subscribers" class="text-sm text-gray-500"></p>
+                        </div>
+                    </div>
+                    <!-- <button class="glow-on-hover" type="button">HOVER ME, THEN CLICK ME!</button> -->
+                    <button id="openPurchaseModal" class="combined-button">
+                        Buy The Course & Unlock All of Your Lessons!
+                        <div class="button-spots">
+                            <span style="left: 10%; top: 50%;"></span>
+                            <span style="left: 25%; top: 40%;"></span>
+                            <span style="left: 40%; top: 60%;"></span>
+                            <span style="left: 60%; top: 45%;"></span>
+                            <span style="left: 75%; top: 55%;"></span>
+                            <span style="left: 90%; top: 40%;"></span>
+                        </div>
+                    </button>
+                    <script>
+                        const button = document.querySelector('.combined-button');
+
+                        function updateSpots(e) {
+                            const rect = button.getBoundingClientRect();
+                            const x = e ? e.clientX - rect.left : rect.width / 2;
+                            const y = e ? e.clientY - rect.top : rect.height / 2;
+
+                            const spots = button.querySelectorAll('.button-spots span');
+                            spots.forEach((spot, index) => {
+                                const spotX = (Math.sin((index / spots.length) * Math.PI * 2) * 30) + 50;
+                                const spotY = (Math.cos((index / spots.length) * Math.PI * 2) * 30) + 50;
+                                
+                                spot.style.left = `${spotX}%`;
+                                spot.style.top = `${spotY}%`;
+                                spot.style.transform = `translate(${(x / rect.width) * 20 - 10}px, ${(y / rect.height) * 20 - 10}px)`;
+                            });
+                        }
+
+                        button.addEventListener('mousemove', updateSpots);
+
+                        function addBounceAnimation() {
+                            button.classList.add('bounce');
+                            updateSpots(); // Update spots without mouse event
+                            button.addEventListener('animationend', () => {
+                                button.classList.remove('bounce');
+                            }, { once: true });
+                        }
+
+                        // Trigger bounce animation every 5 seconds
+                        setInterval(addBounceAnimation, 5000);
+
+                        // Also trigger bounce on click
+                        button.addEventListener('click', addBounceAnimation);
+                    </script>
+                </div>
+                <!-- <p id="teachers-about" class="text-sm text-gray-700 mb-4"></p> -->
+                
+                <!-- New Description Section -->
+               <div class="mt-4">
+    <h2 class="text-lg font-semibold mb-1">Playlist Details</h2>
+    <p id="playlist-name" class="font-bold text-md mb-1"></p>
+    <p id="playlist-category" class="text-sm text-gray-500 mb-2"></p>
+
+    <!-- Playlist About Section with Read More functionality -->
+    <p id="playlist-about" class="text-sm text-gray-700 mb-2 whitespace-pre-wrap content-clipped">
+       
+    </p>
+    <button id="playlist-readmore" class="text-blue-500 text-sm cursor-pointer">Read More</button>
+
+    <h3 class="text-md font-semibold mb-1">About the Teacher</h3>
+
+    <!-- Teachers About Section with Read More functionality -->
+    <p id="teachers-about" class="text-sm text-gray-700 whitespace-pre-wrap content-clipped">
+       
+    </p>
+    <button id="teachers-readmore" class="text-blue-500 text-sm cursor-pointer">Read More</button>
+</div>
+            </div>
+
+            <script>
+                  // Function to handle Read More / Read Less toggle
+    function setupReadMore(sectionId, buttonId) {
+        const paragraph = document.getElementById(sectionId);
+        const button = document.getElementById(buttonId);
+
+        button.addEventListener('click', () => {
+            // Toggle between clipped and expanded view
+            paragraph.classList.toggle('content-clipped');
+            paragraph.classList.toggle('content-expanded');
+
+            // Change button text based on state
+            button.textContent = paragraph.classList.contains('content-expanded') ? 'Read Less' : 'Read More';
+        });
+    }
+
+    // Apply the toggle function to both Playlist and Teacher sections
+    setupReadMore('playlist-about', 'playlist-readmore');
+    setupReadMore('teachers-about', 'teachers-readmore');
+            </script>
+            
+    
+            <!-- Video list -->
+            <div class="w-full lg:w-1/3 ml-[100px]">
+                <h2 id="playlist-name" class="text-lg font-bold mb-4"></h2>
+                <div id="video-list" class="space-y-4">
+                    <!-- Video list will be dynamically inserted here -->
+                    <!-- Optional: Add margin to individual video items in JS when creating them -->
+                    <!-- Example: videoCard.className = 'flex gap-4 cursor-pointer relative mx-2'; -->
+                </div>
+            </div>
+        </div>
+    </div>
+    
+
+    <script>
+      
+
+//                 async function fetchPlaylistDetails() {
+//             const urlParams = new URLSearchParams(window.location.search);
+//             const playlistId = urlParams.get('id');
+
+//             if (!playlistId) {
+//                 console.error('No playlist ID provided');
+//                 return;
+//             }
+
+//             try {
+//                 const response = await fetch(`/fetch_playlist/${playlistId}`);
+//                 if (!response.ok) throw new Error('Failed to fetch playlist details');
+//                 const playlistData = await response.json();
+//                 renderPlaylistDetails(playlistData);
+//             } catch (error) {
+//                 console.error('Error:', error);
+//             }
+//         }
+
+//         function renderPlaylistDetails(playlistData) {
+//             document.getElementById('playlist-name').textContent = playlistData.playlist_name;
+//             document.getElementById('teachers-name').textContent = playlistData.teachers_name;
+//             document.getElementById('teachers-about').textContent = playlistData.teachers_about;
+//             document.getElementById('subscribers').textContent = '100K subscribers';
+
+//             const mainVideo = document.getElementById('main-video');
+//             const videoList = document.getElementById('video-list');
+
+//             // Set the first video in the playlist as the main video
+//             if (playlistData.videos.length > 0) {
+//                 const firstVideo = playlistData.videos[0];
+//                 setMainVideo(firstVideo);
+
+//                 playlistData.videos.forEach((video, index) => {
+//                     const videoCard = document.createElement('div');
+//                     videoCard.className = 'flex gap-4 cursor-pointer';
+//                     videoCard.innerHTML = `
+//                         <div class="flex-shrink-0 w-40 h-24 bg-gray-300 relative">
+//                             <iframe src="${video.course_link}" frameborder="0" allow="encrypted-media" class="w-full h-full absolute inset-0"></iframe>
+//                         </div>
+//                         <div class="flex-grow">
+//                             <h3 class="font-bold text-sm mb-1">${video.course_title}</h3>
+//                             <p class="text-xs text-gray-500">${video.teachers_name}</p>
+//                             <p class="text-xs text-gray-500">${video.course_category}</p>
+//                         </div>
+//                     `;
+                    
+//                     // Add click event to change the main video when clicked
+//                     videoCard.addEventListener('click', () => setMainVideo(video));
+                    
+//                     videoList.appendChild(videoCard);
+//                 });
+//             }
+//         }
+
+//         function setMainVideo(video) {
+//     const videoId = extractVideoId(video.course_link);
+//     const mainVideo = document.getElementById('main-video');
+//     mainVideo.innerHTML = `
+//       <div class="flex-shrink-0 w-full h-[600px] bg-gray-300 relative">
+//         <iframe src="${video.course_link}" frameborder="0" allow="encrypted-media" class="w-full h-[600px] absolute inset-0"></iframe>
+//       </div>  
+//     `;
+//     document.getElementById('video-title').textContent = video.course_title;
+// }
+
+// function extractVideoId(url) {
+//     const regex = /(?:https?:\/\/)?(?:www\.)?youtube\.com\/watch\?v=([^&]+)|youtu\.be\/([^?&]+)/;
+//     const matches = url.match(regex);
+//     return matches ? matches[1] || matches[2] : null;
+// }
+
+
+//         fetchPlaylistDetails();
+// async function fetchPlaylistDetails() {
+//     const urlParams = new URLSearchParams(window.location.search);
+//     const playlistId = urlParams.get('id');
+
+//     if (!playlistId) {
+//         console.error('No playlist ID provided');
+//         return;
+//     }
+
+//     try {
+//         const response = await fetch(`/fetch_playlist/${playlistId}`);
+//         if (!response.ok) throw new Error('Failed to fetch playlist details');
+//         const playlistData = await response.json();
+//         renderPlaylistDetails(playlistData);
+//     } catch (error) {
+//         console.error('Error:', error);
+//     }
+// }
+
+// function renderPlaylistDetails(playlistData) {
+//     document.getElementById('playlist-name').textContent = playlistData.playlist_name;
+//     document.getElementById('teachers-name').textContent = playlistData.teachers_name;
+//     document.getElementById('teachers-about').textContent = playlistData.teachers_about;
+//     document.getElementById('subscribers').textContent = '100K subscribers';
+
+//     const videoList = document.getElementById('video-list');
+//     videoList.innerHTML = ''; // Clear existing video list
+
+//     // Set the first video in the playlist as the main video and auto-play it
+//     if (playlistData.videos.length > 0) {
+//         const firstVideo = playlistData.videos[0];
+//         setMainVideo(firstVideo, true); // Pass true to enable auto-play
+
+//         playlistData.videos.forEach((video, index) => {
+//             const videoCard = document.createElement('div');
+//             videoCard.className = 'flex gap-4 cursor-pointer';
+
+//             videoCard.innerHTML = `
+//                 <div class="flex-shrink-0 w-60 h-40 bg-gray-300 relative">
+//                     <img src="${playlistData.playlist_thumbnail}" class="w-full h-full absolute inset-0" alt="${video.course_title}" />
+//                 </div>
+//                 <div class="flex-grow">
+//                     <h3 class="font-bold text-sm mb-1">${video.course_title}</h3>
+//                     <p class="text-xs text-gray-500">${video.teachers_name}</p>
+//                     <p class="text-xs text-gray-500">${video.course_category}</p>
+//                 </div>
+//             `;
+            
+//             // Add click event to change the main video when clicked
+//             videoCard.addEventListener('click', () => setMainVideo(video));
+            
+//             videoList.appendChild(videoCard);
+//         });
+//     }
+// }
+
+// function setMainVideo(video, autoplay = false) {
+//     const autoplayParam = autoplay ? '?autoplay=1' : '';
+//     const mainVideo = document.getElementById('main-video');
+//     mainVideo.innerHTML = `
+//         <div class="flex-shrink-0 w-full h-[700px] bg-gray-300 relative rounded-lg overflow-hidden">
+//             <iframe src="${video.course_link}${autoplayParam}" frameborder="0" allow="autoplay; encrypted-media" class="w-full h-[700px] absolute inset-0"></iframe>
+//         </div>
+//     `;
+//     document.getElementById('video-title').textContent = video.course_title;
+// }
+
+// fetchPlaylistDetails();
+
+
+
+
+
+
+
+////////////// autoplay /////////////
+// async function fetchPlaylistDetails() {
+//     const urlParams = new URLSearchParams(window.location.search);
+//     const playlistId = urlParams.get('id');
+    
+//     if (!playlistId) {
+//         console.error('No playlist ID provided');
+//         return;
+//     }
+    
+//     try {
+//         const response = await fetch(`/fetch_playlist/${playlistId}`);
+//         if (!response.ok) throw new Error('Failed to fetch playlist details');
+//         const playlistData = await response.json();
+//         renderPlaylistDetails(playlistData);
+//     } catch (error) {
+//         console.error('Error:', error);
+//     }
+// }
+
+// function renderPlaylistDetails(playlistData) {
+//     document.getElementById('playlist-name').textContent = playlistData.playlist_name;
+//     document.getElementById('teachers-name').textContent = playlistData.teachers_name;
+//     document.getElementById('teachers-about').textContent = playlistData.teachers_about;
+//     document.getElementById('subscribers').textContent = '100K subscribers';
+    
+//     const videoList = document.getElementById('video-list');
+//     videoList.innerHTML = ''; // Clear existing video list
+    
+//     // Set the first video in the playlist as the main video and auto-play it
+//     if (playlistData.videos.length > 0) {
+//         const firstVideo = playlistData.videos[0];
+//         setMainVideo(firstVideo); // Always autoplay, so we don't need to pass a second argument
+        
+//         playlistData.videos.forEach((video, index) => {
+//             const videoCard = document.createElement('div');
+//             videoCard.className = 'flex gap-4 cursor-pointer';
+            
+//             videoCard.innerHTML = `
+//                 <div class="flex-shrink-0 w-60 h-40 bg-gray-300 relative">
+//                     <img src="${playlistData.playlist_thumbnail}" class="w-full h-full absolute inset-0" alt="${video.course_title}" />
+//                 </div>
+//                 <div class="flex-grow">
+//                     <h3 class="font-bold text-sm mb-1">${video.course_title}</h3>
+//                     <p class="text-xs text-gray-500">${video.teachers_name}</p>
+//                     <p class="text-xs text-gray-500">${video.course_category}</p>
+//                 </div>
+//             `;
+            
+//             // Add click event to change the main video when clicked
+//             videoCard.addEventListener('click', () => setMainVideo(video));
+            
+//             videoList.appendChild(videoCard);
+//         });
+//     }
+// }
+
+// function setMainVideo(video) {
+//     const mainVideo = document.getElementById('main-video');
+//     mainVideo.innerHTML = `
+//         <div class="flex-shrink-0 w-full h-[700px] bg-gray-300 relative rounded-lg overflow-hidden">
+//             <iframe 
+//                 src="${video.course_link}?autoplay=1&mute=1" 
+//                 frameborder="0" 
+//                 allow="autoplay; encrypted-media" 
+//                 allowfullscreen
+//                 class="w-full h-[700px] absolute inset-0">
+//             </iframe>
+//         </div>
+//     `;
+//     document.getElementById('video-title').textContent = video.course_title;
+// }
+
+// // Load YouTube API
+// if (!window.YT) {
+//     const tag = document.createElement('script');
+//     tag.src = "https://www.youtube.com/iframe_api";
+//     const firstScriptTag = document.getElementsByTagName('script')[0];
+//     firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+// }
+
+// fetchPlaylistDetails();
+
+
+// let isCoursePurchased = false; // Track if the course is purchased
+// let currentPlaylistData = null; // Holds current playlist data
+
+// async function fetchPlaylistDetails() {
+//     const urlParams = new URLSearchParams(window.location.search);
+//     const playlistId = urlParams.get('id');
+    
+//     if (!playlistId) {
+//         console.error('No playlist ID provided');
+//         return;
+//     }
+    
+//     try {
+//         const response = await fetch(`/fetch_playlist/${playlistId}`);
+//         if (!response.ok) throw new Error('Failed to fetch playlist details');
+//         currentPlaylistData = await response.json();
+//         renderPlaylistDetails(currentPlaylistData);
+//     } catch (error) {
+//         console.error('Error:', error);
+//     }
+// }
+
+// function renderPlaylistDetails(playlistData) {
+//     document.getElementById('playlist-name').textContent = playlistData.playlist_name;
+//     document.getElementById('playlist-category').textContent = playlistData.playlist_category; 
+//     document.getElementById('teachers-name').textContent = playlistData.teachers_name;
+//     document.getElementById('teachers-about').textContent = playlistData.teachers_about;
+//     document.getElementById('subscribers').textContent = '100K subscribers';
+//     document.getElementById('playlist-about').textContent = playlistData.playlist_about; 
+
+//     const videoList = document.getElementById('video-list');
+//     videoList.innerHTML = ''; // Clear existing video list
+
+//     if (playlistData.videos.length > 0) {
+//         const firstVideo = playlistData.videos[0];
+//         setMainVideo(firstVideo);
+
+//         playlistData.videos.forEach((video, index) => {
+//             const videoCard = document.createElement('div');
+//             videoCard.className = 'flex gap-4 cursor-pointer relative';
+
+//             videoCard.innerHTML = `
+//                 <div class="flex-shrink-0 w-60 h-40 bg-gray-300 relative">
+//                     <img src="${playlistData.playlist_thumbnail}" class="w-full h-full absolute inset-0" alt="${video.course_title}" />
+//                     ${!isCoursePurchased && index >= 3 ? getLockIcon() : ''}
+//                 </div>
+//                 <div class="flex-grow">
+//                     <h3 class="font-bold text-sm mb-1">${video.course_title}</h3>
+//                     <p class="text-xs text-gray-500">${video.teachers_name}</p>
+//                     <p class="text-xs text-gray-500">${video.course_category}</p>
+//                 </div>
+//             `;
+
+//             videoCard.addEventListener('click', () => {
+//                 if (isCoursePurchased || index < 3) {
+//                     setMainVideo(video);
+//                 } else {
+//                     showPurchaseModal(); // Show purchase modal if course is not purchased
+//                 }
+//             });
+
+//             videoList.appendChild(videoCard);
+//         });
+//     }
+// }
+
+// function setMainVideo(video) {
+//     const mainVideo = document.getElementById('main-video');
+//     mainVideo.innerHTML = `
+//         <div class="flex-shrink-0 w-full h-[700px] bg-gray-300 relative rounded-lg overflow-hidden">
+//             <iframe 
+//                 src="${video.course_link}?autoplay=1&mute=1" 
+//                 frameborder="0" 
+//                 allow="autoplay; encrypted-media" 
+//                 allowfullscreen
+//                 class="w-full h-[700px] absolute inset-0">
+//             </iframe>
+//         </div>
+//     `;
+//     document.getElementById('video-title').textContent = video.course_title;
+// }
+
+// function getLockIcon() {
+//     return `
+//         <div class="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50">
+//             <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white opacity-70" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+//                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+//             </svg>
+//         </div>
+//     `;
+// }
+
+
+
+//     function showPurchaseModal() {
+//     const existingModal = document.querySelector('.modal-container');
+//     if (existingModal) {
+//         existingModal.remove(); // Remove existing modal to prevent duplicates
+//     }
+
+//     const modal = document.createElement('div');
+//     modal.className = 'modal-container fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50';
+//     modal.innerHTML = `
+//         <div class="bg-white p-8 rounded-lg shadow-lg">
+//             <h2 class="text-2xl font-bold mb-4">Buy the Course</h2>
+//             <p class="mb-4">Unlock all videos by purchasing the course!</p>
+//             <button id="buyCourseButton" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Buy the Course</button>
+//         </div>
+//     `;
+//     document.body.appendChild(modal);
+
+//     // Handle button click to send purchase request
+//     document.getElementById('buyCourseButton').addEventListener('click', async () => {
+//     const playlistId = new URLSearchParams(window.location.search).get('id');
+
+//     try {
+//         const response = await fetch('/purchase_course', {
+//             method: 'POST',
+//             headers: {
+//                 'Content-Type': 'application/json'
+//             },
+//             body: JSON.stringify({ playlist_id: playlistId })
+//         });
+
+//         const data = await response.json();
+
+//         if (response.ok) {
+//             isCoursePurchased = true; // Mark course as purchased
+//             document.body.removeChild(modal); // Remove the modal
+//             renderPlaylistDetails(currentPlaylistData); // Refresh playlist details to show unlocked videos
+//         } else {
+//             console.error('Purchase failed:', data.error);
+//             alert(data.error || 'Failed to purchase the course.');
+//         }
+//     } catch (error) {
+//         console.error('Error:', error);
+//         alert('An error occurred while trying to purchase the course.');
+//     }
+// });
+//     }
+
+
+// // Load YouTube API
+// if (!window.YT) {
+//     const tag = document.createElement('script');
+//     tag.src = "https://www.youtube.com/iframe_api";
+//     const firstScriptTag = document.getElementsByTagName('script')[0];
+//     firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+// }
+
+// // Event listener for the button to open purchase modal
+// document.getElementById('openPurchaseModal').addEventListener('click', showPurchaseModal);
+
+// // Load the playlist details
+// fetchPlaylistDetails();
+
+
+
+
+// let isCoursePurchased = false; // Track if the course is purchased
+// let currentPlaylistData = null; // Holds current playlist data
+
+// async function fetchPlaylistDetails() {
+//     const urlParams = new URLSearchParams(window.location.search);
+//     const playlistId = urlParams.get('id');
+
+//     // First, check if the course is purchased
+//     await checkIfCoursePurchased(playlistId);
+
+//     try {
+//         const response = await fetch(`/fetch_playlist/${playlistId}`);
+//         if (!response.ok) throw new Error('Failed to fetch playlist details');
+//         currentPlaylistData = await response.json();
+//         renderPlaylistDetails(currentPlaylistData);
+//     } catch (error) {
+//         console.error('Error:', error);
+//     }
+// }
+
+// async function checkIfCoursePurchased(playlistId) {
+//     try {
+//         const response = await fetch(`/is_purchased?playlist_id=${playlistId}`);
+//         if (!response.ok) throw new Error('Failed to check purchase status');
+        
+//         const data = await response.json();
+//         // Update the isCoursePurchased state based on the response
+//         isCoursePurchased = (data.message === 'yes');
+//     } catch (error) {
+//         console.error('Error checking purchase status:', error);
+//     }
+// }
+
+// function renderPlaylistDetails(playlistData) {
+//     // Populate the playlist details in the UI
+//     document.getElementById('playlist-name').textContent = playlistData.playlist_name;
+//     document.getElementById('playlist-category').textContent = playlistData.playlist_category; 
+//     document.getElementById('teachers-name').textContent = playlistData.teachers_name;
+//     document.getElementById('teachers-about').textContent = playlistData.teachers_about;
+//     document.getElementById('subscribers').textContent = '100K subscribers';
+//     document.getElementById('playlist-about').textContent = playlistData.playlist_about; 
+
+//     const videoList = document.getElementById('video-list');
+//     videoList.innerHTML = ''; // Clear existing video list
+
+//     if (playlistData.videos.length > 0) {
+//         const firstVideo = playlistData.videos[0];
+//         setMainVideo(firstVideo);
+
+//         playlistData.videos.forEach((video, index) => {
+//             const videoCard = document.createElement('div');
+//             videoCard.className = 'flex gap-4 cursor-pointer relative';
+
+//             videoCard.innerHTML = `
+//                 <div class="flex-shrink-0 w-60 h-40 bg-gray-300 relative">
+//                     <img src="${playlistData.playlist_thumbnail}" class="w-full h-full absolute inset-0" alt="${video.course_title}" />
+//                     ${!isCoursePurchased && index >= 3 ? getLockIcon() : ''}
+//                 </div>
+//                 <div class="flex-grow">
+//                     <h3 class="font-bold text-sm mb-1">${video.course_title}</h3>
+//                     <p class="text-xs text-gray-500">${video.teachers_name}</p>
+//                     <p class="text-xs text-gray-500">${video.course_category}</p>
+//                 </div>
+//             `;
+
+//             videoCard.addEventListener('click', () => {
+//                 if (isCoursePurchased || index < 3) {
+//                     setMainVideo(video);
+//                 } else {
+//                     showPurchaseModal(); // Show purchase modal if course is not purchased
+//                 }
+//             });
+
+//             videoList.appendChild(videoCard);
+//         });
+//     }
+// }
+
+// function setMainVideo(video) {
+//     const mainVideo = document.getElementById('main-video');
+//     mainVideo.innerHTML = `
+//         <div class="flex-shrink-0 w-full h-[700px] bg-gray-300 relative rounded-lg overflow-hidden">
+//             <iframe 
+//                 src="${video.course_link}?autoplay=1&mute=1" 
+//                 frameborder="0" 
+//                 allow="autoplay; encrypted-media" 
+//                 allowfullscreen
+//                 class="w-full h-[700px] absolute inset-0">
+//             </iframe>
+//         </div>
+//     `;
+//     document.getElementById('video-title').textContent = video.course_title;
+// }
+
+// function getLockIcon() {
+//     return `
+//         <div class="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50">
+//             <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white opacity-70" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+//                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+//             </svg>
+//         </div>
+//     `;
+// }
+
+// function showPurchaseModal() {
+//     const existingModal = document.querySelector('.modal-container');
+//     if (existingModal) {
+//         existingModal.remove(); // Remove existing modal to prevent duplicates
+//     }
+
+//     const modal = document.createElement('div');
+//     modal.className = 'modal-container fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50';
+//     modal.innerHTML = `
+//         <div class="bg-white p-8 rounded-lg shadow-lg">
+//             <h2 class="text-2xl font-bold mb-4">Buy the Course</h2>
+//             <p class="mb-4">Unlock all videos by purchasing the course!</p>
+//             <button id="buyCourseButton" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Buy the Course</button>
+//         </div>
+//     `;
+//     document.body.appendChild(modal);
+
+//     // Handle button click to send purchase request
+//     document.getElementById('buyCourseButton').addEventListener('click', async () => {
+//         const playlistId = new URLSearchParams(window.location.search).get('id');
+
+//         try {
+//             const response = await fetch('/purchase_course', {
+//                 method: 'POST',
+//                 headers: {
+//                     'Content-Type': 'application/json'
+//                 },
+//                 body: JSON.stringify({ playlist_id: playlistId })
+//             });
+
+//             const data = await response.json();
+
+//             if (response.ok) {
+//                 isCoursePurchased = true; // Mark course as purchased
+//                 document.body.removeChild(modal); // Remove the modal
+//                 renderPlaylistDetails(currentPlaylistData); // Refresh playlist details to show unlocked videos
+//             } else {
+//                 console.error('Purchase failed:', data.error);
+//                 alert(data.error || 'Failed to purchase the course.');
+//             }
+//         } catch (error) {
+//             console.error('Error:', error);
+//             alert('An error occurred while trying to purchase the course.');
+//         }
+//     });
+// }
+
+// // Load YouTube API
+// if (!window.YT) {
+//     const tag = document.createElement('script');
+//     tag.src = "https://www.youtube.com/iframe_api";
+//     const firstScriptTag = document.getElementsByTagName('script')[0];
+//     firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+// }
+
+// // Load the playlist details
+// fetchPlaylistDetails();
+
+
+
+////////////// Purcase Button Add //////////////////////////////
+// let isCoursePurchased = false; // Track if the course is purchased
+// let currentPlaylistData = null; // Holds current playlist data
+
+// // Event listener to open the purchase modal when the button is clicked
+// document.getElementById("openPurchaseModal").addEventListener("click", showPurchaseModal);
+
+// async function fetchPlaylistDetails() {
+//     const urlParams = new URLSearchParams(window.location.search);
+//     const playlistId = urlParams.get('id');
+
+//     // First, check if the course is purchased
+//     await checkIfCoursePurchased(playlistId);
+
+//     try {
+//         const response = await fetch(`/fetch_playlist/${playlistId}`);
+//         if (!response.ok) throw new Error('Failed to fetch playlist details');
+//         currentPlaylistData = await response.json();
+//         renderPlaylistDetails(currentPlaylistData);
+//     } catch (error) {
+//         console.error('Error:', error);
+//     }
+// }
+
+// async function checkIfCoursePurchased(playlistId) {
+//     try {
+//         const response = await fetch(`/is_purchased?playlist_id=${playlistId}`);
+//         if (!response.ok) throw new Error('Failed to check purchase status');
+        
+//         const data = await response.json();
+//         // Update the isCoursePurchased state based on the response
+//         isCoursePurchased = (data.message === 'yes');
+//     } catch (error) {
+//         console.error('Error checking purchase status:', error);
+//     }
+// }
+
+// function renderPlaylistDetails(playlistData) {
+//     // Populate the playlist details in the UI
+//     document.getElementById('playlist-name').textContent = playlistData.playlist_name;
+//     document.getElementById('playlist-category').textContent = playlistData.playlist_category; 
+//     document.getElementById('teachers-name').textContent = playlistData.teachers_name;
+//     document.getElementById('teachers-about').textContent = playlistData.teachers_about;
+//     document.getElementById('subscribers').textContent = '100K subscribers';
+//     document.getElementById('playlist-about').textContent = playlistData.playlist_about; 
+
+//     const videoList = document.getElementById('video-list');
+//     videoList.innerHTML = ''; // Clear existing video list
+
+//     if (playlistData.videos.length > 0) {
+//         const firstVideo = playlistData.videos[0];
+//         setMainVideo(firstVideo);
+
+//         playlistData.videos.forEach((video, index) => {
+//             const videoCard = document.createElement('div');
+//             videoCard.className = 'flex gap-4 cursor-pointer relative';
+
+//             videoCard.innerHTML = `
+//                 <div class="flex-shrink-0 w-60 h-40 bg-gray-300 relative">
+//                     <img src="${playlistData.playlist_thumbnail}" class="w-full h-full absolute inset-0" alt="${video.course_title}" />
+//                     ${!isCoursePurchased && index >= 3 ? getLockIcon() : ''}
+//                 </div>
+//                 <div class="flex-grow">
+//                     <h3 class="font-bold text-sm mb-1">${video.course_title}</h3>
+//                     <p class="text-xs text-gray-500">${video.teachers_name}</p>
+//                     <p class="text-xs text-gray-500">${video.course_category}</p>
+//                 </div>
+//             `;
+
+//             videoCard.addEventListener('click', () => {
+//                 if (isCoursePurchased || index < 3) {
+//                     setMainVideo(video);
+//                 } else {
+//                     showPurchaseModal(); // Show purchase modal if course is not purchased
+//                 }
+//             });
+
+//             videoList.appendChild(videoCard);
+//         });
+//     }
+// }
+
+// function setMainVideo(video) {
+//     const mainVideo = document.getElementById('main-video');
+//     mainVideo.innerHTML = `
+//         <div class="flex-shrink-0 w-full h-[700px] bg-gray-300 relative rounded-lg overflow-hidden">
+//             <iframe 
+//                 src="${video.course_link}?autoplay=1&mute=1" 
+//                 frameborder="0" 
+//                 allow="autoplay; encrypted-media" 
+//                 allowfullscreen
+//                 class="w-full h-[700px] absolute inset-0">
+//             </iframe>
+//         </div>
+//     `;
+//     document.getElementById('video-title').textContent = video.course_title;
+// }
+
+// function getLockIcon() {
+//     return `
+//         <div class="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50">
+//             <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white opacity-70" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+//                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+//             </svg>
+//         </div>
+//     `;
+// }
+
+// function showPurchaseModal() {
+//     const existingModal = document.querySelector('.modal-container');
+//     if (existingModal) {
+//         existingModal.remove(); // Remove existing modal to prevent duplicates
+//     }
+
+//     const modal = document.createElement('div');
+//     modal.className = 'modal-container fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50';
+//     modal.innerHTML = `
+//         <div class="bg-white p-8 rounded-lg shadow-lg">
+//             <h2 class="text-2xl font-bold mb-4">Buy the Course</h2>
+//             <p class="mb-4">Unlock all videos by purchasing the course!</p>
+//             <button id="buyCourseButton" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Buy the Course</button>
+//         </div>
+//     `;
+//     document.body.appendChild(modal);
+
+//     // Handle button click to send purchase request
+//     document.getElementById('buyCourseButton').addEventListener('click', async () => {
+//         const playlistId = new URLSearchParams(window.location.search).get('id');
+
+//         try {
+//             const response = await fetch('/purchase_course', {
+//                 method: 'POST',
+//                 headers: {
+//                     'Content-Type': 'application/json'
+//                 },
+//                 body: JSON.stringify({ playlist_id: playlistId })
+//             });
+
+//             const data = await response.json();
+
+//             if (response.ok) {
+//                 isCoursePurchased = true; // Mark course as purchased
+//                 document.body.removeChild(modal); // Remove the modal
+//                 renderPlaylistDetails(currentPlaylistData); // Refresh playlist details to show unlocked videos
+//             } else {
+//                 console.error('Purchase failed:', data.error);
+//                 alert(data.error || 'Failed to purchase the course.');
+//             }
+//         } catch (error) {
+//             console.error('Error:', error);
+//             alert('An error occurred while trying to purchase the course.');
+//         }
+//     });
+// }
+
+// // Load YouTube API
+// if (!window.YT) {
+//     const tag = document.createElement('script');
+//     tag.src = "https://www.youtube.com/iframe_api";
+//     const firstScriptTag = document.getElementsByTagName('script')[0];
+//     firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+// }
+
+// // Load the playlist details
+// fetchPlaylistDetails();
+
+
+
+
+// let isCoursePurchased = false; // Track if the course is purchased
+// let currentPlaylistData = null; // Holds current playlist data
+
+// // Event listener to open the purchase modal when the button is clicked
+// document.getElementById("openPurchaseModal").addEventListener("click", showPurchaseModal);
+
+// async function fetchPlaylistDetails() {
+//     const urlParams = new URLSearchParams(window.location.search);
+//     const playlistId = urlParams.get('id');
+
+//     // First, check if the course is purchased
+//     await checkIfCoursePurchased(playlistId);
+
+//     try {
+//         const response = await fetch(`/fetch_playlist/${playlistId}`);
+//         if (!response.ok) throw new Error('Failed to fetch playlist details');
+//         currentPlaylistData = await response.json();
+//         renderPlaylistDetails(currentPlaylistData);
+//     } catch (error) {
+//         console.error('Error:', error);
+//     }
+// }
+
+// async function checkIfCoursePurchased(playlistId) {
+//     try {
+//         const response = await fetch(`/is_purchased?playlist_id=${playlistId}`);
+//         if (!response.ok) throw new Error('Failed to check purchase status');
+        
+//         const data = await response.json();
+//         // Update the isCoursePurchased state based on the response
+//         isCoursePurchased = (data.message === 'yes');
+
+//         // Hide the purchase button if the course is purchased
+//         const purchaseButton = document.getElementById("openPurchaseModal");
+//         if (isCoursePurchased) {
+//             purchaseButton.style.display = 'none';
+//         } else {
+//             purchaseButton.style.display = 'block';
+//         }
+//     } catch (error) {
+//         console.error('Error checking purchase status:', error);
+//     }
+// }
+
+// function renderPlaylistDetails(playlistData) {
+//     // Populate the playlist details in the UI
+//     document.getElementById('playlist-name').textContent = playlistData.playlist_name;
+//     document.getElementById('playlist-category').textContent = playlistData.playlist_category; 
+//     document.getElementById('teachers-name').textContent = playlistData.teachers_name;
+//     document.getElementById('teachers-about').textContent = playlistData.teachers_about;
+//     document.getElementById('subscribers').textContent = '100K subscribers';
+//     document.getElementById('playlist-about').textContent = playlistData.playlist_about; 
+
+//     const videoList = document.getElementById('video-list');
+//     videoList.innerHTML = ''; // Clear existing video list
+
+//     if (playlistData.videos.length > 0) {
+//         const firstVideo = playlistData.videos[0];
+//         setMainVideo(firstVideo);
+
+//         playlistData.videos.forEach((video, index) => {
+//     const videoCard = document.createElement('div');
+//     videoCard.className = 'relative bg-gray-800 rounded-lg shadow-lg overflow-hidden w-60 h-40 transition-transform transform hover:scale-105';
+
+//     videoCard.innerHTML = `
+//         <div class="relative w-full h-full">
+//             <img src="${playlistData.playlist_thumbnail}" class="w-full h-full object-cover opacity-80" alt="${video.course_title}" />
+//             <div class="absolute inset-0 bg-black bg-opacity-50 flex flex-col justify-end p-4">
+//                 ${!isCoursePurchased && index >= 3 ? getLockIcon() : ''}
+//                 <h3 class="text-white font-semibold text-base">${video.course_title}</h3>
+//                 <p class="text-gray-300 text-sm">${video.teachers_name}</p>
+//                 <p class="text-gray-300 text-xs">${video.course_category}</p>
+//             </div>
+//         </div>
+//     `;
+
+//             videoCard.addEventListener('click', () => {
+//                 if (isCoursePurchased || index < 3) {
+//                     setMainVideo(video);
+//                 } else {
+//                     showPurchaseModal(); // Show purchase modal if course is not purchased
+//                 }
+//             });
+
+//             videoList.appendChild(videoCard);
+//         });
+//     }
+// }
+
+// function setMainVideo(video) {
+//     const mainVideo = document.getElementById('main-video');
+//     mainVideo.innerHTML = `
+//         <div class="flex-shrink-0 w-full h-[700px] bg-gray-300 relative rounded-lg overflow-hidden bg-gradient-to-r from-[#9796f0] to-[#fbc7d4] rounded">
+//             <iframe 
+//                 src="${video.course_link}?autoplay=1&mute=1" 
+//                 frameborder="0" 
+//                 allow="autoplay; encrypted-media" 
+//                 allowfullscreen
+//                 class="w-full h-[700px] absolute inset-0">
+//             </iframe>
+//         </div>
+//     `;
+//     document.getElementById('video-title').textContent = video.course_title;
+// }
+
+// function getLockIcon() {
+//     return `
+//         <div class="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50">
+//             <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white opacity-70" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+//                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+//             </svg>
+//         </div>
+//     `;
+// }
+
+// function showPurchaseModal() {
+//     const existingModal = document.querySelector('.modal-container');
+//     if (existingModal) {
+//         existingModal.remove(); // Remove existing modal to prevent duplicates
+//     }
+
+//     const modal = document.createElement('div');
+//     modal.className = 'modal-container fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50';
+//     modal.innerHTML = `
+//         <div class="bg-white p-8 rounded-lg shadow-lg">
+//             <h2 class="text-2xl font-bold mb-4">Buy the Course</h2>
+//             <p class="mb-4">Unlock all videos by purchasing the course!</p>
+//             <button id="buyCourseButton" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Buy the Course</button>
+//         </div>
+//     `;
+//     document.body.appendChild(modal);
+
+//     // Handle button click to send purchase request
+//     document.getElementById('buyCourseButton').addEventListener('click', async () => {
+//         const playlistId = new URLSearchParams(window.location.search).get('id');
+
+//         try {
+//             const response = await fetch('/purchase_course', {
+//                 method: 'POST',
+//                 headers: {
+//                     'Content-Type': 'application/json'
+//                 },
+//                 body: JSON.stringify({ playlist_id: playlistId })
+//             });
+
+//             const data = await response.json();
+
+//             if (response.ok) {
+//                 isCoursePurchased = true; // Mark course as purchased
+//                 document.body.removeChild(modal); // Remove the modal
+//                 renderPlaylistDetails(currentPlaylistData); // Refresh playlist details to show unlocked videos
+
+//                 // Hide purchase button since course is now purchased
+//                 document.getElementById("openPurchaseModal").style.display = 'none';
+//             } else {
+//                 console.error('Purchase failed:', data.error);
+//                 alert(data.error || 'Failed to purchase the course.');
+//             }
+//         } catch (error) {
+//             console.error('Error:', error);
+//             alert('An error occurred while trying to purchase the course.');
+//         }
+//     });
+// }
+
+// // Load YouTube API
+// if (!window.YT) {
+//     const tag = document.createElement('script');
+//     tag.src = "https://www.youtube.com/iframe_api";
+//     const firstScriptTag = document.getElementsByTagName('script')[0];
+//     firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+// }
+
+// // Load the playlist details
+// fetchPlaylistDetails();
+
+
+fetchUserProfiles();
+function fetchUserProfiles() {
+            fetch('/fetch_user_data')
+                .then(response => response.json())
+                .then(data => {
+                    console.log(data)
+                    var profileIcon = document.getElementById('profileIcon');
+                    // console.log(data[0].)
+                    // Set the src attribute of the <img> element
+                    profileIcon.querySelector('img').src = data[0].Image;
+                    // document.getElementById('profileIcon').src = data[0].Image;
+                    document.getElementById('Profile_name').innerText = data[0].Full_name;
+                    document.getElementById('Profile_image').src = data[0].Image;
+                    document.getElementById('Profile_Address').innerText = data[0].Address;
+
+
+                })
+                .catch(error => {
+                    console.error('Error fetching user profiles:', error);
+                });
+        }
+
+
+        // JavaScript to toggle visibility of the drawer based on button click
+        document.getElementById('profileIcon').addEventListener('click', function (event) {
+            event.preventDefault();
+            const drawer = document.getElementById('drawer');
+            drawer.classList.toggle('translate-x-full');
+        });
+
+
+
+// const apiKey = 'AIzaSyDew2vDJvOB7E_Zz4XEsrzuOvl7SW4pLoo';
+// const videoId = 'VIDEO_ID_HERE';
+
+// fetch(`https://www.googleapis.com/youtube/v3/videos?id=${videoId}&key=${apiKey}&part=snippet,contentDetails,statistics`)
+//   .then(response => response.json())
+//   .then(data => console.log(data))
+//   .catch(error => console.error('Error fetching video data:', error));
+
+
+const apiKey = 'AIzaSyDew2vDJvOB7E_Zz4XEsrzuOvl7SW4pLoo';
+let isCoursePurchased = false;
+let currentPlaylistData = null;
+let player;
+let currentVideoIndex = 0;
+let progressCheckInterval;
+let lastSavedProgress = 0;
+
+// Event listener to open the purchase modal when the button is clicked
+document.getElementById("openPurchaseModal").addEventListener("click", showPurchaseModal);
+
+async function fetchPlaylistDetails() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const playlistId = urlParams.get('id');
+
+    // First, check if the course is purchased
+    await checkIfCoursePurchased(playlistId);
+
+    try {
+        const response = await fetch(`/fetch_playlist/${playlistId}`);
+        if (!response.ok) throw new Error('Failed to fetch playlist details');
+        currentPlaylistData = await response.json();
+        renderPlaylistDetails(currentPlaylistData);
+    } catch (error) {
+        console.error('Error:', error);
+    }
+}
+
+async function checkIfCoursePurchased(playlistId) {
+    try {
+        const response = await fetch(`/is_purchased?playlist_id=${playlistId}`);
+        if (!response.ok) throw new Error('Failed to check purchase status');
+        
+        const data = await response.json();
+        isCoursePurchased = (data.message === 'yes');
+
+        const purchaseButton = document.getElementById("openPurchaseModal");
+        if (isCoursePurchased) {
+            purchaseButton.style.display = 'none';
+        } else {
+            purchaseButton.style.display = 'block';
+        }
+    } catch (error) {
+        console.error('Error checking purchase status:', error);
+    }
+}
+
+function renderPlaylistDetails(playlistData) {
+    document.getElementById('playlist-name').textContent = playlistData.playlist_name;
+    document.getElementById('playlist-category').textContent = playlistData.playlist_category;
+    document.getElementById('teachers-name').textContent = playlistData.teachers_name;
+    document.getElementById('teachers-about').textContent = playlistData.teachers_about;
+    document.getElementById('subscribers').textContent = '100K subscribers';
+    document.getElementById('playlist-about').textContent = playlistData.playlist_about;
+
+    const videoList = document.getElementById('video-list');
+    videoList.innerHTML = '';
+
+    if (playlistData.videos.length > 0) {
+        const firstVideo = playlistData.videos[0];
+        setMainVideo(firstVideo, 0);
+
+        playlistData.videos.forEach((video, index) => {
+            const videoCard = document.createElement('div');
+            videoCard.className = 'relative bg-gray-800 rounded-lg shadow-lg overflow-hidden w-60 h-40 transition-transform transform hover:scale-105';
+
+            // Add tick mark to the video card if it is the current video
+            const tickMark = index === 0 ? '<span class="text-white absolute top-2 right-2 text-lg">✔</span>' : '';
+            
+            videoCard.innerHTML = `
+                <div class="relative w-full h-full">
+                    <img src="${playlistData.playlist_thumbnail}" class="w-full h-full object-cover opacity-80" alt="${video.course_title}" />
+                    <div class="absolute inset-0 bg-black bg-opacity-50 flex flex-col justify-end p-4">
+                        ${!isCoursePurchased && index >= 3 ? getLockIcon() : ''}
+                        <h3 class="text-white font-semibold text-base">${video.course_title}</h3>
+                        <p class="text-gray-300 text-sm">${video.teachers_name}</p>
+                        <p class="text-gray-300 text-xs">${video.course_category}</p>
+                        ${tickMark}
+                    </div>
+                </div>
+            `;
+
+            videoCard.addEventListener('click', () => {
+                if (isCoursePurchased || index < 3) {
+                    if (index <= currentVideoIndex + 1) {
+                        currentVideoIndex = index;
+                        setMainVideo(video, index);
+                    } else {
+                        alert('Please watch the videos in sequence.');
+                    }
+                } else {
+                    showPurchaseModal();
+                }
+            });
+
+            videoList.appendChild(videoCard);
+        });
+    }
+}
+
+function setMainVideo(video, index) {
+    const videoId = extractVideoId(video.course_link);
+    const mainVideo = document.getElementById('main-video');
+    
+    mainVideo.innerHTML = `
+        <div class="flex-shrink-0 w-full h-[700px] bg-gray-300 relative rounded-lg overflow-hidden bg-gradient-to-r from-[#9796f0] to-[#fbc7d4] rounded">
+            <div id="player" class="w-full h-[700px] absolute inset-0"></div>
+        </div>
+    `;
+    
+    if (player) {
+        player.destroy(); // Destroy the previous player instance
+    }
+
+    player = new YT.Player('player', {
+        height: '700',
+        width: '100%',
+        videoId: videoId,
+        playerVars: {
+            'autoplay': 1,  // Autoplay enabled for all videos
+            'rel': 0,
+            'modestbranding': 1
+        },
+        events: {
+            'onReady': onPlayerReady,
+            'onStateChange': onPlayerStateChange
+        }
+    });
+
+    document.getElementById('video-title').textContent = video.course_title;
+    lastSavedProgress = 0;
+    currentVideoIndex = index;
+
+    updateTickMark(index);  // Update the tick mark
+}
+
+function extractVideoId(url) {
+    const regex = /(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/\s]{11})/;
+    const match = url.match(regex);
+    return match ? match[1] : null;
+}
+
+function onPlayerReady(event) {
+    startProgressTracking();
+}
+
+function onPlayerStateChange(event) {
+    if (event.data === YT.PlayerState.ENDED) {
+        handleVideoComplete();
+    }
+}
+
+function startProgressTracking() {
+    if (progressCheckInterval) {
+        clearInterval(progressCheckInterval);
+    }
+
+    progressCheckInterval = setInterval(() => {
+        if (player && player.getCurrentTime && player.getDuration) {
+            try {
+                const currentTime = player.getCurrentTime();
+                const duration = player.getDuration();
+                const progress = (currentTime / duration) * 100;
+
+                // Save progress when it reaches new 20% threshold
+                const currentThreshold = Math.floor(progress / 20) * 20;
+                if (currentThreshold > lastSavedProgress && currentThreshold <= 100) {
+                    lastSavedProgress = currentThreshold;
+                    saveProgress(currentThreshold);
+                }
+            } catch (error) {
+                console.error('Error tracking progress:', error);
+            }
+        }
+    }, 1000);
+}
+
+async function saveProgress(progress) {
+    const urlParams = new URLSearchParams(window.location.search);
+    const playlistId = urlParams.get('id');
+
+    try {
+        const response = await fetch('/save_course_progress', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                playlist_id: playlistId,
+                total_videos: currentPlaylistData.videos.length,
+                video_no: currentVideoIndex + 1,
+                percentage: progress
+            })
+        });
+
+        const data = await response.json();
+        if (!response.ok) {
+            throw new Error(data.error || 'Failed to save progress');
+        }
+    } catch (error) {
+        console.error('Error saving progress:', error);
+    }
+}
+
+function handleVideoComplete() {
+    if (currentVideoIndex < currentPlaylistData.videos.length - 1) {
+        currentVideoIndex++;
+        const nextVideo = currentPlaylistData.videos[currentVideoIndex];
+        
+        // Check if the user can access this video
+        if (isCoursePurchased || currentVideoIndex < 3) {
+            setMainVideo(nextVideo, currentVideoIndex); // Auto-play the next video
+        } else {
+            alert('Please purchase the course to access more videos.');
+        }
+    }
+}
+
+function getLockIcon() {
+    return `
+        <div class="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white opacity-70" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+            </svg>
+        </div>
+    `;
+}
+
+function updateTickMark(currentIndex) {
+    // Remove the previous tick mark
+    const videoList = document.getElementById('video-list');
+    videoList.querySelectorAll('.relative').forEach((card, index) => {
+        const tickMark = card.querySelector('span');
+        if (tickMark) {
+            tickMark.remove();
+        }
+        if (index === currentIndex) {
+            card.innerHTML += '<span class="text-white absolute top-2 right-2 text-lg">✔</span>';
+        }
+    });
+}
+
+function showPurchaseModal() {
+    const existingModal = document.querySelector('.modal-container');
+    if (existingModal) {
+        existingModal.remove();
+    }
+
+    const modal = document.createElement('div');
+    modal.className = 'modal-container fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50';
+    modal.innerHTML = `
+        <div class="bg-white p-8 rounded-lg shadow-lg">
+            <h2 class="text-2xl font-bold mb-4">Buy the Course</h2>
+            <p class="mb-4">To watch more videos, please purchase the course.</p>
+            <button id="purchaseNow" class="bg-blue-500 text-white px-4 py-2 rounded-lg">Buy Now</button>
+            <button id="closeModal" class="bg-gray-500 text-white px-4 py-2 rounded-lg ml-2">Close</button>
+        </div>
+    `;
+    
+    document.body.appendChild(modal);
+
+    document.getElementById('closeModal').addEventListener('click', () => modal.remove());
+    document.getElementById('purchaseNow').addEventListener('click', () => alert('Proceed to payment gateway'));
+}
+
+window.onload = fetchPlaylistDetails;
+
+    </script>
+</body>
+
+</html>
