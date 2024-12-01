@@ -60,6 +60,19 @@ export default Button;
   Disabled
 </Button>
 
+/// Ghost
+<Button variant="ghost">Purchase Now</Button>
+
+/// Small
+<Button size="small">Small Button</Button>
+
+/// Large 
+<Button size="large">Large Button</Button>
+
+/// Full-width
+<Button className="w-full">Full Width Button</Button>
+
+
 Props:
 children: The content inside the button (e.g., text, icons).
 onClick: Function to handle click events.
