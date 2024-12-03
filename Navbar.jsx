@@ -4,36 +4,75 @@ import { useState, useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import HireFreelancer from '../HireFreelancer/HireFreelancer';
 import FindWork from '../FindWork/FindWork';
+import Solutions from '../Solutions/Solutions';
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isHireModalOpen, setIsHireModalOpen] = useState(false);
   const [isFindWorkModalOpen, setIsFindWorkModalOpen] = useState(false);
+  const [isSolutionsModalOpen, setIsSolutionsModalOpen] = useState(false);
   const hireButtonRef = useRef(null);
   const findWorkButtonRef = useRef(null);
+  const solutionsButtonRef = useRef(null);
   const navigate = useNavigate();
 
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
 
-  // Function to get button position
-  const getButtonPosition = (ref) => {
-    if (ref.current) {
-      const rect = ref.current.getBoundingClientRect();
-      return {
-        top: rect.bottom + window.scrollY,
-        left: rect.left + window.scrollX
-      };
-    }
-    return null;
+  // Create container refs for mouse tracking
+  const hireContainerRef = useRef(null);
+  const findWorkContainerRef = useRef(null);
+  const solutionsContainerRef = useRef(null);
+
+  // Handle mouse events for HireFreelancer
+  const handleHireMouseEnter = () => {
+    setIsHireModalOpen(true);
   };
 
-  // Simplified hover handlers for Hire Freelancers
-  const handleHireMouseEnter = () => setIsHireModalOpen(true);
-  const handleHireMouseLeave = () => setIsHireModalOpen(false);
+  const handleHireMouseLeave = (e) => {
+    const modalRect = hireContainerRef.current?.getBoundingClientRect();
+    if (modalRect) {
+      const isMovingToModal = e.clientY >= modalRect.top && 
+                             e.clientY <= modalRect.bottom && 
+                             e.clientX >= modalRect.left && 
+                             e.clientX <= modalRect.right;
+      if (isMovingToModal) return;
+    }
+    setIsHireModalOpen(false);
+  };
 
-  // Simplified hover handlers for Find Work
-  const handleFindWorkMouseEnter = () => setIsFindWorkModalOpen(true);
-  const handleFindWorkMouseLeave = () => setIsFindWorkModalOpen(false);
+  // Handle mouse events for FindWork
+  const handleFindWorkMouseEnter = () => {
+    setIsFindWorkModalOpen(true);
+  };
+
+  const handleFindWorkMouseLeave = (e) => {
+    const modalRect = findWorkContainerRef.current?.getBoundingClientRect();
+    if (modalRect) {
+      const isMovingToModal = e.clientY >= modalRect.top && 
+                             e.clientY <= modalRect.bottom && 
+                             e.clientX >= modalRect.left && 
+                             e.clientX <= modalRect.right;
+      if (isMovingToModal) return;
+    }
+    setIsFindWorkModalOpen(false);
+  };
+
+  // Handle mouse events for Solutions
+  const handleSolutionsMouseEnter = () => {
+    setIsSolutionsModalOpen(true);
+  };
+
+  const handleSolutionsMouseLeave = (e) => {
+    const modalRect = solutionsContainerRef.current?.getBoundingClientRect();
+    if (modalRect) {
+      const isMovingToModal = e.clientY >= modalRect.top && 
+                             e.clientY <= modalRect.bottom && 
+                             e.clientX >= modalRect.left && 
+                             e.clientX <= modalRect.right;
+      if (isMovingToModal) return;
+    }
+    setIsSolutionsModalOpen(false);
+  };
 
   return (
     <>
@@ -55,12 +94,10 @@ const Navbar = () => {
               <div 
                 ref={hireButtonRef}
                 className="relative"
+                onMouseEnter={handleHireMouseEnter}
+                onMouseLeave={handleHireMouseLeave}
               >
-                <button 
-                  onMouseEnter={handleHireMouseEnter}
-                  onMouseLeave={handleHireMouseLeave}
-                  className="text-white hover:text-secondary transition-colors flex items-center group"
-                >
+                <button className="text-white hover:text-secondary transition-colors flex items-center group">
                   Hire freelancers
                   <ChevronDown className={`w-4 h-4 ml-1 transition-transform duration-200 ${
                     isHireModalOpen ? 'rotate-180' : 'group-hover:rotate-180'
@@ -71,12 +108,10 @@ const Navbar = () => {
               <div
                 ref={findWorkButtonRef}
                 className="relative"
+                onMouseEnter={handleFindWorkMouseEnter}
+                onMouseLeave={handleFindWorkMouseLeave}
               >
-                <button 
-                  onMouseEnter={handleFindWorkMouseEnter}
-                  onMouseLeave={handleFindWorkMouseLeave}
-                  className="text-white hover:text-secondary transition-colors flex items-center group"
-                >
+                <button className="text-white hover:text-secondary transition-colors flex items-center group">
                   Find work
                   <ChevronDown className={`w-4 h-4 ml-1 transition-transform duration-200 ${
                     isFindWorkModalOpen ? 'rotate-180' : 'group-hover:rotate-180'
@@ -84,10 +119,19 @@ const Navbar = () => {
                 </button>
               </div>
 
-              <button className="text-white hover:text-secondary transition-colors flex items-center group">
-                Solutions
-                <ChevronDown className="w-4 h-4 ml-1 group-hover:rotate-180 transition-transform duration-200" />
-              </button>
+              <div
+                ref={solutionsButtonRef}
+                className="relative"
+                onMouseEnter={handleSolutionsMouseEnter}
+                onMouseLeave={handleSolutionsMouseLeave}
+              >
+                <button className="text-white hover:text-secondary transition-colors flex items-center group">
+                  Solutions
+                  <ChevronDown className={`w-4 h-4 ml-1 transition-transform duration-200 ${
+                    isSolutionsModalOpen ? 'rotate-180' : 'group-hover:rotate-180'
+                  }`} />
+                </button>
+              </div>
             </div>
 
             {/* Desktop Auth Buttons */}
@@ -146,7 +190,13 @@ const Navbar = () => {
                 Find work
                 <ChevronDown className="w-4 h-4" />
               </button>
-              <button className="w-full text-left text-white hover:text-secondary transition-colors flex items-center justify-between p-2 rounded-lg hover:bg-white/5">
+              <button 
+                onClick={() => {
+                  setIsSolutionsModalOpen(true);
+                  setIsMenuOpen(false);
+                }}
+                className="w-full text-left text-white hover:text-secondary transition-colors flex items-center justify-between p-2 rounded-lg hover:bg-white/5"
+              >
                 Solutions
                 <ChevronDown className="w-4 h-4" />
               </button>
@@ -168,17 +218,41 @@ const Navbar = () => {
       </nav>
 
       {/* Modals */}
-      <HireFreelancer 
-        isOpen={isHireModalOpen} 
-        onClose={() => setIsHireModalOpen(false)} 
-        buttonRef={hireButtonRef}
-      />
+      <div 
+        ref={hireContainerRef}
+        onMouseEnter={() => setIsHireModalOpen(true)}
+        onMouseLeave={() => setIsHireModalOpen(false)}
+      >
+        <HireFreelancer 
+          isOpen={isHireModalOpen} 
+          onClose={() => setIsHireModalOpen(false)} 
+          buttonRef={hireButtonRef}
+        />
+      </div>
 
-      <FindWork 
-        isOpen={isFindWorkModalOpen} 
-        onClose={() => setIsFindWorkModalOpen(false)}
-        buttonRef={findWorkButtonRef}
-      />
+      <div 
+        ref={findWorkContainerRef}
+        onMouseEnter={() => setIsFindWorkModalOpen(true)}
+        onMouseLeave={() => setIsFindWorkModalOpen(false)}
+      >
+        <FindWork 
+          isOpen={isFindWorkModalOpen} 
+          onClose={() => setIsFindWorkModalOpen(false)}
+          buttonRef={findWorkButtonRef}
+        />
+      </div>
+
+      <div 
+        ref={solutionsContainerRef}
+        onMouseEnter={() => setIsSolutionsModalOpen(true)}
+        onMouseLeave={() => setIsSolutionsModalOpen(false)}
+      >
+        <Solutions 
+          isOpen={isSolutionsModalOpen} 
+          onClose={() => setIsSolutionsModalOpen(false)}
+          buttonRef={solutionsButtonRef}
+        />
+      </div>
     </>
   );
 };
