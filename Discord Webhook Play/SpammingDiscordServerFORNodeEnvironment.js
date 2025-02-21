@@ -1,5 +1,5 @@
 // Your Discord webhook URL
-const webhookUrl = "https://discord.com/api/webhooks/1340617822145089546/elBRdyyzwfeZqgDVkTuKzKmY0QigoKMhO2gz_HAA5OBHexEhE04LeEyCE5ey34Q6Njpy";
+//const webhookUrl = "https://discord.com/api/webhooks/1340617822145089546/elBRdyyzwfeZqgDVkTuKzKmY0QigoKMhO2gz_HAA5OBHexEhE04LeEyCE5ey34Q6Njpy"; <= Comment it out before run, it will get deleted if exposed.
 
 // JSON payload (message content)
 const data = {
