@@ -1,17 +1,25 @@
 const SHA256 = require('crypto-js/sha256');
 
+class Transaction{
+    constructor(fromAddress, toAddress, amount){
+        this.fromAddress = fromAddress;
+        this.toAddress = toAddress;
+        this.amount = amount;
+    }
+}
+
 class Block {
-    constructor(index, timestamp, data, previousHash = ''){
-        this.index = index;
+    constructor(timestamp, transactions, previousHash = ''){
+        // this.index = index;
         this.timestamp = timestamp;
-        this.data = data;
+        this.transactions = transactions;
         this.previousHash = previousHash;
         this.hash = this.calculateHash();
         this.nonce = 0;
         }
 
     calculateHash(){
-        return SHA256(this.index + this.previousHash + JSON.stringify(this.data) + this.nonce).toString();
+        return SHA256(this.previousHash + JSON.stringify(this.transactions) + this.nonce).toString();
     }
 
     mineBlock(difficulty){
@@ -28,22 +36,59 @@ class Block {
 class Blockchain{
     constructor(){
         this.chain = [this.createGenesisBlock()];
-        this.difficulty = 4;
+        this.difficulty = 2;
+        this.pendingTransactions = [];
+        this.miningReward = 100;
     }
 
     createGenesisBlock(){
-        return new Block(0, "15/01/2026", "Genesis Block", "0");
+        return new Block("15/01/2026", "Genesis Block", "0");
     }
 
     getLatestBlock(){
         return this.chain[this.chain.length - 1];
     }
 
-    addBlock(newBlock){
-        newBlock.previousHash = this.getLatestBlock().hash;
-        //newBlock.hash = newBlock.calculateHash();
-        newBlock.mineBlock(this.difficulty);
-        this.chain.push(newBlock);
+    // //Old Method
+    // addBlock(newBlock){
+    //     newBlock.previousHash = this.getLatestBlock().hash;
+    //     //newBlock.hash = newBlock.calculateHash();
+    //     newBlock.mineBlock(this.difficulty);
+    //     this.chain.push(newBlock);
+    // }
+
+    minePendingTransactions(miningRewardAddress){
+        let block = new Block(Date.now(), this.pendingTransactions);
+        block.mineBlock(this.difficulty);
+
+        console.log("Block mined successfully!");
+        this.chain.push(block);
+
+        this.pendingTransactions = [
+            new Transaction(null, miningRewardAddress, this.miningReward)
+        ];
+    }
+
+    createTransaction(transaction){
+        this.pendingTransactions.push(transaction);
+    }
+
+    getBalanceofAddress(address){
+        let balance = 0;
+
+        for(const block of this.chain){
+            for(const trans of block.transactions){
+                if(trans.fromAddress === address){
+                    balance -= trans.amount;
+                }
+
+                if(trans.toAddress === address){
+                    balance += trans.amount;
+                }
+            }
+        }
+
+        return balance;
     }
 
     isChainValid(){
@@ -67,12 +112,33 @@ class Blockchain{
 
 let clickCoin = new Blockchain();
 
-// Part 2
-console.log("Mining Block 1...");
-clickCoin.addBlock(new Block(1, "16/01/2026", { amount: 16 }));
+clickCoin.createTransaction(new Transaction('address1', 'address2', 160));
+clickCoin.createTransaction(new Transaction('address2', 'address1', 60));
 
-console.log("Mining Block 2...");
-clickCoin.addBlock(new Block(2, "18/01/2026", { amount: 16 }));
+console.log("\n Starting the miner ...");
+clickCoin.minePendingTransactions("MIMK-ADDRESS");
+
+console.log("\n Balance of MK is", clickCoin.getBalanceofAddress("MIMK-ADDRESS"));
+
+console.log("\n Starting the miner again...");
+clickCoin.minePendingTransactions("MIMK-ADDRESS");
+
+console.log("\n Balance of MK is", clickCoin.getBalanceofAddress("MIMK-ADDRESS"));
+
+console.log("\n Starting the miner again and again...");
+clickCoin.minePendingTransactions("MIMK-ADDRESS");
+
+console.log("\n Balance of MK is", clickCoin.getBalanceofAddress("MIMK-ADDRESS"));
+
+
+
+
+// // Part 2
+// console.log("Mining Block 1...");
+// clickCoin.addBlock(new Block(1, "16/01/2026", { amount: 16 }));
+
+// console.log("Mining Block 2...");
+// clickCoin.addBlock(new Block(2, "18/01/2026", { amount: 16 }));
 
 
 // Part 1
