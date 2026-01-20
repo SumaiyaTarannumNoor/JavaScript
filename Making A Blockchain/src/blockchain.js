@@ -1,4 +1,6 @@
 const SHA256 = require('crypto-js/sha256');
+const EC = require('elliptic').ec;
+const ec = new EC('secp256k1');
 
 class Transaction{
     constructor(fromAddress, toAddress, amount){
@@ -6,20 +8,45 @@ class Transaction{
         this.toAddress = toAddress;
         this.amount = amount;
     }
+
+    calculateHash(){
+        return SHA256(this.fromAddress + this.toAddress + this.amount).toString();
+    }
+
+    signTransaction(signingKey){
+        if(signingKey.getPublic('hex') !== this.fromAddress){
+            throw new Error("You cannot sign transactions for other wallets.");
+        }
+
+        const hashTx = this.calculateHash();
+        const sig = signingKey.sign(hashTx, 'base64');
+        this.signature = sig.toDRE('hex');
+    }
+
+    isValid(){
+        if(this.fromAddress === null) return true;
+
+        if(!this.signature || this.signature.length === 0){
+            throw new Error("No signature in this transaction.")
+        }
+
+        const publicKey = ec.keyFromPublic(this.fromAddress, 'hex');
+        return publicKey.verify(this.calculateHash(), this.signature);
+    }
 }
 
 class Block {
     constructor(timestamp, transactions, previousHash = ''){
         // this.index = index;
+        this.previousHash = previousHash;
         this.timestamp = timestamp;
         this.transactions = transactions;
-        this.previousHash = previousHash;
-        this.hash = this.calculateHash();
         this.nonce = 0;
+        this.hash = this.calculateHash();
         }
 
     calculateHash(){
-        return SHA256(this.previousHash + JSON.stringify(this.transactions) + this.nonce).toString();
+        return SHA256(this.previousHash + this.timestamp + JSON.stringify(this.transactions) + this.nonce).toString();
     }
 
     mineBlock(difficulty){
@@ -28,7 +55,7 @@ class Block {
             this.hash = this.calculateHash(); 
         }
 
-        console.log("Block mined: "+ this.hash)
+        console.log("BLOCK MINED: "+ this.hash)
     }
 
 }
@@ -58,15 +85,16 @@ class Blockchain{
     // }
 
     minePendingTransactions(miningRewardAddress){
-        let block = new Block(Date.now(), this.pendingTransactions);
+        const rewardTx = new Transaction(null, miningRewardAddress, this.miningReward);
+        this.pendingTransactions.push(rewardTx);
+
+        let block = new Block(Date.now(), this.pendingTransactions, this.getLatestBlock().hash);
         block.mineBlock(this.difficulty);
 
         console.log("Block mined successfully!");
         this.chain.push(block);
 
-        this.pendingTransactions = [
-            new Transaction(null, miningRewardAddress, this.miningReward)
-        ];
+        this.pendingTransactions = [];
     }
 
     createTransaction(transaction){
