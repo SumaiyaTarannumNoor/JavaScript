@@ -20,7 +20,7 @@ class Transaction{
 
         const hashTx = this.calculateHash();
         const sig = signingKey.sign(hashTx, 'base64');
-        this.signature = sig.toDRE('hex');
+        this.signature = sig.toDER('hex');
     }
 
     isValid(){
@@ -58,6 +58,15 @@ class Block {
         console.log("BLOCK MINED: "+ this.hash)
     }
 
+    hasValidTransactions(){
+        for(const tx of this.transactions){
+            if(!tx.isValid()){
+                return false;
+            }
+        }
+
+        return true;
+    }
 }
 
 class Blockchain{
@@ -69,7 +78,7 @@ class Blockchain{
     }
 
     createGenesisBlock(){
-        return new Block("15/01/2026", "Genesis Block", "0");
+        return new Block(Date.parse("21/01/2026"), [], "0");
     }
 
     getLatestBlock(){
@@ -91,13 +100,22 @@ class Blockchain{
         let block = new Block(Date.now(), this.pendingTransactions, this.getLatestBlock().hash);
         block.mineBlock(this.difficulty);
 
-        console.log("Block mined successfully!");
+        console.log("Block successfully mined!");
         this.chain.push(block);
 
         this.pendingTransactions = [];
     }
 
-    createTransaction(transaction){
+    addTransaction(transaction){
+
+        if(!transaction.fromAddress || !transaction.toAddress){
+            throw new Error("Transaction must include from and to address.")
+        }
+
+        if(!transaction.isValid()){
+            throw new Error("Cannot add invalid transaction to the chain.")
+        }
+
         this.pendingTransactions.push(transaction);
     }
 
@@ -124,17 +142,23 @@ class Blockchain{
             const currentBlock = this.chain[i];
             const previousBlock = this.chain[i - 1];
 
+            if(!currentBlock.hasValidTransactions()){
+                return false;
+            }
+
             if(currentBlock.hash !== currentBlock.calculateHash()){
                 return false;
             }
 
-            if(currentBlock.previousHash !== previousBlock.hash){
+            if(currentBlock.previousHash !== previousBlock.calculateHash()){
                 return false;
             }
         }
 
         return true;
     }
+
+     
 }
 
 module.exports.Blockchain = Blockchain;

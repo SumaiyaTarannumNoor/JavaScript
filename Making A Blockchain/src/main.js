@@ -1,25 +1,38 @@
 const {Blockchain, Transaction} = require('./blockchain');
+const EC = require('elliptic').ec;
+const ec = new EC('secp256k1');
 
+const myKey = ec.keyFromPrivate('c30f9e5e38e5eba6cf71c99a4051dd603145cd3f57ae9c60ff70a0d228977fe3');
+const myWalletAddress = myKey.getPublic('hex');
 
 let clickCoin = new Blockchain();
 
-clickCoin.createTransaction(new Transaction('address1', 'address2', 160));
-clickCoin.createTransaction(new Transaction('address2', 'address1', 60));
+const tx1 = new Transaction(myWalletAddress, 'public key goes here', 10);
+tx1.signTransaction(myKey);
+clickCoin.addTransaction(tx1);
+
+// clickCoin.createTransaction(new Transaction('address1', 'address2', 160));
+// clickCoin.createTransaction(new Transaction('address2', 'address1', 60));
 
 console.log("\n Starting the miner ...");
-clickCoin.minePendingTransactions("MIMK-ADDRESS");
+clickCoin.minePendingTransactions(myWalletAddress);
 
-console.log("\n Balance of MK is", clickCoin.getBalanceofAddress("MIMK-ADDRESS"));
+console.log("\n Balance of MK is", clickCoin.getBalanceofAddress(myWalletAddress));
 
-console.log("\n Starting the miner again...");
-clickCoin.minePendingTransactions("MIMK-ADDRESS");
+// clickCoin.chain[1].transactions[0].amount = 1; //Tampering the chain
 
-console.log("\n Balance of MK is", clickCoin.getBalanceofAddress("MIMK-ADDRESS"));
+console.log("Is chain valid?", clickCoin.isChainValid());
 
-console.log("\n Starting the miner again and again...");
-clickCoin.minePendingTransactions("MIMK-ADDRESS");
+// Part 3
+// console.log("\n Starting the miner again...");
+// clickCoin.minePendingTransactions("MIMK-ADDRESS");
 
-console.log("\n Balance of MK is", clickCoin.getBalanceofAddress("MIMK-ADDRESS"));
+// console.log("\n Balance of MK is", clickCoin.getBalanceofAddress("MIMK-ADDRESS"));
+
+// console.log("\n Starting the miner again and again...");
+// clickCoin.minePendingTransactions("MIMK-ADDRESS");
+
+// console.log("\n Balance of MK is", clickCoin.getBalanceofAddress("MIMK-ADDRESS"));
 
 
 
