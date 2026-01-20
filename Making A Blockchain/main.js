@@ -7,16 +7,28 @@ class Block {
         this.data = data;
         this.previousHash = previousHash;
         this.hash = this.calculateHash();
-    }
+        this.nonce = 0;
+        }
 
     calculateHash(){
-        return SHA256(this.index + this.previousHash + JSON.stringify(this.data)).toString();
+        return SHA256(this.index + this.previousHash + JSON.stringify(this.data) + this.nonce).toString();
     }
+
+    mineBlock(difficulty){
+        while(this.hash.substring(0, difficulty) !== Array(difficulty + 1).join("0")){
+            this.nonce++;
+            this.hash = this.calculateHash(); 
+        }
+
+        console.log("Block mined: "+ this.hash)
+    }
+
 }
 
 class Blockchain{
     constructor(){
         this.chain = [this.createGenesisBlock()];
+        this.difficulty = 4;
     }
 
     createGenesisBlock(){
@@ -29,7 +41,8 @@ class Blockchain{
 
     addBlock(newBlock){
         newBlock.previousHash = this.getLatestBlock().hash;
-        newBlock.hash = newBlock.calculateHash();
+        //newBlock.hash = newBlock.calculateHash();
+        newBlock.mineBlock(this.difficulty);
         this.chain.push(newBlock);
     }
 
@@ -53,17 +66,25 @@ class Blockchain{
 
 
 let clickCoin = new Blockchain();
+
+// Part 2
+console.log("Mining Block 1...");
 clickCoin.addBlock(new Block(1, "16/01/2026", { amount: 16 }));
+
+console.log("Mining Block 2...");
 clickCoin.addBlock(new Block(2, "18/01/2026", { amount: 16 }));
 
-console.log("Is Blockchain valid? " + clickCoin.isChainValid())
 
-// Tamper check
-//clickCoin.chain[1].data = { amount: 160 };
-//Another tamper check
-//clickCoin.chain[1].hash = clickCoin.chain[1].calculateHash();
+// Part 1
+// console.log("Is Blockchain valid? " + clickCoin.isChainValid())
 
-//console.log("Is Blockchain valid? " + clickCoin.isChainValid())
+// // Tamper check
+// //clickCoin.chain[1].data = { amount: 160 };
+// //Another tamper check
+// //clickCoin.chain[1].hash = clickCoin.chain[1].calculateHash();
 
-// Comment it out to create the Blockchain and then the code above will work.
-//console.log(JSON.stringify(clickCoin, null, 4));
+// //console.log("Is Blockchain valid? " + clickCoin.isChainValid())
+
+// // Comment it out to create the Blockchain and then the code above will work.
+// //console.log(JSON.stringify(clickCoin, null, 4));
+
